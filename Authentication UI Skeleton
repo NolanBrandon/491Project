@@ -782,10 +782,6 @@ const AuthenticationUI = () => {
   );
 };
 
-// ===========================================
-// MAIN APP COMPONENT
-// ===========================================
-
 const App = () => {
   return (
     <AuthProvider>
