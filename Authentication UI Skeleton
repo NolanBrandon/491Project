@@ -1,145 +1,797 @@
 import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff, Mail, Lock, User, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import './auth.css';
 
-const AuthContext = React.createContext();
-
-const useAuth = () =>
-{
-    const context = React.useContext (AuthContext);
-    if (!context)
-    {
-        throw new Error ('useAuth must be used within an AuthProvider');
-    }
-    return context;
+const useAuth = () => {
+  const context = React.useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };
 
-// Auth Provider Component
-const AuthProvider = ({ children }) => 
-    {
-        const [user, setUser] = useState(null);
-        const [isLoading, setIsLoading] = useState(false);
-        const [error, setError] = useState('');
-        
-        // Simulate API calls
-        const login = async (email, password) =>
-            {
-                setIsLoading (true);
-                setError ('');
-                try
-                {
-                    //Simulate API call
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    //Mock response
-                    const mockUser =
-                    {
-                        id: 1,
-                        username: 'fituser',
-                        email: email,
-                        isVerified: true,
-                        loginStreak: 5
-                    };
-                    setUser (mockUser);
-                    localStorage.setItem('authTokens', JSON.stringify ({accessToken: 'mock-access-token', refreshToken: 'mock-refresh-token'}));
-                    
-                    return { success: true };
-                }
-                catch (err)
-                {
-                    setError('Login failed. Please try again.');
-                    return { success: false, error: err.message };
-                }
-                finally
-                {
-                    setIsLoading(false);
-                }
-            };
 
-            const register = async (userData) =>
-            {
-                setIsLoading(true);
-                setError ('')
-                try
-                {
-                    //Simulate API call
-                    await new Promise (resolve => setTimeout (resolve, 1000));
-                    return
-                    {
-                        success: true,
-                        message: 'Registration successful! Please check your email to verify your account.'
-                    };
-                }
-                catch (err)
-                {
-                    setError ('Registration failed. Please try again.');
-                    return { success: false, error: err.message };
-                }
-                finally
-                {
-                    setIsLoading(false);
-                }
-            };
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-            const logout = () => 
-            {
-                setUser (null);
-                localStorage.removeItem('authToken');
-            };
+  // Initialize auth state from localStorage
+  useEffect(() => {
+    const tokens = localStorage.getItem('authTokens');
+    if (tokens) {
+      const mockUser = {
+        id: 1,
+        username: 'fituser',
+        email: 'user@example.com',
+        isVerified: true,
+        loginStreak: 5
+      };
+      setUser(mockUser);
+    }
+  }, []);
 
-            const forgotPassword = async (email) =>
-            {
-                setIsLoading(true);
-                setError('');
-                try
-                {
-                    //Simulate API call
-                    await new Promise (resolve => setTimeout(resolve, 1000));
-                    return
-                    {
-                        success: true,
-                        message: 'If an account with that email exists, a password reset link has been sent.'
-                    };
-                }
-                catch (err)
-                {
-                    setError('Failed to send reset email. Please try again.');
-                    return { success: false, error: err.message };
-                }
-                finally
-                {
-                    setIsLoading(false);
-                }
-            };
+  // LOGIN API CALL
+  const login = async (email, password) => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-            const value =
-            {
-                user,
-                isLoading,
-                error,
-                setError,
-                login,
-                register,
-                logout,
-                forgotPassword
-            };
+      if (!response.ok) {
+        throw new Error('Invalid credentials');
+      }
 
-            return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-        };
+      const data = await response.json();
+      setUser(data.user);
+      localStorage.setItem('authTokens', JSON.stringify(data.tokens));
+      
+      return { success: true };
+    } catch (err) {
+      setError('Invalid email or password');
+      return { success: false, error: err.message };
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-        //Input component with validation
-        const FormInput = 
-        ({
-            type = 'text',
-            placeholder,
-            value,
-            onChange,
-            icon: Icon,
-            error,
-            success,
-            showPasswordToggle = false,
-            ...props
-        }) =>
-        {
-            const [showPassword, setShowPassword] = useState(false);
-            const inputType = showPasswordToggle ? (showPassword ? 'text' : 'password') : type;
+  // REGISTER API CALL
+  const register = async (userData) => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
 
-            return
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Registration failed');
+      }
+
+      const data = await response.json();
+      return { 
+        success: true, 
+        message: data.message || 'Registration successful! Please check your email to verify your account.'
+      };
+    } catch (err) {
+      setError(err.message || 'Registration failed. Please try again.');
+      return { success: false, error: err.message };
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // LOGOUT
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('authTokens');
+  };
+
+  // FORGOT PASSWORD API CALL
+  const forgotPassword = async (email) => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+      return {
+        success: true,
+        message: data.message || 'If an account with that email exists, a password reset link has been sent.'
+      };
+    } catch (err) {
+      setError('Failed to send reset email. Please try again.');
+      return { success: false, error: err.message };
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const value = {
+    user,
+    isLoading,
+    error,
+    setError,
+    login,
+    register,
+    logout,
+    forgotPassword
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+const FormInput = ({ 
+  type = 'text', 
+  placeholder, 
+  value, 
+  onChange, 
+  icon: Icon, 
+  error, 
+  success,
+  showPasswordToggle = false,
+  ...props 
+}) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const inputType = showPasswordToggle ? (showPassword ? 'text' : 'password') : type;
+
+  return (
+    <div className="input-group">
+      <div className="input-wrapper">
+        {Icon && <Icon className="input-icon" />}
+        <input
+          type={inputType}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          className={`input-field ${Icon ? 'has-icon' : ''} ${showPasswordToggle ? 'has-toggle' : ''} 
+            ${error ? 'error' : success ? 'success' : ''}`}
+          {...props}
+        />
+        {showPasswordToggle && (
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="input-toggle"
+          >
+            {showPassword ? <EyeOff /> : <Eye />}
+          </button>
+        )}
+      </div>
+      {error && (
+        <div className="validation-message error">
+          <XCircle className="validation-icon" />
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="validation-message success">
+          <CheckCircle className="validation-icon" />
+          {success}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const PasswordStrength = ({ password }) => {
+  const [strength, setStrength] = useState(0);
+  const [checks, setChecks] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    special: false
+  });
+
+  useEffect(() => {
+    const newChecks = {
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /\d/.test(password),
+      special: /[@$!%*?&]/.test(password)
+    };
+    
+    setChecks(newChecks);
+    setStrength(Object.values(newChecks).filter(Boolean).length);
+  }, [password]);
+
+  const getStrengthClass = () => {
+    if (strength <= 2) return 'weak';
+    if (strength <= 3) return 'fair';
+    if (strength <= 4) return 'good';
+    return 'strong';
+  };
+
+  const getStrengthText = () => {
+    if (strength <= 2) return 'Weak';
+    if (strength <= 3) return 'Fair';
+    if (strength <= 4) return 'Good';
+    return 'Strong';
+  };
+
+  if (!password) return null;
+
+  return (
+    <div className="password-strength">
+      <div className="strength-header">
+        <span className="strength-label">Password strength:</span>
+        <span className={`strength-text ${getStrengthClass()}`}>
+          {getStrengthText()}
+        </span>
+      </div>
+      <div className="strength-bar-container">
+        <div 
+          className={`strength-bar ${getStrengthClass()}`}
+          style={{ width: `${(strength / 5) * 100}%` }}
+        />
+      </div>
+      <div className="strength-checks">
+        {Object.entries({
+          length: '8+ characters',
+          uppercase: 'Uppercase letter',
+          lowercase: 'Lowercase letter',
+          number: 'Number',
+          special: 'Special character'
+        }).map(([key, label]) => (
+          <div key={key} className={`strength-check ${checks[key] ? 'met' : 'unmet'}`}>
+            <CheckCircle className="strength-check-icon" />
+            {label}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+
+const LoginForm = ({ onSwitchToRegister, onSwitchToForgotPassword }) => {
+  const { login, isLoading, error, setError } = useAuth();
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [validationErrors, setValidationErrors] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Clear errors when user starts typing
+    if (validationErrors[name]) {
+      setValidationErrors(prev => ({ ...prev, [name]: '' }));
+    }
+    if (error) setError('');
+  };
+
+  const validateForm = () => {
+    const errors = {};
+    
+    if (!formData.email) {
+      errors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = 'Please enter a valid email';
+    }
+    
+    if (!formData.password) {
+      errors.password = 'Password is required';
+    }
+    
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return;
+    
+    const result = await login(formData.email, formData.password);
+    if (result.success) {
+      console.log('Login successful');
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
+  };
+
+  return (
+    <div className="form-container">
+      <FormInput
+        type="email"
+        name="email"
+        placeholder="Email address"
+        value={formData.email}
+        onChange={handleChange}
+        onKeyPress={handleKeyPress}
+        icon={Mail}
+        error={validationErrors.email}
+        autoComplete="email"
+      />
+      
+      <FormInput
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={formData.password}
+        onChange={handleChange}
+        onKeyPress={handleKeyPress}
+        icon={Lock}
+        error={validationErrors.password}
+        showPasswordToggle
+        autoComplete="current-password"
+      />
+
+      {error && (
+        <div className="alert error">
+          <AlertCircle className="alert-icon" />
+          {error}
+        </div>
+      )}
+
+      <button
+        onClick={handleSubmit}
+        disabled={isLoading}
+        className="btn btn-primary"
+      >
+        {isLoading ? 'Signing in...' : 'Sign In'}
+      </button>
+
+      <div className="text-center">
+        <button onClick={onSwitchToForgotPassword} className="btn-link text-small">
+          Forgot your password?
+        </button>
+      </div>
+
+      <div className="text-center">
+        <span className="text-muted text-small">Don't have an account? </span>
+        <button onClick={onSwitchToRegister} className="text-link">
+          Sign up
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const RegisterForm = ({ onSwitchToLogin }) => {
+  const { register, isLoading, error, setError } = useAuth();
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [validationErrors, setValidationErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    if (validationErrors[name]) {
+      setValidationErrors(prev => ({ ...prev, [name]: '' }));
+    }
+    if (error) setError('');
+  };
+
+  const validateForm = () => {
+    const errors = {};
+    
+    // Username validation
+    if (!formData.username) {
+      errors.username = 'Username is required';
+    } else if (formData.username.length < 3) {
+      errors.username = 'Username must be at least 3 characters';
+    } else if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
+      errors.username = 'Username can only contain letters, numbers, and underscores';
+    }
+    
+    // Email validation
+    if (!formData.email) {
+      errors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = 'Please enter a valid email';
+    }
+    
+    // Password validation
+    if (!formData.password) {
+      errors.password = 'Password is required';
+    } else if (formData.password.length < 8) {
+      errors.password = 'Password must be at least 8 characters';
+    } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/.test(formData.password)) {
+      errors.password = 'Password must contain uppercase, lowercase, number, and special character';
+    }
+    
+    // Confirm password validation
+    if (!formData.confirmPassword) {
+      errors.confirmPassword = 'Please confirm your password';
+    } else if (formData.password !== formData.confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
+    
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return;
+    
+    const result = await register(formData);
+    if (result.success) {
+      setSuccessMessage(result.message);
+      setFormData({ username: '', email: '', password: '', confirmPassword: '' });
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
+  };
+
+  if (successMessage) {
+    return (
+      <div className="success-container">
+        <CheckCircle className="success-icon" />
+        <h3 className="success-title">Registration Successful!</h3>
+        <p className="text-muted">{successMessage}</p>
+        <button onClick={onSwitchToLogin} className="text-link">
+          Return to Sign In
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="form-container">
+      <FormInput
+        type="text"
+        name="username"
+        placeholder="Username"
+        value={formData.username}
+        onChange={handleChange}
+        onKeyPress={handleKeyPress}
+        icon={User}
+        error={validationErrors.username}
+        autoComplete="username"
+      />
+      
+      <FormInput
+        type="email"
+        name="email"
+        placeholder="Email address"
+        value={formData.email}
+        onChange={handleChange}
+        onKeyPress={handleKeyPress}
+        icon={Mail}
+        error={validationErrors.email}
+        autoComplete="email"
+      />
+      
+      <FormInput
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={formData.password}
+        onChange={handleChange}
+        onKeyPress={handleKeyPress}
+        icon={Lock}
+        error={validationErrors.password}
+        showPasswordToggle
+        autoComplete="new-password"
+      />
+
+      <PasswordStrength password={formData.password} />
+      
+      <FormInput
+        type="password"
+        name="confirmPassword"
+        placeholder="Confirm password"
+        value={formData.confirmPassword}
+        onChange={handleChange}
+        onKeyPress={handleKeyPress}
+        icon={Lock}
+        error={validationErrors.confirmPassword}
+        showPasswordToggle
+        autoComplete="new-password"
+      />
+
+      {error && (
+        <div className="alert error">
+          <AlertCircle className="alert-icon" />
+          {error}
+        </div>
+      )}
+
+      <button
+        onClick={handleSubmit}
+        disabled={isLoading}
+        className="btn btn-primary"
+      >
+        {isLoading ? 'Creating account...' : 'Create Account'}
+      </button>
+
+      <div className="text-center">
+        <span className="text-muted text-small">Already have an account? </span>
+        <button onClick={onSwitchToLogin} className="text-link">
+          Sign in
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const ForgotPasswordForm = ({ onSwitchToLogin }) => {
+  const { forgotPassword, isLoading, error, setError } = useAuth();
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const handleChange = (e) => {
+    setEmail(e.target.value);
+    if (emailError) setEmailError('');
+    if (error) setError('');
+  };
+
+  const validateEmail = () => {
+    if (!email) {
+      setEmailError('Email is required');
+      return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError('Please enter a valid email');
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateEmail()) return;
+    
+    const result = await forgotPassword(email);
+    if (result.success) {
+      setSuccessMessage(result.message);
+      setEmail('');
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
+  };
+
+  if (successMessage) {
+    return (
+      <div className="success-container">
+        <Mail className="success-icon" />
+        <h3 className="success-title">Check Your Email</h3>
+        <p className="text-muted">{successMessage}</p>
+        <button onClick={onSwitchToLogin} className="text-link">
+          Return to Sign In
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="form-container">
+      <div className="text-center">
+        <h3 className="section-title">Reset Your Password</h3>
+        <p className="section-subtitle">
+          Enter your email address and we'll send you a link to reset your password.
+        </p>
+      </div>
+
+      <FormInput
+        type="email"
+        name="email"
+        placeholder="Email address"
+        value={email}
+        onChange={handleChange}
+        onKeyPress={handleKeyPress}
+        icon={Mail}
+        error={emailError}
+        autoComplete="email"
+      />
+
+      {error && (
+        <div className="alert error">
+          <AlertCircle className="alert-icon" />
+          {error}
+        </div>
+      )}
+
+      <button
+        onClick={handleSubmit}
+        disabled={isLoading}
+        className="btn btn-primary"
+      >
+        {isLoading ? 'Sending...' : 'Send Reset Link'}
+      </button>
+
+      <div className="text-center">
+        <button onClick={onSwitchToLogin} className="btn-link text-small">
+          Back to Sign In
+        </button>
+      </div>
+    </div>
+  );
+};
+
+
+const UserDashboard = () => {
+  const { user, logout } = useAuth();
+
+  return (
+    <div className="dashboard">
+      <div className="dashboard-header">
+        <div className="dashboard-nav">
+          <div className="dashboard-nav-content">
+            <div className="dashboard-nav-left">
+              <div className="dashboard-logo">EASY FITNESS</div>
+              <nav className="dashboard-menu">
+                <a href="#" className="dashboard-menu-item active">MY LOG</a>
+                <a href="#" className="dashboard-menu-item">ROUTINE RECOMMENDATION</a>
+                <a href="#" className="dashboard-menu-item">CALORIE TRACKER</a>
+                <a href="#" className="dashboard-menu-item">CALCULATION</a>
+              </nav>
+            </div>
+            <div className="dashboard-nav-right">
+              <div className="dashboard-welcome text-small">
+                <span className="text-muted">Welcome back, </span>
+                <span>{user.username}</span>
+              </div>
+              <div className="dashboard-streak">
+                <span className="dashboard-streak-icon"></span>
+                <span>{user.loginStreak} day streak</span>
+              </div>
+              <button onClick={logout} className="btn btn-secondary">
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="dashboard-content">
+        <div className="dashboard-card">
+          <h2 className="dashboard-card-title">Dashboard</h2>
+          <p className="text-muted">
+            Welcome to Easy Fitness! You're successfully logged in and ready to start your fitness journey.
+          </p>
+          
+          <div className="dashboard-grid">
+            <div className="dashboard-stat-card blue">
+              <h3 className="dashboard-stat-title">Quick Stats</h3>
+              <div className="dashboard-stat-content">
+                <div className="dashboard-stat-row">
+                  <span>Login Streak:</span>
+                  <span>{user.loginStreak} days</span>
+                </div>
+                <div className="dashboard-stat-row">
+                  <span>Account Status:</span>
+                  <span>{user.isVerified ? 'Verified' : 'Pending'}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="dashboard-stat-card green">
+              <h3 className="dashboard-stat-title">Today's Goals</h3>
+              <div className="dashboard-stat-content">
+                <p>Set up your fitness goals to get started</p>
+                <button className="dashboard-action-link">Configure Goals →</button>
+              </div>
+            </div>
+            
+            <div className="dashboard-stat-card purple">
+              <h3 className="dashboard-stat-title">Quick Actions</h3>
+              <div className="dashboard-stat-content">
+                <button className="dashboard-action-link">Log a workout</button>
+                <button className="dashboard-action-link">Track nutrition</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+const AuthenticationUI = () => {
+  const { user } = useAuth();
+  const [currentView, setCurrentView] = useState('login');
+
+  if (user) {
+    return <UserDashboard />;
+  }
+
+  const renderCurrentView = () => {
+    switch (currentView) {
+      case 'register':
+        return <RegisterForm onSwitchToLogin={() => setCurrentView('login')} />;
+      case 'forgot-password':
+        return <ForgotPasswordForm onSwitchToLogin={() => setCurrentView('login')} />;
+      default:
+        return (
+          <LoginForm 
+            onSwitchToRegister={() => setCurrentView('register')}
+            onSwitchToForgotPassword={() => setCurrentView('forgot-password')}
+          />
+        );
+    }
+  };
+
+  const getTitle = () => {
+    switch (currentView) {
+      case 'register': return 'Create Your Account';
+      case 'forgot-password': return 'Forgot Password';
+      default: return 'Welcome Back';
+    }
+  };
+
+  const getSubtitle = () => {
+    switch (currentView) {
+      case 'register': return 'Join Easy Fitness and start your wellness journey';
+      case 'forgot-password': return 'Reset your password to regain access';
+      default: return 'Sign in to continue your fitness journey';
+    }
+  };
+
+  return (
+    <div className="auth-container">
+      <div className="auth-header">
+        <div className="logo">
+          <div className="logo-text">EASY FITNESS</div>
+        </div>
+        <div className="title">
+          <h2 className="title-main">{getTitle()}</h2>
+          <p className="title-subtitle">{getSubtitle()}</p>
+        </div>
+      </div>
+
+      <div className="auth-form-container">
+        <div className="auth-form-wrapper">
+          {renderCurrentView()}
+        </div>
+      </div>
+
+      <div className="auth-footer">
+        <p className="auth-footer-text">
+          By continuing, you agree to our Terms of Service and Privacy Policy
+        </p>
+      </div>
+    </div>
+  );
+};
+
+// ===========================================
+// MAIN APP COMPONENT
+// ===========================================
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <AuthenticationUI />
+    </AuthProvider>
+  );
+};
+
+export default App;
