@@ -2,6 +2,7 @@
 import Nav from './components/navbar';
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
+import Footer from './components/footer';
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
           Sign Up
         </Button>
       </div>
+      <Footer />
     </div>
   );
 }
