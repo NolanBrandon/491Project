@@ -27,3 +27,6 @@ isort==5.12.0
 
 # Documentation
 django-rest-swagger==2.2.0
+
+#Google Gen-ai
+google-genai
