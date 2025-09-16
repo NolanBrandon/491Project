@@ -4,8 +4,9 @@ export default function Nav() {
   return (
     <Navbar className="py-6 text-lg">
       {/* Left: Brand/Logo */}
-      <NavbarContent justify="start">
+      <NavbarContent justify="start" className="flex-1">
         <NavbarBrand>
+          <Link href="/" className="text-2xl font-bold">EasyFitness</Link>
         </NavbarBrand>
       </NavbarContent>
         
@@ -35,7 +36,7 @@ export default function Nav() {
       </NavbarContent>
 
   {/* Right: (removed Login/Sign Up, keep empty for layout balance) */}
-  <NavbarContent justify="end" />
+  <NavbarContent justify="end" className="flex-1" />
     </Navbar>
   );
 }
