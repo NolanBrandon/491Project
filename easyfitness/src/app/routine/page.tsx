@@ -1,11 +1,15 @@
 import Nav from '../components/navbar';
+import Footer from '../components/footer';
 
 export default function RoutinePage() {
     return (
         <div>
         <Nav />
-        <h1 className="text-3xl font-bold text-center mt-8">Routine Recommendation</h1>
-        <p className="text-center mt-4">This is the Routine Recommendation page.</p>
-        </div>
+  <h1 className="text-3xl font-bold text-left mt-8">Routine Recommendation</h1>
+        <main className="col-span-1 space-y-4">
+            <p className="h-[600px] w-[1200px] bg-white p-4 mx-auto mt-16 rounded-lg flex items-center justify-center">LOG</p>
+        </main>
+    <Footer />
+    </div>
     );
     }

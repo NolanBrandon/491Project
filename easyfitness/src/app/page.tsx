@@ -6,15 +6,14 @@ import Footer from './components/footer';
 
 export default function Home() {
   return (
-    <div>
+    <div className="min-h-screen bg-[url('/bg.jpg')] bg-cover bg-center">
       <Nav />
       <div className="flex flex-col justify-center items-center min-h-[80vh]">
-        <h1 className="text-4xl font-bold text-center font-akira">EasyFitness</h1>
-        <Button as={Link} href="/login" color="primary" variant="solid" className="mt-6">
+        <h1 className="text-4xl font-bold text-center font-akira">EasyFitness</h1>        <Button as={Link} href="/login" color="primary" variant="solid" className="mt-6">
           Sign Up
         </Button>
       </div>
-      <Footer />
+  <Footer />
     </div>
   );
 }

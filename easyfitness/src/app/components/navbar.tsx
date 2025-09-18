@@ -2,7 +2,7 @@ import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button} from "@her
 
 export default function Nav() {
   return (
-    <Navbar className="py-6 text-lg">
+    <Navbar className="py-6 text-lg border-b border-gray-300">
       {/* Left: Brand/Logo */}
       <NavbarContent justify="start" className="flex-1">
         <NavbarBrand>
