@@ -1,3 +1,14 @@
+.btn-red {
+  background-color: #615353;
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.btn-red:hover {
+  background-color: #554a4a;
+}
 @import "tailwindcss";
 
 
@@ -29,4 +40,9 @@ body {
   src: url('/fonts/Akira Expanded Demo.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
+}
+
+button {
+  font-family: 'Akira Expanded';
+  background-color: red;
 }
