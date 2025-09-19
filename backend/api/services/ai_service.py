@@ -17,7 +17,7 @@ class GeminiAIService:
         try:
             self.api_key = config('GEMINI_API_KEY')
             self.client = genai.Client(api_key=self.api_key)
-            self.model_id = "gemini-2.5-flash"  # Using the same model as in ai_test.py
+            self.model_id = "gemini-2.5-flash" 
             logger.info("Gemini AI service initialized successfully")
         except Exception as e:
             logger.error(f"Failed to initialize Gemini AI service: {e}")
