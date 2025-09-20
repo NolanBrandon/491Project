@@ -29,4 +29,4 @@ isort==5.12.0
 django-rest-swagger==2.2.0
 
 #Google Gen-ai
-google-genai
+google-generativeai==0.5.2
