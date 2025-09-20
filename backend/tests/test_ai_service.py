@@ -21,17 +21,18 @@ class TestGeminiAIService(TestCase):
     def setUp(self):
         """Set up test fixtures before each test method."""
         self.ai_service = None
-    
-    def test_service_initialization_success(self):
+
+    @patch('api.services.ai_service.genai.configure')
+    @patch('api.services.ai_service.genai.GenerativeModel')
+    def test_service_initialization_success(self, mock_generative_model, mock_configure):
         """Test that the AI service initializes successfully with valid API key."""
-        try:
-            self.ai_service = GeminiAIService()
-            self.assertIsNotNone(self.ai_service.client)
-            self.assertIsNotNone(self.ai_service.api_key)
-            self.assertEqual(self.ai_service.model_id, "gemini-2.5-flash")
-            print("✅ AI Service initialization test passed")
-        except Exception as e:
-            self.fail(f"AI Service initialization failed: {e}")
+        self.ai_service = GeminiAIService()
+        mock_configure.assert_called_once()
+        mock_generative_model.assert_called_once_with("gemini-2.5-flash")
+        self.assertIsNotNone(self.ai_service.model)
+        self.assertIsNotNone(self.ai_service.api_key)
+        self.assertEqual(self.ai_service.model_id, "gemini-2.5-flash")
+        print("✅ AI Service initialization test passed")
     
     def test_service_initialization_no_api_key(self):
         """Test that the AI service fails gracefully without API key."""
@@ -42,140 +43,77 @@ class TestGeminiAIService(TestCase):
                 GeminiAIService()
             print("✅ No API key handling test passed")
     
-    def test_exercise_plan_generation(self):
-        """Test that the exercise plan generation works with new structure."""
-        try:
-            self.ai_service = GeminiAIService()
-            
-            # Test data for exercise plan
-            user_goal = "build muscle"
-            experience_level = "intermediate"
-            days_per_week = 4
-            user_profile = {"age": 25, "gender": "male"}
-            
-            result = self.ai_service.generate_exercise_plan(
-                user_goal, experience_level, days_per_week, user_profile
-            )
-            
-            self.assertIsInstance(result, dict)
-            self.assertIn('success', result)
-            self.assertIn('data', result)
-            self.assertIn('message', result)
-            
-            if result['success']:
-                plan_data = result['data']
-                self.assertIn('plan_name', plan_data)
-                self.assertIn('plan_description', plan_data)
-                self.assertIn('days', plan_data)
-                self.assertIsInstance(plan_data['days'], list)
-                
-                # Check first day structure
-                if plan_data['days']:
-                    first_day = plan_data['days'][0]
-                    self.assertIn('day_number', first_day)
-                    self.assertIn('exercises', first_day)
-                    
-                print(f"✅ Exercise plan generation test passed")
-                print(f"   Plan: {plan_data['plan_name']}")
-                print(f"   Days: {len(plan_data['days'])}")
-            else:
-                print(f"⚠️  Exercise plan generation returned error: {result.get('error', 'Unknown error')}")
-                
-        except Exception as e:
-            self.fail(f"Exercise plan generation test failed: {e}")
+    @patch('api.services.ai_service.genai.GenerativeModel')
+    def test_exercise_plan_generation(self, mock_generative_model):
+        """Test that the exercise plan generation works with mocked data."""
+        # Setup mock
+        mock_response = MagicMock()
+        mock_response.text = json.dumps({
+            "plan_name": "Mock Muscle Plan",
+            "plan_description": "A mocked plan for testing.",
+            "days": [{"day_number": 1, "day_name": "Test Day", "exercises": [{"exercise_name": "Mock Lifts", "sets": 3, "reps": "10"}]}]
+        })
+        mock_model_instance = MagicMock()
+        mock_model_instance.generate_content.return_value = mock_response
+        mock_generative_model.return_value = mock_model_instance
+
+        self.ai_service = GeminiAIService()
+        
+        result = self.ai_service.generate_exercise_plan("build muscle", "intermediate", 4, {"age": 25, "gender": "male"})
+        
+        self.assertTrue(result['success'])
+        self.assertEqual(result['data']['plan_name'], "Mock Muscle Plan")
+        mock_model_instance.generate_content.assert_called_once()
+        _args, call_kwargs = mock_model_instance.generate_content.call_args
+        self.assertIn('generation_config', call_kwargs)
+        self.assertEqual(call_kwargs['generation_config'].response_mime_type, "application/json")
+        print("✅ Mocked exercise plan generation test passed")
+
+    @patch('api.services.ai_service.genai.GenerativeModel')
+    def test_meal_plan_generation(self, mock_generative_model):
+        """Test that the meal plan generation works with mocked data."""
+        # Setup mock
+        mock_response = MagicMock()
+        mock_response.text = json.dumps({
+            "plan_name": "Mock Meal Plan",
+            "plan_description": "A mocked meal plan.",
+            "days": [{"day_number": 1, "meals": {}, "daily_totals": {}}]
+        })
+        mock_model_instance = MagicMock()
+        mock_model_instance.generate_content.return_value = mock_response
+        mock_generative_model.return_value = mock_model_instance
+
+        self.ai_service = GeminiAIService()
+
+        result = self.ai_service.generate_meal_plan("lose weight", 1800, ["vegetarian"], {"age": 30, "gender": "female"})
+
+        self.assertTrue(result['success'])
+        self.assertEqual(result['data']['plan_name'], "Mock Meal Plan")
+        mock_model_instance.generate_content.assert_called_once()
+        _args, call_kwargs = mock_model_instance.generate_content.call_args
+        self.assertIn('generation_config', call_kwargs)
+        self.assertEqual(call_kwargs['generation_config'].response_mime_type, "application/json")
+        print("✅ Mocked meal plan generation test passed")
     
-    def test_meal_plan_generation(self):
-        """Test that the meal plan generation works with new structure and nutrition data."""
-        try:
-            self.ai_service = GeminiAIService()
-            
-            # Test data for meal plan
-            user_goal = "lose weight"
-            daily_calorie_target = 1800
-            dietary_preferences = ["vegetarian"]
-            user_profile = {"age": 30, "gender": "female"}
-            
-            result = self.ai_service.generate_meal_plan(
-                user_goal, daily_calorie_target, dietary_preferences, user_profile
-            )
-            
-            self.assertIsInstance(result, dict)
-            self.assertIn('success', result)
-            self.assertIn('data', result)
-            self.assertIn('message', result)
-            nutrition_fields = ['calories', 'protein', 'carbs', 'fat', 'trans_fat', 'fiber', 'sugar']
-            
-            if result['success']:
-                plan_data = result['data']
-                self.assertIn('plan_name', plan_data)
-                self.assertIn('plan_description', plan_data)
-                self.assertIn('days', plan_data)
-                self.assertIsInstance(plan_data['days'], list)
-                
-                # Check first day structure and nutrition data
-                if plan_data['days']:
-                    first_day = plan_data['days'][0]
-                    self.assertIn('day_number', first_day)
-                    self.assertIn('meals', first_day)
-                    
-                    meals = first_day['meals']
-                    if 'breakfast' in meals:
-                        breakfast = meals['breakfast']
-                        self.assertIn('recipe_name', breakfast)
-                        self.assertIn('ingredients', breakfast)
-                        self.assertIn('meal_totals', breakfast)
-                        
-                        # Check nutrition data structure
-                        meal_totals = breakfast['meal_totals']
-                        for field in nutrition_fields:
-                            self.assertIn(field, meal_totals)
-                        
-                        # Check ingredient nutrition
-                        if breakfast['ingredients']:
-                            ingredient = breakfast['ingredients'][0]
-                            for field in nutrition_fields:
-                                self.assertIn(field, ingredient)
-                    
-                    # Check daily totals
-                    if 'daily_totals' in first_day:
-                        daily_totals = first_day['daily_totals']
-                        for field in nutrition_fields:
-                            self.assertIn(field, daily_totals)
-                
-                print(f"✅ Meal plan generation test passed")
-                print(f"   Plan: {plan_data['plan_name']}")
-                print(f"   Days: {len(plan_data['days'])}")
-                if plan_data['days'] and 'daily_totals' in plan_data['days'][0]:
-                    daily_cals = plan_data['days'][0]['daily_totals']['calories']
-                    print(f"   Day 1 Calories: {daily_cals}")
-            else:
-                print(f"⚠️  Meal plan generation returned error: {result.get('error', 'Unknown error')}")
-                
-        except Exception as e:
-            self.fail(f"Meal plan generation test failed: {e}")
-    
-    @patch('api.services.ai_service.genai.Client')
-    def test_connection_failure(self, mock_client_class):
+    @patch('api.services.ai_service.genai.GenerativeModel')
+    def test_connection_failure(self, mock_generative_model):
         """Test that connection failures are handled properly."""
         # Mock the client to raise an exception
-        mock_client = MagicMock()
-        mock_client.models.generate_content.side_effect = Exception("API Error")
-        mock_client_class.return_value = mock_client
+        mock_model_instance = MagicMock()
+        mock_model_instance.generate_content.side_effect = Exception("API Error")
+        mock_generative_model.return_value = mock_model_instance
         
-        try:
-            ai_service = GeminiAIService()
-            success, error_msg = ai_service.test_connection()
-            
-            self.assertFalse(success)
-            self.assertIn("API Error", error_msg)
-            print("✅ Connection failure handling test passed")
-        except Exception as e:
-            self.fail(f"Connection failure test failed: {e}")
+        ai_service = GeminiAIService()
+        success, error_msg = ai_service.test_connection()
+        
+        self.assertFalse(success)
+        self.assertIn("API Error", error_msg)
+        print("✅ Connection failure handling test passed")
 
 
 def run_manual_test():
     """
-    Manual test function that can be run directly.
+    Manual test function that can be run directly to hit the live AI API.
     Useful for quick testing during development.
     """
     print("🧪 Running manual AI service tests...")
