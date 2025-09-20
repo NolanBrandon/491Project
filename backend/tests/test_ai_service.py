@@ -103,6 +103,7 @@ class TestGeminiAIService(TestCase):
             self.assertIn('success', result)
             self.assertIn('data', result)
             self.assertIn('message', result)
+            nutrition_fields = ['calories', 'protein', 'carbs', 'fat', 'trans_fat', 'fiber', 'sugar']
             
             if result['success']:
                 plan_data = result['data']
@@ -126,7 +127,6 @@ class TestGeminiAIService(TestCase):
                         
                         # Check nutrition data structure
                         meal_totals = breakfast['meal_totals']
-                        nutrition_fields = ['calories', 'protein', 'carbs', 'fat', 'trans_fat', 'fiber', 'sugar']
                         for field in nutrition_fields:
                             self.assertIn(field, meal_totals)
                         
@@ -139,7 +139,6 @@ class TestGeminiAIService(TestCase):
                     # Check daily totals
                     if 'daily_totals' in first_day:
                         daily_totals = first_day['daily_totals']
-                        nutrition_fields = ['calories', 'protein', 'carbs', 'fat', 'trans_fat', 'fiber', 'sugar']
                         for field in nutrition_fields:
                             self.assertIn(field, daily_totals)
                 
