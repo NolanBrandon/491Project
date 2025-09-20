@@ -1,24 +1,21 @@
-import { Navbar, NavbarContent, NavbarItem, Link } from "@heroui/react";
+import { Link } from "@heroui/react";
 
 export default function Footer() {
   return (
     <footer className="mt-12 border-t border-gray-300">
-      <Navbar className="py-6 text-lg">
-        {/* Left: Contact Us link */}
-        <NavbarContent justify="start" className="flex-1">
-          <NavbarItem>
+      <nav className="py-6 text-lg flex items-center">
+        <ul className="flex flex-1 items-center list-none m-0 p-0">
+          <li>
             <Link color="foreground" href="/contact" className="text-xl px-4 py-2">
               Contact Us
             </Link>
-          </NavbarItem>
-        </NavbarContent>
-
+          </li>
+        </ul>
         {/* Center: Empty for layout balance */}
-        <NavbarContent className="hidden sm:flex gap-6" justify="center" />
-
+        <div className="hidden sm:flex gap-6 flex-1 justify-center" />
         {/* Right: Empty for layout balance */}
-        <NavbarContent justify="end" className="flex-1" />
-      </Navbar>
+        <div className="flex-1" />
+      </nav>
     </footer>
   );
 }
