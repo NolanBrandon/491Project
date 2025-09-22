@@ -86,6 +86,9 @@ export default function Authentication({ setUser }) {
       
       if (error) throw error
       setMessage("Login successful!")
+      if (data && data.user) {
+        setUser(data.user)
+      }
     } catch (error) {
       setMessage("Login failed: " + error.message)
     } finally {
