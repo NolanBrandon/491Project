@@ -1,0 +1,277 @@
+import { useState } from "react"
+import { supabase } from "../supabaseClient"
+
+export default function Authentication({ setUser }) {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [isSignup, setIsSignup] = useState(false)
+  const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState({})
+
+  const validateForm = () => {
+    const newErrors = {}
+    
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Valid email required"
+    }
+    
+    if (!password || password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters"
+    }
+    
+    if (isSignup) {
+      if (!firstName.trim()) newErrors.firstName = "First name required"
+      if (!lastName.trim()) newErrors.lastName = "Last name required"
+      if (password !== confirmPassword) {
+        newErrors.confirmPassword = "Passwords don't match"
+      }
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(password)) {
+        newErrors.password = "Password must include uppercase, lowercase, number, and special character"
+      }
+    }
+    
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  async function handleSignup() {
+    if (!validateForm()) return
+    
+    setLoading(true)
+    setMessage("")
+    
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            first_name: firstName,
+            last_name: lastName
+          }
+        }
+      })
+      
+      if (error) throw error
+      setMessage("Registration successful! Please check your email to verify your account.")
+      
+      // Clear form
+      setEmail("")
+      setPassword("")
+      setConfirmPassword("")
+      setFirstName("")
+      setLastName("")
+    } catch (error) {
+      setMessage("Registration failed: " + error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function handleLogin() {
+    if (!validateForm()) return
+    
+    setLoading(true)
+    setMessage("")
+    
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      })
+      
+      if (error) throw error
+      setMessage("Login successful!")
+      if (data && data.user) {
+        setUser(data.user)
+      }
+    } catch (error) {
+      setMessage("Login failed: " + error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+   return (
+    <div style={{ 
+      padding: "40px", 
+      maxWidth: "400px", 
+      margin: "0 auto",
+      backgroundColor: "#ffffff",
+      borderRadius: "8px",
+      boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
+    }}>
+      <h1 style={{ 
+        textAlign: "center", 
+        color: "#2563eb", 
+        marginBottom: "30px",
+        fontSize: "28px"
+      }}>
+        EASY FITNESS
+      </h1>
+      
+      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
+        {isSignup ? "Create Account" : "Welcome Back"}
+      </h2>
+
+      {isSignup && (
+        <>
+          <input
+            type="text"
+            placeholder="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            style={{ 
+              width: "100%", 
+              padding: "12px", 
+              marginBottom: "10px",
+              border: errors.firstName ? "2px solid #ef4444" : "1px solid #d1d5db",
+              borderRadius: "6px",
+              fontSize: "16px"
+            }}
+          />
+          {errors.firstName && (
+            <p style={{ color: "#ef4444", fontSize: "14px", marginBottom: "10px" }}>
+              {errors.firstName}
+            </p>
+          )}
+
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            style={{ 
+              width: "100%", 
+              padding: "12px", 
+              marginBottom: "10px",
+              border: errors.lastName ? "2px solid #ef4444" : "1px solid #d1d5db",
+              borderRadius: "6px",
+              fontSize: "16px"
+            }}
+          />
+          {errors.lastName && (
+            <p style={{ color: "#ef4444", fontSize: "14px", marginBottom: "10px" }}>
+              {errors.lastName}
+            </p>
+          )}
+        </>
+      )}
+
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        style={{ 
+          width: "100%", 
+          padding: "12px", 
+          marginBottom: "10px",
+          border: errors.email ? "2px solid #ef4444" : "1px solid #d1d5db",
+          borderRadius: "6px",
+          fontSize: "16px"
+        }}
+      />
+      {errors.email && (
+        <p style={{ color: "#ef4444", fontSize: "14px", marginBottom: "10px" }}>
+          {errors.email}
+        </p>
+      )}
+
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        style={{ 
+          width: "100%", 
+          padding: "12px", 
+          marginBottom: "10px",
+          border: errors.password ? "2px solid #ef4444" : "1px solid #d1d5db",
+          borderRadius: "6px",
+          fontSize: "16px"
+        }}
+      />
+      {errors.password && (
+        <p style={{ color: "#ef4444", fontSize: "14px", marginBottom: "10px" }}>
+          {errors.password}
+        </p>
+      )}
+
+      {isSignup && (
+        <>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            style={{ 
+              width: "100%", 
+              padding: "12px", 
+              marginBottom: "10px",
+              border: errors.confirmPassword ? "2px solid #ef4444" : "1px solid #d1d5db",
+              borderRadius: "6px",
+              fontSize: "16px"
+            }}
+          />
+          {errors.confirmPassword && (
+            <p style={{ color: "#ef4444", fontSize: "14px", marginBottom: "10px" }}>
+              {errors.confirmPassword}
+            </p>
+          )}
+        </>
+      )}
+
+      <button 
+        onClick={isSignup ? handleSignup : handleLogin}
+        disabled={loading}
+        style={{ 
+          width: "100%", 
+          padding: "12px",
+          backgroundColor: loading ? "#9ca3af" : "#2563eb",
+          color: "white",
+          border: "none",
+          borderRadius: "6px",
+          fontSize: "16px",
+          fontWeight: "500",
+          cursor: loading ? "not-allowed" : "pointer",
+          marginBottom: "15px"
+        }}
+      >
+        {loading ? "Please wait..." : (isSignup ? "Sign Up" : "Log In")}
+      </button>
+
+      <button
+        onClick={() => setIsSignup(!isSignup)}
+        style={{
+          width: "100%",
+          padding: "8px",
+          backgroundColor: "transparent",
+          color: "#2563eb",
+          border: "1px solid #2563eb",
+          borderRadius: "6px",
+          cursor: "pointer"
+        }}
+      >
+        {isSignup ? "Already have an account? Sign In" : "Need an account? Sign Up"}
+      </button>
+
+      {message && (
+        <p style={{ 
+          marginTop: "15px",
+          padding: "10px",
+          backgroundColor: message.includes("successful") ? "#d1fae5" : "#fee2e2",
+          color: message.includes("successful") ? "#065f46" : "#991b1b",
+          borderRadius: "6px",
+          fontSize: "14px"
+        }}>
+          {message}
+        </p>
+      )}
+    </div>
+  )
+}
