@@ -1,12 +1,20 @@
-from google import genai
+import google.generativeai as genai
 from decouple import config
 
 
-# The client gets the API key from the environment variable `GEMINI_API_KEY`.
-GEMINI_API_KEY = config('GEMINI_API_KEY')
-client = genai.Client(api_key=GEMINI_API_KEY)
+def main():
+    """A simple script to test the Gemini API connection."""
+    try:
+        # Configure the API key from the environment variable `GEMINI_API_KEY`.
+        api_key = config('GEMINI_API_KEY')
+        genai.configure(api_key=api_key)
 
-response = client.models.generate_content(
-    model="gemini-2.5-flash", contents="Explain how AI works in a few words"
-)
-print(response.text)
+        # Create the model
+        model = genai.GenerativeModel('gemini-2.5-flash')
+        response = model.generate_content("Explain how AI works in a few words")
+        print(response.text)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    main()

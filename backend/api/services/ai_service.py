@@ -1,4 +1,4 @@
-from google import genai
+import google.generativeai as genai
 from decouple import config
 import logging
 import json
@@ -16,8 +16,9 @@ class GeminiAIService:
         """Initialize the Gemini AI client with API key from environment."""
         try:
             self.api_key = config('GEMINI_API_KEY')
-            self.client = genai.Client(api_key=self.api_key)
-            self.model_id = "gemini-2.5-flash" 
+            genai.configure(api_key=self.api_key)
+            self.model_id = "gemini-2.5-flash"
+            self.model = genai.GenerativeModel(self.model_id)
             logger.info("Gemini AI service initialized successfully")
         except Exception as e:
             logger.error(f"Failed to initialize Gemini AI service: {e}")
@@ -26,10 +27,7 @@ class GeminiAIService:
     def test_connection(self):
         """Test the AI connection with a simple query."""
         try:
-            response = self.client.models.generate_content(
-                model=self.model_id,
-                contents="Hello, are you working?"
-            )
+            response = self.model.generate_content("Hello, are you working?")
             return True, response.text
         except Exception as e:
             logger.error(f"AI connection test failed: {e}")
@@ -51,9 +49,11 @@ class GeminiAIService:
         try:
             prompt = self._create_workout_plan_prompt(user_goal, experience_level, days_per_week, user_profile)
             
-            response = self.client.models.generate_content(
-                model=self.model_id,
-                contents=prompt
+            response = self.model.generate_content(
+                prompt,
+                generation_config=genai.GenerationConfig(
+                    response_mime_type="application/json"
+                )
             )
             
             logger.info("Exercise plan generated successfully")
@@ -79,9 +79,11 @@ class GeminiAIService:
         try:
             prompt = self._create_meal_plan_prompt(user_goal, daily_calorie_target, dietary_preferences, user_profile)
             
-            response = self.client.models.generate_content(
-                model=self.model_id,
-                contents=prompt
+            response = self.model.generate_content(
+                prompt,
+                generation_config=genai.GenerationConfig(
+                    response_mime_type="application/json"
+                )
             )
             
             logger.info("Meal plan generated successfully")
@@ -336,41 +338,36 @@ class GeminiAIService:
     def _parse_json_response(self, response_text: str, plan_type: str):
         """Parse and validate JSON response from AI."""
         try:
-            # Try to extract JSON from response
-            start_idx = response_text.find('{')
-            end_idx = response_text.rfind('}') + 1
+            # The response should be a clean JSON string when using response_mime_type
+            parsed_data = json.loads(response_text)
             
-            if start_idx != -1 and end_idx != -1:
-                json_str = response_text[start_idx:end_idx]
-                parsed_data = json.loads(json_str)
-                
-                # Validate required fields based on plan type
-                if plan_type == "exercise_plan":
-                    required_fields = ['plan_name', 'plan_description', 'days']
-                elif plan_type == "meal_plan":
-                    required_fields = ['plan_name', 'plan_description', 'days']
-                else:
-                    required_fields = ['plan_name']
-                
-                if all(field in parsed_data for field in required_fields):
-                    logger.info(f"{plan_type} parsed successfully")
-                    return {
-                        "success": True,
-                        "data": parsed_data,
-                        "message": f"{plan_type.replace('_', ' ').title()} generated successfully"
-                    }
+            # Validate required fields based on plan type
+            if plan_type == "exercise_plan":
+                required_fields = ['plan_name', 'plan_description', 'days']
+            elif plan_type == "meal_plan":
+                required_fields = ['plan_name', 'plan_description', 'days']
+            else:
+                required_fields = ['plan_name']
             
-            # Fallback: return error with raw response
-            logger.warning(f"Could not parse structured JSON response for {plan_type}")
+            if all(field in parsed_data for field in required_fields):
+                logger.info(f"{plan_type} parsed successfully")
+                return {
+                    "success": True,
+                    "data": parsed_data,
+                    "message": f"{plan_type.replace('_', ' ').title()} generated successfully"
+                }
+            
+            # Fallback for missing fields
+            logger.warning(f"JSON response for {plan_type} is missing required fields.")
             return {
                 "success": False,
-                "error": "Could not parse structured response",
+                "error": "AI response is missing required fields",
                 "raw_response": response_text,
                 "message": f"AI response was not in expected format for {plan_type}"
             }
             
         except json.JSONDecodeError as e:
-            logger.error(f"JSON decode error for {plan_type}: {e}")
+            logger.error(f"JSON decode error for {plan_type}: {e}. Raw response: {response_text}")
             return {
                 "success": False,
                 "error": "Failed to parse AI response as JSON",
