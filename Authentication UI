@@ -12,7 +12,7 @@ export default function Authentication({ setUser }) {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({})
 
-const validateForm = () => {
+  const validateForm = () => {
     const newErrors = {}
     
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
