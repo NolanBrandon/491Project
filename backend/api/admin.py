@@ -24,3 +24,22 @@ from django.contrib import admin
 # class WorkoutSessionAdmin(admin.ModelAdmin):
 #     list_display = ('user', 'workout_plan', 'date', 'duration_minutes')
 #     list_filter = ('date',)
+
+from django.contrib import admin
+from .models import Workout, Exercise, WorkoutExercise, WorkoutSession
+
+@admin.register(Workout)
+class WorkoutAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name',)  # Only include existing fields
+
+@admin.register(Exercise)
+class ExerciseAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'calories_burned_per_minute', 'muscle_groups')
+
+@admin.register(WorkoutExercise)
+class WorkoutExerciseAdmin(admin.ModelAdmin):
+    list_display = ('id', 'workout', 'exercise', 'duration_minutes')
+
+@admin.register(WorkoutSession)
+class WorkoutSessionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'workout', 'date', 'duration_minutes', 'calories_burned')
