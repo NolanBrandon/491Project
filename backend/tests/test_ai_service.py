@@ -22,10 +22,14 @@ class TestGeminiAIService(TestCase):
         """Set up test fixtures before each test method."""
         self.ai_service = None
 
+    @patch('api.services.ai_service.config')
     @patch('api.services.ai_service.genai.configure')
     @patch('api.services.ai_service.genai.GenerativeModel')
-    def test_service_initialization_success(self, mock_generative_model, mock_configure):
+    def test_service_initialization_success(self, mock_generative_model, mock_configure, mock_config):
         """Test that the AI service initializes successfully with valid API key."""
+        # Mock the config to return a fake API key
+        mock_config.return_value = "fake-api-key-for-testing"
+        
         self.ai_service = GeminiAIService()
         mock_configure.assert_called_once()
         mock_generative_model.assert_called_once_with("gemini-2.5-flash")
@@ -43,9 +47,14 @@ class TestGeminiAIService(TestCase):
                 GeminiAIService()
             print("✅ No API key handling test passed")
     
+    @patch('api.services.ai_service.config')
+    @patch('api.services.ai_service.genai.configure')
     @patch('api.services.ai_service.genai.GenerativeModel')
-    def test_exercise_plan_generation(self, mock_generative_model):
+    def test_exercise_plan_generation(self, mock_generative_model, mock_configure, mock_config):
         """Test that the exercise plan generation works with mocked data."""
+        # Mock the config to return a fake API key
+        mock_config.return_value = "fake-api-key-for-testing"
+        
         # Setup mock
         mock_response = MagicMock()
         mock_response.text = json.dumps({
@@ -69,9 +78,14 @@ class TestGeminiAIService(TestCase):
         self.assertEqual(call_kwargs['generation_config'].response_mime_type, "application/json")
         print("✅ Mocked exercise plan generation test passed")
 
+    @patch('api.services.ai_service.config')
+    @patch('api.services.ai_service.genai.configure')
     @patch('api.services.ai_service.genai.GenerativeModel')
-    def test_meal_plan_generation(self, mock_generative_model):
+    def test_meal_plan_generation(self, mock_generative_model, mock_configure, mock_config):
         """Test that the meal plan generation works with mocked data."""
+        # Mock the config to return a fake API key
+        mock_config.return_value = "fake-api-key-for-testing"
+        
         # Setup mock
         mock_response = MagicMock()
         mock_response.text = json.dumps({
@@ -95,9 +109,14 @@ class TestGeminiAIService(TestCase):
         self.assertEqual(call_kwargs['generation_config'].response_mime_type, "application/json")
         print("✅ Mocked meal plan generation test passed")
     
+    @patch('api.services.ai_service.config')
+    @patch('api.services.ai_service.genai.configure')
     @patch('api.services.ai_service.genai.GenerativeModel')
-    def test_connection_failure(self, mock_generative_model):
+    def test_connection_failure(self, mock_generative_model, mock_configure, mock_config):
         """Test that connection failures are handled properly."""
+        # Mock the config to return a fake API key
+        mock_config.return_value = "fake-api-key-for-testing"
+        
         # Mock the client to raise an exception
         mock_model_instance = MagicMock()
         mock_model_instance.generate_content.side_effect = Exception("API Error")
