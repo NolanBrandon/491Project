@@ -96,7 +96,7 @@ class CreateNutritionLogFromBarcodeSerializer(serializers.Serializer):
         help_text="Quantity in grams"
     )
     meal_type = serializers.ChoiceField(
-        choices=['breakfast', 'lunch', 'dinner', 'snack'],
+        choices=NutritionLog.MEAL_TYPE_CHOICES,
         required=False
     )
     notes = serializers.CharField(max_length=500, required=False, allow_blank=True)
@@ -106,22 +106,49 @@ class CreateNutritionLogFromBarcodeSerializer(serializers.Serializer):
         if not value.isdigit():
             raise serializers.ValidationError("Barcode must contain only numbers")
         if len(value) not in [8, 12, 13, 14]:
-            raise serializers.ValidationError(
-                "Invalid barcode length"
-            )
+            raise serializers.ValidationError("Invalid barcode length")
         return value
     
     def create(self, validated_data):
         barcode = validated_data['barcode']
         quantity = validated_data['quantity']
         user = self.context['request'].user
+
+        try:
+            food = FoodDatabase.objects.get(barcode=barcode)
+            food_data = {
+                'name': food.name,
+                'brand': food.brand or '',
+                'nutrition_per_100g': {
+                    'calories': float(food.calories_per_100g),
+                    'protein': float(food.protein_per_100g),
+                    'carbohydrates': float(food.carbs_per_100g),
+                    'fat': float(food.fat_per_100g),
+                    'fiber': float(food.fiber_per_100g),
+                    'sugar': float(food.sugar_per_100g),
+                    'sodium': float(food.sodium_per_100g),
+                }
+            }
+        except FoodDatabase.DoesNotExist:
+            product_data = OpenFoodFactsService.get_product_by_barcode(barcode)
+            
+            if 'error' in product_data:
+                raise serializers.ValidationError({'barcode': product_data['error']})
+           
+            FoodDatabase.objects.create(
+                barcode=barcode,
+                name=product_data['name'],
+                brand=product_data.get('brand', ''),
+                calories_per_100g=product_data['nutrition_per_100g']['calories'],
+                protein_per_100g=product_data['nutrition_per_100g']['protein'],
+                carbs_per_100g=product_data['nutrition_per_100g']['carbohydrates'],
+                fat_per_100g=product_data['nutrition_per_100g']['fat'],
+                fiber_per_100g=product_data['nutrition_per_100g'].get('fiber', 0),
+                sugar_per_100g=product_data['nutrition_per_100g'].get('sugar', 0),
+                sodium_per_100g=product_data['nutrition_per_100g'].get('sodium', 0),
+            )
+            food_data = product_data
         
-        product_data = OpenFoodFactsService.get_product_by_barcode(barcode)
-        
-        if 'error' in product_data:
-            raise serializers.ValidationError({
-                'barcode': product_data['error']
-            })
         
         nutrition = MacroCalculatorService.calculate_nutrition_for_quantity(
             product_data['nutrition_per_100g'],
@@ -132,23 +159,22 @@ class CreateNutritionLogFromBarcodeSerializer(serializers.Serializer):
         
         log = NutritionLog.objects.create(
             user=user,
-            food=food,  # Assuming you have this FK relationship
-            food_name=product_data['name'],
-            quantity_g=quantity,
+            food_item=food_data['name'],
+            barcode=barcode,
+            quantity=quantity,
+            unit='g',
+            meal_type=validated_data.get('meal_type', 'snack'),
             calories=Decimal(str(nutrition['calories'])),
-            protein=Decimal(str(nutrition['protein'])),
-            carbs=Decimal(str(nutrition['carbohydrates'])),
-            fat=Decimal(str(nutrition['fat'])),
-            fiber=Decimal(str(nutrition['fiber'])),
-            sugar=Decimal(str(nutrition['sugar'])),
-            sodium=Decimal(str(nutrition['sodium'])),
-            meal_type=validated_data.get('meal_type'),
-            notes=validated_data.get('notes', '')
+            protein_g=Decimal(str(nutrition['protein'])),
+            carbohydrates_g=Decimal(str(nutrition['carbohydrates'])),
+            fat_g=Decimal(str(nutrition['fat'])),
+            fiber_g=Decimal(str(nutrition.get('fiber', 0))),
+            sugar_g=Decimal(str(nutrition.get('sugar', 0))),
+            sodium_mg=Decimal(str(nutrition.get('sodium', 0))),
         )
         
         return log
-
-
+        
 class FoodDatabaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = FoodDatabase
