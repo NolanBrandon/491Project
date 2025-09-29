@@ -30,13 +30,44 @@ def scan_barcode(request):
     
     barcode = serializer.validated_data['barcode']
     quantity = serializer.validated_data['quantity']
-    
-    food_data = OpenFoodFactsService.get_product_by_barcode(barcode)
+
+    try:
+        cached_food = FoodDatabase.objects.get(barcode=barcode)
+        food_data = {
+            'barcode': cached_food.barcode,
+            'name': cached_food.name,
+            'brand': cached_food.brand or '',
+            'nutrition_per_100g': {
+                'calories': float(cached_food.calories_per_100g),
+                'protein': float(cached_food.protein_per_100g),
+                'carbohydrates': float(cached_food.carbs_per_100g),
+                'fat': float(cached_food.fat_per_100g),
+                'fiber': float(cached_food.fiber_per_100g),
+                'sugar': float(cached_food.sugar_per_100g),
+                'sodium': float(cached_food.sodium_per_100g),
+            }
+        }
+    except FoodDatabase.DoesNotExist:
+       
+        food_data = OpenFoodFactsService.get_product_by_barcode(barcode)
     
     if 'error' in food_data:
         return Response(
             {'error': food_data['error']}, 
             status=status.HTTP_404_NOT_FOUND
+        )
+
+    FoodDatabase.objects.create(
+            barcode=barcode,
+            name=food_data['name'],
+            brand=food_data.get('brand', ''),
+            calories_per_100g=food_data['nutrition_per_100g']['calories'],
+            protein_per_100g=food_data['nutrition_per_100g']['protein'],
+            carbs_per_100g=food_data['nutrition_per_100g']['carbohydrates'],
+            fat_per_100g=food_data['nutrition_per_100g']['fat'],
+            fiber_per_100g=food_data['nutrition_per_100g'].get('fiber', 0),
+            sugar_per_100g=food_data['nutrition_per_100g'].get('sugar', 0),
+            sodium_per_100g=food_data['nutrition_per_100g'].get('sodium', 0),
         )
     
     nutrition_for_quantity = MacroCalculatorService.calculate_nutrition_for_quantity(
@@ -44,16 +75,14 @@ def scan_barcode(request):
         float(quantity)
     )
     
-    response_data = {
+    return Response({
         'barcode': food_data['barcode'],
         'name': food_data['name'],
-        'brand': food_data['brand'],
+        'brand': food_data['brand', ' '],
         'quantity_g': float(quantity),
         'nutrition_per_100g': food_data['nutrition_per_100g'],
         'nutrition_total': nutrition_for_quantity
-    }
-    
-    return Response(response_data, status=status.HTTP_200_OK)
+    }, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -143,81 +172,52 @@ def daily_nutrition_summary(request):
     else:
         target_date = date.today()
     
-    # Get all logs for the target date
     daily_logs = NutritionLog.objects.filter(
         user=request.user,
         date_eaten__date=target_date
     )
+
+    from django.db.models.functions import Coalesce
     
     daily_totals = daily_logs.aggregate(
-        total_calories=Sum('calories'),
-        total_protein=Sum('protein_g'),
-        total_carbs=Sum('carbohydrates_g'),
-        total_fat=Sum('fat_g'),
-        total_fiber=Sum('fiber_g'),
-        total_sugar=Sum('sugar_g'),
-        total_sodium=Sum('sodium_mg'),
-        meal_count=Count('id')
+        total_calories=Coalesce(Sum('calories'), 0),
+        total_protein=Coalesce(Sum('protein_g'), 0),  
+        total_carbs=Coalesce(Sum('carbohydrates_g'), 0),  
+        total_fat=Coalesce(Sum('fat_g'), 0),  
+        total_fiber=Coalesce(Sum('fiber_g'), 0),  
+        total_sugar=Coalesce(Sum('sugar_g'), 0),  
+        total_sodium=Coalesce(Sum('sodium_mg'), 0), 
     )
-    
-    for key in daily_totals:
-        if daily_totals[key] is None:
-            daily_totals[key] = 0
-    
+
     meals = {}
-    meal_types = getattr(NutritionLog, 'MEAL_TYPE_CHOICES', [
-        ('breakfast', 'Breakfast'),
-        ('lunch', 'Lunch'),
-        ('dinner', 'Dinner'),
-        ('snack', 'Snack')
-    ])
-    
-    for meal_type, meal_label in meal_types:
+    for meal_type, meal_label in NutritionLog.MEAL_TYPE_CHOICES:  # Fixed tuple unpacking
         meal_logs = daily_logs.filter(meal_type=meal_type)
-        
-        if meal_logs.exists():
-            meals[meal_type] = {
-                'label': meal_label,
-                'logs': NutritionLogSerializer(meal_logs, many=True).data,
-                'totals': meal_logs.aggregate(
-                    calories=Sum('calories'),
-                    protein=Sum('protein_g'),
-                    carbs=Sum('carbohydrates_g'),
-                    fat=Sum('fat_g'),
-                )
-            }
+        meals[meal_type] = {
+            'logs': NutritionLogSerializer(meal_logs, many=True).data,
+            'totals': meal_logs.aggregate(
+                calories=Coalesce(Sum('calories'), 0),
+                protein=Coalesce(Sum('protein_g'), 0),  # Fixed
+                carbs=Coalesce(Sum('carbohydrates_g'), 0),  # Fixed
+                fat=Coalesce(Sum('fat_g'), 0),  # Fixed
+            )
+        }
     
-    tdee = None
+tdee = None
+    calories_remaining = None
     if hasattr(request.user, 'metrics'):
         try:
             tdee = request.user.metrics.calculate_tdee()
-        except Exception:
+            if tdee:
+                calories_remaining = tdee - (daily_totals['total_calories'] or 0)
+        except (AttributeError, Exception):
             pass
-    
-    total_calories = daily_totals.get('total_calories', 0)
-    calories_remaining = None
-    if tdee:
-        calories_remaining = float(tdee) - float(total_calories or 0)
-    
-    macro_percentages = None
-    if total_calories and total_calories > 0:
-        protein_cals = float(daily_totals.get('total_protein', 0)) * 4
-        carbs_cals = float(daily_totals.get('total_carbs', 0)) * 4
-        fat_cals = float(daily_totals.get('total_fat', 0)) * 9
-        
-        macro_percentages = {
-            'protein': round((protein_cals / float(total_calories)) * 100, 1),
-            'carbs': round((carbs_cals / float(total_calories)) * 100, 1),
-            'fat': round((fat_cals / float(total_calories)) * 100, 1),
-        }
     
     return Response({
         'date': target_date,
         'daily_totals': daily_totals,
         'meals': meals,
         'tdee': tdee,
-        'calories_remaining': calories_remaining,
-        'macro_percentages': macro_percentages
+        'calories_remaining': calories_remaining
     })
 
 
