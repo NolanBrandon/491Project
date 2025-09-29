@@ -63,7 +63,6 @@ class Goals(models.Model):
         ('activity', 'Activity Goal'),
         ('nutrition', 'Nutrition Goal'),
     ]
-
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='goals')
     goal_type = models.CharField(max_length=20, choices=GOAL_TYPE_CHOICES)
     target_weight_kg = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
