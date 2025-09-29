@@ -1,25 +1,29 @@
 from rest_framework import serializers
-from .models import NutritionLog
+from decimal import Decimal
+from .models import NutritionLog, FoodDatabase
 from .services import OpenFoodFactsService, MacroCalculatorService
 
 class NutritionLogSerializer(serializers.ModelSerializer):
-    calories = serializers.DecimalField(
-        max_digits=8, 
-        decimal_places=2, 
-        read_only=True,
-        required=False
-    )
+    food_name = serializers.CharField(source='food.name', read_only=True, required=False)
+    food_brand = serializers.CharField(source='food.brand', read_only=True, required=False)
+    
     
     class Meta:
         model = NutritionLog
         fields = '__all__'
-        read_only_fields = ('user', 'created_at', 'updated_at')  # Add timestamp fields if they exist
+        read_only_fields = ('user', 'created_at', 'updated_at')
     
-    def validate(self, data):
-        if data.get('protein', 0) < 0 or data.get('carbs', 0) < 0 or data.get('fat', 0) < 0:
-            raise serializers.ValidationError("Macro values must be non-negative")
+     def validate(self, data):
+        numeric_fields = ['calories', 'protein', 'carbs', 'fat', 'fiber', 'sugar', 'sodium']
+        
+        for field in numeric_fields:
+            value = data.get(field)
+            if value is not None and value < 0:
+                raise serializers.ValidationError({
+                    field: f"{field.capitalize()} cannot be negative"
+                })
+        
         return data
-
 
 class BarcodeSearchSerializer(serializers.Serializer):
     barcode = serializers.CharField(max_length=50)
@@ -27,10 +31,12 @@ class BarcodeSearchSerializer(serializers.Serializer):
         max_digits=8, 
         decimal_places=2, 
         default=100,
-        min_value=0.01  # Prevent zero or negative quantities
-    )
+        min_value=0.01  
+        help_text="Quantity in grams"
+    ) 
     
     def validate_barcode(self, value):
+         value = value.strip()      
         if not value.isdigit():
             raise serializers.ValidationError("Barcode must contain only numbers")
         if len(value) not in [8, 12, 13, 14]:
@@ -40,24 +46,121 @@ class BarcodeSearchSerializer(serializers.Serializer):
         
         return value
     
-    def validate(self, data):  
-        barcode = data.get('barcode')
-        product = OpenFoodFactsService.get_product(barcode)
-        if not product:
-             raise serializers.ValidationError(
-                 {"barcode": "Product not found in database"}
-             )
-        return data
+    def validate_quantity(self, value):
+        if value > 10000:  # 10kg seems like a reasonable maximum
+            raise serializers.ValidationError(
+                "Quantity cannot exceed 10,000 grams (10kg)"
+            )
+        return value
+    
+    def create(self, validated_data):
+        barcode = validated_data['barcode']
+        quantity = validated_data['quantity']
+        product_data = OpenFoodFactsService.get_product_by_barcode(barcode)
+        
+        if 'error' in product_data:
+            raise serializers.ValidationError({
+                'barcode': product_data['error']
+            })
+        
+        nutrition_data = MacroCalculatorService.calculate_nutrition_for_quantity(
+            product_data['nutrition_per_100g'],
+            float(quantity)
+        )
+    
+        return {
+            'barcode': product_data['barcode'],
+            'name': product_data['name'],
+            'brand': product_data['brand'],
+            'quantity_g': float(quantity),
+            'nutrition_per_100g': product_data['nutrition_per_100g'],
+            'nutrition_total': nutrition_data
+        }
 
 
-class MacroCalculatorSerializer(serializers.Serializer):
-    weight = serializers.DecimalField(max_digits=5, decimal_places=2, min_value=1)
-    height = serializers.DecimalField(max_digits=5, decimal_places=2, min_value=1)
-    age = serializers.IntegerField(min_value=1, max_value=120)
-    gender = serializers.ChoiceField(choices=['male', 'female', 'other'])
-    activity_level = serializers.ChoiceField(
-        choices=['sedentary', 'light', 'moderate', 'active', 'very_active']
+class BarcodeSearchResponseSerializer(serializers.Serializer):
+    barcode = serializers.CharField()
+    name = serializers.CharField()
+    brand = serializers.CharField()
+    quantity_g = serializers.DecimalField(max_digits=8, decimal_places=2)
+    nutrition_per_100g = serializers.DictField()
+    nutrition_total = serializers.DictField()
+
+
+class CreateNutritionLogFromBarcodeSerializer(serializers.Serializer):
+    barcode = serializers.CharField(max_length=50)
+    quantity = serializers.DecimalField(
+        max_digits=8, 
+        decimal_places=2,
+        min_value=0.01,
+        help_text="Quantity in grams"
     )
-    goal = serializers.ChoiceField(
-        choices=['lose', 'maintain', 'gain']
+    meal_type = serializers.ChoiceField(
+        choices=['breakfast', 'lunch', 'dinner', 'snack'],
+        required=False
     )
+    notes = serializers.CharField(max_length=500, required=False, allow_blank=True)
+    
+    def validate_barcode(self, value):
+        value = value.strip()
+        if not value.isdigit():
+            raise serializers.ValidationError("Barcode must contain only numbers")
+        if len(value) not in [8, 12, 13, 14]:
+            raise serializers.ValidationError(
+                "Invalid barcode length"
+            )
+        return value
+    
+    def create(self, validated_data):
+        barcode = validated_data['barcode']
+        quantity = validated_data['quantity']
+        user = self.context['request'].user
+        
+        product_data = OpenFoodFactsService.get_product_by_barcode(barcode)
+        
+        if 'error' in product_data:
+            raise serializers.ValidationError({
+                'barcode': product_data['error']
+            })
+        
+        nutrition = MacroCalculatorService.calculate_nutrition_for_quantity(
+            product_data['nutrition_per_100g'],
+            float(quantity)
+        )
+        
+        food, _ = FoodDatabase.objects.get_or_create(barcode=barcode)
+        
+        log = NutritionLog.objects.create(
+            user=user,
+            food=food,  # Assuming you have this FK relationship
+            food_name=product_data['name'],
+            quantity_g=quantity,
+            calories=Decimal(str(nutrition['calories'])),
+            protein=Decimal(str(nutrition['protein'])),
+            carbs=Decimal(str(nutrition['carbohydrates'])),
+            fat=Decimal(str(nutrition['fat'])),
+            fiber=Decimal(str(nutrition['fiber'])),
+            sugar=Decimal(str(nutrition['sugar'])),
+            sodium=Decimal(str(nutrition['sodium'])),
+            meal_type=validated_data.get('meal_type'),
+            notes=validated_data.get('notes', '')
+        )
+        
+        return log
+
+
+class FoodDatabaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FoodDatabase
+        fields = '__all__'
+        read_only_fields = ('created_at', 'updated_at')
+
+
+class NutritionSummarySerializer(serializers.Serializer):
+    date = serializers.DateField(required=False)
+    total_calories = serializers.DecimalField(max_digits=10, decimal_places=2)
+    total_protein = serializers.DecimalField(max_digits=10, decimal_places=2)
+    total_carbs = serializers.DecimalField(max_digits=10, decimal_places=2)
+    total_fat = serializers.DecimalField(max_digits=10, decimal_places=2)
+    total_fiber = serializers.DecimalField(max_digits=10, decimal_places=2)
+    meal_count = serializers.IntegerField()
