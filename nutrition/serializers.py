@@ -1,18 +1,20 @@
 from rest_framework import serializers
-from .models import NutritionLog
-from .services import OpenFoodFactsService, MacroCalculatorService
+from .models import NutritionLog, FoodDatabase
 
 class NutritionLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = NutritionLog
+        fields = [
+            'id', 'food_item', 'barcode', 'quantity', 'unit', 
+            'meal_type', 'date_eaten', 'calories', 'protein_g',
+            'carbohydrates_g', 'fat_g', 'fiber_g', 'sugar_g',
+            'sodium_mg', 'vitamin_d_mcg', 'vitamin_c_mg',
+            'calcium_mg', 'iron_mg'
+        ]
+        read_only_fields = ['id', 'date_eaten']
+
+class FoodDatabaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FoodDatabase
         fields = '__all__'
-        read_only_fields = ('user',)
-
-class BarcodeSearchSerializer(serializers.Serializer):
-    barcode = serializers.CharField(max_length=50)
-    quantity = serializers.DecimalField(max_digits=8, decimal_places=2, default=100)
-
-    def validate_barcode(self, value):
-        if not value.isdigit():
-            raise serializers.ValidationError("Barcode must contain only numbers")
-        return value
+        read_only_fields = ['created_at', 'updated_at']
