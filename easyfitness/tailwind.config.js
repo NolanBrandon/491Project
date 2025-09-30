@@ -10,7 +10,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        akira: ['Akira Expanded'],
+        akira: ['"Akira Expanded"', 'sans-serif'],
       },
     },
   },

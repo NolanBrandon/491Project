@@ -37,8 +37,8 @@ body {
 
 @font-face {
   font-family: 'Akira Expanded';
-  src: url('/fonts/Akira Expanded Demo.ttf') format('truetype');
-  font-weight: bold;
+  src: url('/fonts/Akira Expanded Demo.otf') format('opentype');
+  font-weight: normal;
   font-style: normal;
 }
 
