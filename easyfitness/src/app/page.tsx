@@ -1,6 +1,6 @@
 
 import Nav from './components/navbar';
-import { button, Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import Footer from './components/footer';
 

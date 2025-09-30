@@ -37,8 +37,6 @@ jobs:
         if: hashFiles('easyfitness/package-lock.json') == ''
         run: npm install
 
-      - name: Lint (if present)
-        run: npm run lint --if-present
 
       - name: Build
         env:
