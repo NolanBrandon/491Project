@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
+from django.http import JsonResponse
 from .models import (
     User,
     UserMetrics,
@@ -135,3 +136,16 @@ class RecipeTagViewSet(viewsets.ModelViewSet):
     queryset = RecipeTag.objects.all()
     serializer_class = RecipeTagSerializer
     permission_classes = [AllowAny]
+
+# -------------------------------
+# Health Check & API Info Endpoints
+# -------------------------------
+def health_check(request):
+    return JsonResponse({"status": "ok"})
+
+def api_info(request):
+    return JsonResponse({
+        "name": "491Project API",
+        "version": "1.0.0",
+        "description": "API for fitness, nutrition, and workout tracking"
+    })
