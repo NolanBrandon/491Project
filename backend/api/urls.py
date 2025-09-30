@@ -17,10 +17,11 @@ from .views import (
     IngredientViewSet,
     RecipeIngredientViewSet,
     TagViewSet,
-    RecipeTagViewSet
+    RecipeTagViewSet,
+    health_check,
+    api_info
 )
 
-# Create a router and register all viewsets
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'user-metrics', UserMetricViewSet)
@@ -40,7 +41,8 @@ router.register(r'recipe-ingredients', RecipeIngredientViewSet)
 router.register(r'tags', TagViewSet)
 router.register(r'recipe-tags', RecipeTagViewSet)
 
-# Include the router URLs
 urlpatterns = [
+    path('health/', health_check, name='health_check'),
+    path('info/', api_info, name='api_info'),
     path('', include(router.urls)),
 ]
