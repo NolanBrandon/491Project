@@ -43,3 +43,4 @@ class WorkoutExerciseAdmin(admin.ModelAdmin):
 @admin.register(WorkoutSession)
 class WorkoutSessionAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'workout', 'date', 'duration_minutes', 'calories_burned')
+
