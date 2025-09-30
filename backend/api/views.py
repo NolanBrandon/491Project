@@ -1,5 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from .models import (
     User,
     UserMetrics,
@@ -40,6 +43,54 @@ from .serializers import (
 )
 
 # -------------------------------
+# Health Check & API Info Views
+# -------------------------------
+@api_view(['GET'])
+def health_check(request):
+    """
+    Health check endpoint compatible with automated tests.
+    Returns 'status', 'message', and 'version'.
+    """
+    return Response({
+        'status': 'healthy',
+        'message': 'healthy',
+        'version': '1.0.0'
+    })
+
+
+@api_view(['GET'])
+def api_info(request):
+    """
+    API info endpoint.
+    Returns basic info and endpoints key for test compatibility.
+    """
+    return Response({
+        'name': 'EasyFitness API',
+        'version': '1.0.0',
+        'endpoints': [
+            '/api/users/',
+            '/api/user-metrics/',
+            '/api/goals/',
+            '/api/foods/',
+            '/api/nutrition-logs/',
+            '/api/exercises/',
+            '/api/workout-plans/',
+            '/api/plan-days/',
+            '/api/plan-exercises/',
+            '/api/meal-plans/',
+            '/api/meal-plan-days/',
+            '/api/recipes/',
+            '/api/meal-plan-entries/',
+            '/api/ingredients/',
+            '/api/recipe-ingredients/',
+            '/api/tags/',
+            '/api/recipe-tags/'
+        ]
+    })
+
+
+
+# -------------------------------
 # User & Metrics Views
 # -------------------------------
 class UserViewSet(viewsets.ModelViewSet):
@@ -57,6 +108,7 @@ class GoalViewSet(viewsets.ModelViewSet):
     serializer_class = GoalSerializer
     permission_classes = [AllowAny]
 
+
 # -------------------------------
 # Nutrition Views
 # -------------------------------
@@ -69,6 +121,7 @@ class NutritionLogViewSet(viewsets.ModelViewSet):
     queryset = NutritionLog.objects.all()
     serializer_class = NutritionLogSerializer
     permission_classes = [AllowAny]
+
 
 # -------------------------------
 # Exercise & Workout Views
@@ -92,6 +145,7 @@ class PlanExerciseViewSet(viewsets.ModelViewSet):
     queryset = PlanExercise.objects.all()
     serializer_class = PlanExerciseSerializer
     permission_classes = [AllowAny]
+
 
 # -------------------------------
 # Meal Plan & Recipe Views

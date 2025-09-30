@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import sys
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -87,7 +88,6 @@ WSGI_APPLICATION = 'easyfitness_backend.wsgi.application'
 # Database configuration for Supabase PostgreSQL
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# Database configuration for Supabase PostgreSQL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -96,14 +96,15 @@ DATABASES = {
         'PASSWORD': config('DB_PASSWORD', default='cpsc491group8'),
         'HOST': config('DB_HOST', default='aws-1-us-east-2.pooler.supabase.com'),
         'PORT': config('DB_PORT', default='6543'),
-
-        # Added for GitHub Actions CI safe test DB
-        'TEST': {
-            'NAME': 'test_491project',  # unique test database for CI
-        },
     }
 }
 
+# Use SQLite in-memory database for local tests to avoid Supabase issues
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
 
 
 # Password validation
