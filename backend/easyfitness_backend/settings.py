@@ -27,7 +27,11 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-development-key-chang
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,0.0.0.0', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS', 
+    default='localhost,127.0.0.1,0.0.0.0', 
+    cast=lambda v: [s.strip() for s in v.split(',')]
+)
 
 
 # Application definition
@@ -80,27 +84,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'easyfitness_backend.wsgi.application'
 
 
-# Database
+# Database configuration for Supabase PostgreSQL
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME', default='postgres'),
+        'USER': config('DB_USER', default='postgres.wzgxtvqkivbiinkoewmf'),
+        'PASSWORD': config('DB_PASSWORD', default='cpsc491group8'),
+        'HOST': config('DB_HOST', default='aws-1-us-east-2.pooler.supabase.com'),
+        'PORT': config('DB_PORT', default='6543'),
     }
 }
-
-# For PostgreSQL (uncomment and configure as needed)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('DB_NAME', default='easyfitness'),
-#         'USER': config('DB_USER', default='postgres'),
-#         'PASSWORD': config('DB_PASSWORD', default=''),
-#         'HOST': config('DB_HOST', default='localhost'),
-#         'PORT': config('DB_PORT', default='5432'),
-#     }
-# }
 
 
 # Password validation
