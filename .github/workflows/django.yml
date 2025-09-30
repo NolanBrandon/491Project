@@ -11,23 +11,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Step 1: Checkout repo
     - uses: actions/checkout@v4
 
+    # Step 2: Set up Python
     - name: Set up Python 3.11
       uses: actions/setup-python@v4
       with:
         python-version: 3.11
 
+    # Step 3: Install dependencies
     - name: Install Dependencies
       working-directory: ./backend
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Drop test DB if exists
+    # Step 4: Drop test DB if it exists
+    - name: Drop test database if exists
+      working-directory: ./backend
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
       run: |
-        psql ${{ secrets.DATABASE_URL }} -c "DROP DATABASE IF EXISTS test_491project;" || true
+        echo "Dropping existing test DB if exists..."
+        # Extract DB name from URL
+        DB_NAME=$(echo $DATABASE_URL | sed -E 's|.*/([^/?]+).*|\1|')
+        TEST_DB="${DB_NAME}_test"
+        echo "Test DB: $TEST_DB"
+        psql $DATABASE_URL -c "DROP DATABASE IF EXISTS $TEST_DB;" || true
 
+    # Step 5: Run Django tests
     - name: Run Django Tests
       working-directory: ./backend
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
       run: python manage.py test --noinput
