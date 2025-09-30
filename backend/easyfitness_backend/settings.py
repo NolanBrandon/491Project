@@ -95,6 +95,11 @@ DATABASES = {
         'PASSWORD': config('DB_PASSWORD', default='cpsc491group8'),
         'HOST': config('DB_HOST', default='aws-1-us-east-2.pooler.supabase.com'),
         'PORT': config('DB_PORT', default='6543'),
+
+        # Added for GitHub Actions CI safe test DB
+        'TEST': {
+            'NAME': 'test_491project',  # unique test database for CI
+        },
     }
 }
 
