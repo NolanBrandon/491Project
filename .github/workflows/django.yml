@@ -24,15 +24,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Set GEMINI_API_KEY
-      run: echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> $GITHUB_ENV
-
     - name: Drop test DB if exists
       run: |
         psql ${{ secrets.DATABASE_URL }} -c "DROP DATABASE IF EXISTS test_491project;" || true
 
     - name: Run Django Tests
       working-directory: ./backend
-      env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       run: python manage.py test --noinput
