@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        akira: ['"Akira Expanded"', 'sans-serif'],
+        akira: ['Akira Expanded', 'sans-serif'],
       },
     },
   },
