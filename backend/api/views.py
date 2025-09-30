@@ -1,5 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .models import (
     User,
     UserMetrics,
@@ -135,3 +137,16 @@ class RecipeTagViewSet(viewsets.ModelViewSet):
     queryset = RecipeTag.objects.all()
     serializer_class = RecipeTagSerializer
     permission_classes = [AllowAny]
+
+# -------------------------------
+# Health Check & API Info Views
+# -------------------------------
+@api_view(['GET'])
+def health_check(request):
+    """Simple health check endpoint."""
+    return Response({"status": "ok"})
+
+@api_view(['GET'])
+def api_info(request):
+    """Returns basic API info."""
+    return Response({"api_name": "EasyFitness API", "version": "1.0"})
