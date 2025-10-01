@@ -13,6 +13,48 @@
 
 
 
+.nav-root {
+  padding-top: 2rem;   /* py-8 */
+  padding-bottom: 2rem;
+  align-items: center; /* items-center (assumes flex context) */
+  font-size: 1.125rem; /* text-lg */
+  line-height: 1.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* border-b */
+  background-color: #27272a; /* bg-zinc-800 */
+}
+
+.nav-left {
+  flex: 1 1 0%; /* flex-1 */
+  padding-left: 2rem; /* pl-8 */
+}
+
+.nav-brand {
+  font-size: 1.5rem; /* text-2xl */
+  line-height: 2rem;
+  font-weight: 700; /* font-bold */
+  font-family: 'Akira Expanded', sans-serif; /* font-akira */
+}
+
+.nav-center {
+  display: none; /* hidden */
+  gap: 1.5rem; /* gap-6 */
+  align-items: center; /* items-center */
+}
+
+@media (min-width: 640px) { /* sm */
+  .nav-center {
+    display: flex; /* sm:flex */
+  }
+}
+
+.nav-link {
+  font-size: 1.25rem; /* text-xl */
+  line-height: 1.75rem;
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  font-family: 'Akira Expanded', sans-serif; /* font-akira */
+}
+
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
