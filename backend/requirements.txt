@@ -29,5 +29,8 @@ isort==5.12.0
 # Documentation
 django-rest-swagger==2.2.0
 
+# HTTP requests
+requests==2.31.0
+
 #Google Gen-ai
 google-generativeai==0.5.2
