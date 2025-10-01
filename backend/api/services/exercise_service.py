@@ -10,7 +10,8 @@ logger = logging.getLogger(__name__)
 class ExerciseDBService:
     """
     Service class for integrating with ExerciseDB API.
-    Handles exercise data retrieval, search, and integration with AI-generated workout plans.
+    Handles exercise data retrieval, search, and integration with AI-generated workout plans. 
+    TO DO: AI workout plan enrichment
     """
     
     def __init__(self):
