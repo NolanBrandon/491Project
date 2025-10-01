@@ -366,3 +366,306 @@ class ExerciseDBService:
                 "error": f"Suggestion error: {str(e)}",
                 "message": "Failed to get exercise suggestions"
             }
+
+    def get_equipments(self) -> Dict:
+        """
+        Get all available equipment types from ExerciseDB API.
+        
+        Returns:
+            dict: API response containing equipment data
+        """
+        try:
+            url = f"{self.base_url}/equipments"
+            
+            response = requests.get(url, headers=self.headers, timeout=15)
+            
+            if response.status_code == 200:
+                data = response.json()
+                logger.info(f"Successfully retrieved {len(data.get('data', []))} equipment types")
+                return {
+                    "success": True,
+                    "data": data,
+                    "message": "Equipment types retrieved successfully"
+                }
+            else:
+                logger.warning(f"Failed to get equipment types. Status: {response.status_code}")
+                return {
+                    "success": False,
+                    "error": f"API returned status code: {response.status_code}",
+                    "message": "Failed to retrieve equipment types"
+                }
+                
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Request error getting equipment types: {e}")
+            return {
+                "success": False,
+                "error": f"Request error: {str(e)}",
+                "message": "Failed to connect to ExerciseDB API"
+            }
+        except Exception as e:
+            logger.error(f"Unexpected error getting equipment types: {e}")
+            return {
+                "success": False,
+                "error": f"Unexpected error: {str(e)}",
+                "message": "An unexpected error occurred"
+            }
+
+    def get_exercise_types(self) -> Dict:
+        """
+        Get all available exercise types from ExerciseDB API.
+        
+        Returns:
+            dict: API response containing exercise type data
+        """
+        try:
+            url = f"{self.base_url}/exercisetypes"
+            
+            response = requests.get(url, headers=self.headers, timeout=15)
+            
+            if response.status_code == 200:
+                data = response.json()
+                logger.info(f"Successfully retrieved {len(data.get('data', []))} exercise types")
+                return {
+                    "success": True,
+                    "data": data,
+                    "message": "Exercise types retrieved successfully"
+                }
+            else:
+                logger.warning(f"Failed to get exercise types. Status: {response.status_code}")
+                return {
+                    "success": False,
+                    "error": f"API returned status code: {response.status_code}",
+                    "message": "Failed to retrieve exercise types"
+                }
+                
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Request error getting exercise types: {e}")
+            return {
+                "success": False,
+                "error": f"Request error: {str(e)}",
+                "message": "Failed to connect to ExerciseDB API"
+            }
+        except Exception as e:
+            logger.error(f"Unexpected error getting exercise types: {e}")
+            return {
+                "success": False,
+                "error": f"Unexpected error: {str(e)}",
+                "message": "An unexpected error occurred"
+            }
+
+    def get_bodyparts(self) -> Dict:
+        """
+        Get all available body parts from ExerciseDB API.
+        
+        Returns:
+            dict: API response containing body part data
+        """
+        try:
+            url = f"{self.base_url}/bodyparts"
+            
+            response = requests.get(url, headers=self.headers, timeout=15)
+            
+            if response.status_code == 200:
+                data = response.json()
+                logger.info(f"Successfully retrieved {len(data.get('data', []))} body parts")
+                return {
+                    "success": True,
+                    "data": data,
+                    "message": "Body parts retrieved successfully"
+                }
+            else:
+                logger.warning(f"Failed to get body parts. Status: {response.status_code}")
+                return {
+                    "success": False,
+                    "error": f"API returned status code: {response.status_code}",
+                    "message": "Failed to retrieve body parts"
+                }
+                
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Request error getting body parts: {e}")
+            return {
+                "success": False,
+                "error": f"Request error: {str(e)}",
+                "message": "Failed to connect to ExerciseDB API"
+            }
+        except Exception as e:
+            logger.error(f"Unexpected error getting body parts: {e}")
+            return {
+                "success": False,
+                "error": f"Unexpected error: {str(e)}",
+                "message": "An unexpected error occurred"
+            }
+
+    def get_muscles(self) -> Dict:
+        """
+        Get all available muscle groups from ExerciseDB API.
+        
+        Returns:
+            dict: API response containing muscle data
+        """
+        try:
+            url = f"{self.base_url}/muscles"
+            
+            response = requests.get(url, headers=self.headers, timeout=15)
+            
+            if response.status_code == 200:
+                data = response.json()
+                logger.info(f"Successfully retrieved {len(data.get('data', []))} muscle groups")
+                return {
+                    "success": True,
+                    "data": data,
+                    "message": "Muscle groups retrieved successfully"
+                }
+            else:
+                logger.warning(f"Failed to get muscle groups. Status: {response.status_code}")
+                return {
+                    "success": False,
+                    "error": f"API returned status code: {response.status_code}",
+                    "message": "Failed to retrieve muscle groups"
+                }
+                
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Request error getting muscle groups: {e}")
+            return {
+                "success": False,
+                "error": f"Request error: {str(e)}",
+                "message": "Failed to connect to ExerciseDB API"
+            }
+        except Exception as e:
+            logger.error(f"Unexpected error getting muscle groups: {e}")
+            return {
+                "success": False,
+                "error": f"Unexpected error: {str(e)}",
+                "message": "An unexpected error occurred"
+            }
+
+    def get_reference_data(self) -> Dict:
+        """
+        Get all reference data (equipments, exercise types, body parts, muscles) in one call.
+        This is useful for populating filter options in the frontend.
+        
+        Returns:
+            dict: Combined reference data from all endpoints
+        """
+        try:
+            logger.info("Fetching all reference data...")
+            
+            # Get all reference data concurrently would be ideal, but for simplicity we'll do them sequentially
+            equipments_result = self.get_equipments()
+            exercise_types_result = self.get_exercise_types()
+            bodyparts_result = self.get_bodyparts()
+            muscles_result = self.get_muscles()
+            
+            # Check if all requests were successful
+            all_successful = all([
+                equipments_result.get('success', False),
+                exercise_types_result.get('success', False),
+                bodyparts_result.get('success', False),
+                muscles_result.get('success', False)
+            ])
+            
+            if all_successful:
+                logger.info("Successfully retrieved all reference data")
+                return {
+                    "success": True,
+                    "data": {
+                        "equipments": equipments_result['data'].get('data', []),
+                        "exercise_types": exercise_types_result['data'].get('data', []),
+                        "bodyparts": bodyparts_result['data'].get('data', []),
+                        "muscles": muscles_result['data'].get('data', [])
+                    },
+                    "message": "All reference data retrieved successfully",
+                    "counts": {
+                        "equipments": len(equipments_result['data'].get('data', [])),
+                        "exercise_types": len(exercise_types_result['data'].get('data', [])),
+                        "bodyparts": len(bodyparts_result['data'].get('data', [])),
+                        "muscles": len(muscles_result['data'].get('data', []))
+                    }
+                }
+            else:
+                # Collect errors from failed requests
+                errors = []
+                if not equipments_result.get('success'):
+                    errors.append(f"Equipments: {equipments_result.get('error', 'Unknown error')}")
+                if not exercise_types_result.get('success'):
+                    errors.append(f"Exercise Types: {exercise_types_result.get('error', 'Unknown error')}")
+                if not bodyparts_result.get('success'):
+                    errors.append(f"Body Parts: {bodyparts_result.get('error', 'Unknown error')}")
+                if not muscles_result.get('success'):
+                    errors.append(f"Muscles: {muscles_result.get('error', 'Unknown error')}")
+                
+                logger.warning(f"Some reference data requests failed: {'; '.join(errors)}")
+                return {
+                    "success": False,
+                    "error": "Some reference data requests failed",
+                    "details": errors,
+                    "message": "Failed to retrieve complete reference data"
+                }
+                
+        except Exception as e:
+            logger.error(f"Unexpected error getting reference data: {e}")
+            return {
+                "success": False,
+                "error": f"Unexpected error: {str(e)}",
+                "message": "An unexpected error occurred while fetching reference data"
+            }
+
+    def get_exercises_by_filters(self, equipment: Optional[str] = None, 
+                                bodypart: Optional[str] = None, 
+                                exercise_type: Optional[str] = None,
+                                limit: int = 20) -> Dict:
+        """
+        Get exercises filtered by equipment, body part, or exercise type.
+        This combines the basic exercise search with reference data filtering.
+        
+        Args:
+            equipment (str, optional): Equipment type to filter by
+            bodypart (str, optional): Body part to filter by  
+            exercise_type (str, optional): Exercise type to filter by
+            limit (int): Maximum number of exercises to return
+            
+        Returns:
+            dict: Filtered exercise results
+        """
+        try:
+            # Build search terms based on filters
+            search_terms = []
+            
+            if equipment:
+                search_terms.append(equipment.lower())
+            if bodypart:
+                search_terms.append(bodypart.lower())
+            if exercise_type:
+                search_terms.append(exercise_type.lower())
+            
+            if search_terms:
+                # Use search endpoint with combined terms
+                search_term = " ".join(search_terms)
+                result = self.search_exercises(search_term)
+                
+                if result.get('success', False):
+                    # Limit the results
+                    exercises = result['data'].get('data', [])
+                    limited_exercises = exercises[:limit]
+                    
+                    result['data']['data'] = limited_exercises
+                    result['applied_filters'] = {
+                        "equipment": equipment,
+                        "bodypart": bodypart,
+                        "exercise_type": exercise_type,
+                        "limit": limit
+                    }
+                    result['message'] = f"Found {len(limited_exercises)} exercises matching filters"
+                    
+                return result
+            else:
+                # No filters provided, get general exercises
+                return self.get_exercises(limit=limit)
+                
+        except Exception as e:
+            logger.error(f"Error filtering exercises: {e}")
+            return {
+                "success": False,
+                "error": f"Filter error: {str(e)}",
+                "message": "Failed to filter exercises"
+            }

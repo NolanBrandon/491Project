@@ -158,6 +158,116 @@ def test_exercise_service():
     else:
         print(f"❌ Exercise suggestions failed: {suggestions_result['message']}")
     
+    # Test 7: Get Equipment Types
+    print("\n7. Testing Get Equipment Types")
+    print("-" * 40)
+    equipment_result = service.get_equipments()
+    if equipment_result['success']:
+        equipment_count = len(equipment_result['data'].get('data', []))
+        print(f"✅ Get equipment types successful: Found {equipment_count} equipment types")
+        # Show first few equipment types
+        equipments = equipment_result['data'].get('data', [])
+        for i, equipment in enumerate(equipments[:5]):
+            if isinstance(equipment, dict):
+                print(f"   {i+1}. {equipment.get('name', equipment)}")
+            else:
+                print(f"   {i+1}. {equipment}")
+    else:
+        print(f"❌ Get equipment types failed: {equipment_result['message']}")
+    
+    # Test 8: Get Exercise Types
+    print("\n8. Testing Get Exercise Types")
+    print("-" * 40)
+    exercise_types_result = service.get_exercise_types()
+    if exercise_types_result['success']:
+        types_count = len(exercise_types_result['data'].get('data', []))
+        print(f"✅ Get exercise types successful: Found {types_count} exercise types")
+        # Show first few exercise types
+        exercise_types = exercise_types_result['data'].get('data', [])
+        for i, ex_type in enumerate(exercise_types[:5]):
+            if isinstance(ex_type, dict):
+                print(f"   {i+1}. {ex_type.get('name', ex_type)}")
+            else:
+                print(f"   {i+1}. {ex_type}")
+    else:
+        print(f"❌ Get exercise types failed: {exercise_types_result['message']}")
+    
+    # Test 9: Get Body Parts
+    print("\n9. Testing Get Body Parts")
+    print("-" * 40)
+    bodyparts_result = service.get_bodyparts()
+    if bodyparts_result['success']:
+        bodyparts_count = len(bodyparts_result['data'].get('data', []))
+        print(f"✅ Get body parts successful: Found {bodyparts_count} body parts")
+        # Show first few body parts
+        bodyparts = bodyparts_result['data'].get('data', [])
+        for i, bodypart in enumerate(bodyparts[:5]):
+            if isinstance(bodypart, dict):
+                print(f"   {i+1}. {bodypart.get('name', bodypart)}")
+            else:
+                print(f"   {i+1}. {bodypart}")
+    else:
+        print(f"❌ Get body parts failed: {bodyparts_result['message']}")
+    
+    # Test 10: Get Muscles
+    print("\n10. Testing Get Muscles")
+    print("-" * 40)
+    muscles_result = service.get_muscles()
+    if muscles_result['success']:
+        muscles_count = len(muscles_result['data'].get('data', []))
+        print(f"✅ Get muscles successful: Found {muscles_count} muscle groups")
+        # Show first few muscle groups
+        muscles = muscles_result['data'].get('data', [])
+        for i, muscle in enumerate(muscles[:5]):
+            if isinstance(muscle, dict):
+                print(f"   {i+1}. {muscle.get('name', muscle)}")
+            else:
+                print(f"   {i+1}. {muscle}")
+    else:
+        print(f"❌ Get muscles failed: {muscles_result['message']}")
+    
+    # Test 11: Get All Reference Data
+    print("\n11. Testing Get All Reference Data")
+    print("-" * 40)
+    reference_data_result = service.get_reference_data()
+    if reference_data_result['success']:
+        counts = reference_data_result.get('counts', {})
+        print("✅ Get all reference data successful")
+        print(f"   Equipment types: {counts.get('equipments', 0)}")
+        print(f"   Exercise types: {counts.get('exercise_types', 0)}")
+        print(f"   Body parts: {counts.get('bodyparts', 0)}")
+        print(f"   Muscle groups: {counts.get('muscles', 0)}")
+    else:
+        print(f"❌ Get all reference data failed: {reference_data_result['message']}")
+    
+    # Test 12: Get Exercises by Filters
+    print("\n12. Testing Get Exercises by Filters")
+    print("-" * 40)
+    
+    # Test filtering by equipment
+    barbell_exercises = service.get_exercises_by_filters(equipment="barbell", limit=5)
+    if barbell_exercises['success']:
+        count = len(barbell_exercises['data'].get('data', []))
+        print(f"✅ Barbell exercises filter successful: Found {count} exercises")
+    else:
+        print(f"❌ Barbell exercises filter failed: {barbell_exercises['message']}")
+    
+    # Test filtering by body part
+    chest_exercises = service.get_exercises_by_filters(bodypart="chest", limit=5)
+    if chest_exercises['success']:
+        count = len(chest_exercises['data'].get('data', []))
+        print(f"✅ Chest exercises filter successful: Found {count} exercises")
+    else:
+        print(f"❌ Chest exercises filter failed: {chest_exercises['message']}")
+    
+    # Test filtering by exercise type
+    strength_exercises = service.get_exercises_by_filters(exercise_type="strength", limit=5)
+    if strength_exercises['success']:
+        count = len(strength_exercises['data'].get('data', []))
+        print(f"✅ Strength exercises filter successful: Found {count} exercises")
+    else:
+        print(f"❌ Strength exercises filter failed: {strength_exercises['message']}")
+    
     print("\n" + "=" * 60)
     print("TESTING COMPLETED")
     print("=" * 60)
