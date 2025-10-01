@@ -1,6 +1,26 @@
 """
-Test script for ExerciseDB API service endpoints.
-This script tests all the implemented endpoints to ensure they work correctly.
+Test        # Print first few results and their structure
+        exercises = result['data'].get('data', [])
+        for i, exercise in enumerate(exercises[:3]):
+            print(f"   {i+1}. {exercise.get('name', 'N/A')} - {exercise.get('bodyParts', ['N/A'])[0] if exercise.get('bodyParts') else 'N/A'}")
+            # Debug: Print the keys available in the exercise object
+            if i == 0:  # Just for the first exercise
+                print(f"      Available keys: {list(exercise.keys()) if isinstance(exercise, dict) else 'Not a dict'}") for ExerciseDB API service endpoints.
+    # Test 3: Exercise search
+    print("\n3. Testing Exercise Search")
+    print("-" * 40)
+    search_result = service.search_exercises("strength exercises")
+    if search_result['success']:
+        print(f"✅ Exercise search successful: Found {len(search_result['data'].get('data', []))} results")
+        # Print first few results and their structure
+        exercises = search_result['data'].get('data', [])
+        for i, exercise in enumerate(exercises[:3]):
+            print(f"   {i+1}. {exercise.get('name', 'N/A')} - {exercise.get('bodyPart', 'N/A')}")
+            # Debug: Print the keys available in the exercise object
+            if i == 0:  # Just for the first exercise
+                print(f"      Available keys: {list(exercise.keys()) if isinstance(exercise, dict) else 'Not a dict'}")
+    else:
+        print(f"❌ Exercise search failed: {search_result['message']}")tests all the implemented endpoints to ensure they work correctly.
 """
 
 import sys
@@ -47,8 +67,9 @@ def test_exercise_service():
         if exercises:
             first_exercise = exercises[0]
             print(f"   First exercise: {first_exercise.get('name', 'N/A')}")
-            print(f"   Target: {first_exercise.get('target', 'N/A')}")
-            print(f"   Equipment: {first_exercise.get('equipment', 'N/A')}")
+            print(f"   Body Parts: {first_exercise.get('bodyParts', ['N/A'])}")
+            print(f"   Equipment: {first_exercise.get('equipments', ['N/A'])}")
+            print(f"   Exercise Type: {first_exercise.get('exerciseType', 'N/A')}")
     else:
         print(f"❌ Get exercises failed: {result['message']}")
     
@@ -65,28 +86,57 @@ def test_exercise_service():
     else:
         print(f"❌ Exercise search failed: {search_result['message']}")
     
-    # Test 4: Get exercise by ID (using a known ID from previous tests)
+    # Test 4: Get exercise by ID (using an ID from the search results)
     print("\n4. Testing Get Exercise by ID")
     print("-" * 40)
-    # Try to get an ID from previous results
+    
+    # Get an exercise ID from the search results
     exercise_id = None
-    if 'exercises' in locals() and exercises:
-        exercise_id = exercises[0].get('id')
+    if search_result.get('success', False):
+        search_exercises = search_result['data'].get('data', [])
+        if search_exercises:
+            exercise_id = search_exercises[0].get('exerciseId')  # Use 'exerciseId' instead of 'id'
+            exercise_name = search_exercises[0].get('name', 'Unknown')
+            print(f"   Using exercise ID from search: {exercise_id}")
+            print(f"   Exercise name: {exercise_name}")
     
     if exercise_id:
         id_result = service.get_exercise_by_id(exercise_id)
         if id_result['success']:
             print(f"✅ Get exercise by ID successful")
             exercise_data = id_result['data']
-            if 'data' in exercise_data:
-                exercise = exercise_data['data']
-                print(f"   Exercise: {exercise.get('name', 'N/A')}")
-                print(f"   ID: {exercise.get('id', 'N/A')}")
-                print(f"   Instructions: {len(exercise.get('instructions', []))} steps")
+            
+            # Handle both direct data and nested data structures
+            exercise = exercise_data.get('data', exercise_data)
+            
+            print(f"   Exercise: {exercise.get('name', 'N/A')}")
+            print(f"   ID: {exercise.get('exerciseId', exercise.get('id', 'N/A'))}")
+            print(f"   Target: {exercise.get('target', 'N/A')}")
+            print(f"   Body Part: {exercise.get('bodyPart', exercise.get('bodyParts', 'N/A'))}")
+            print(f"   Equipment: {exercise.get('equipment', exercise.get('equipments', 'N/A'))}")
+            
+            instructions = exercise.get('instructions', [])
+            if instructions:
+                print(f"   Instructions: {len(instructions)} steps")
+                print(f"   First instruction: {instructions[0][:60]}..." if instructions[0] else "   First instruction: N/A")
+            else:
+                print("   Instructions: None available")
+                
+            secondary_muscles = exercise.get('secondaryMuscles', [])
+            if secondary_muscles:
+                print(f"   Secondary muscles: {', '.join(secondary_muscles[:3])}")
+            
+            gif_url = exercise.get('gifUrl', exercise.get('imageUrl', ''))
+            if gif_url:
+                print(f"   Has Image/GIF: Yes")
+                print(f"   Image URL: {gif_url[:60]}...")
+            else:
+                print(f"   Has Image/GIF: No")
+                
         else:
             print(f"❌ Get exercise by ID failed: {id_result['message']}")
     else:
-        print("⚠️  Skipping ID test - no exercise ID available from previous tests")
+        print("⚠️  Skipping ID test - no exercise ID available from search results")
     
     # Test 5: Test workout plan enrichment
     print("\n5. Testing Workout Plan Enrichment")
@@ -125,8 +175,10 @@ def test_exercise_service():
         print("✅ Workout plan enrichment successful")
         stats = enriched_result.get('enrichment_stats', {})
         print(f"   Total exercises: {stats.get('total_exercises', 0)}")
-        print(f"   Enriched exercises: {stats.get('enriched_exercises', 0)}")
-        print(f"   Enrichment rate: {stats.get('enrichment_rate', 0)}%")
+        print(f"   Detailed enriched: {stats.get('detailed_enriched', 0)}")
+        print(f"   Search enriched: {stats.get('search_enriched', 0)}")
+        print(f"   AI only: {stats.get('ai_only', 0)}")
+        print(f"   Overall enrichment rate: {stats.get('enrichment_rate', 0)}%")
         
         # Show details of enriched exercises
         enriched_days = enriched_result['data']['days']
@@ -136,8 +188,14 @@ def test_exercise_service():
                 print(f"     - {exercise['exercise_name']}: {exercise['data_source']}")
                 if exercise.get('exercise_details'):
                     details = exercise['exercise_details']
-                    print(f"       Target: {details.get('target', 'N/A')}")
-                    print(f"       Equipment: {details.get('equipment', 'N/A')}")
+                    print(f"       Body Parts: {details.get('bodyParts', 'N/A')}")
+                    print(f"       Equipment: {details.get('equipments', 'N/A')}")
+                    print(f"       Exercise Type: {details.get('exerciseType', 'N/A')}")
+                    instructions = details.get('instructions', [])
+                    if instructions:
+                        print(f"       Instructions: {len(instructions)} steps available")
+                    else:
+                        print(f"       Instructions: None")
     else:
         print(f"❌ Workout plan enrichment failed: {enriched_result['message']}")
     

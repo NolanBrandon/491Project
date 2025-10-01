@@ -31,6 +31,9 @@ class ExerciseDBService:
         """
         Test the API connection using the liveness endpoint.
         
+        API Endpoint: GET /api/v1/liveness
+        Response: HTTP 200 status indicates API is alive
+        
         Returns:
             tuple: (success: bool, message: str)
         """
@@ -55,6 +58,31 @@ class ExerciseDBService:
     def get_exercises(self, name: Optional[str] = None, keywords: Optional[str] = None, limit: int = 10) -> Dict:
         """
         Get exercises from the ExerciseDB API with optional filtering.
+        
+        API Endpoint: GET /api/v1/exercises
+        Response Structure:
+        {
+            "success": true,
+            "meta": {
+                "total": int,
+                "hasNextPage": bool,
+                "hasPreviousPage": bool,
+                "nextCursor": str
+            },
+            "data": [
+                {
+                    "exerciseId": str,
+                    "name": str,
+                    "imageUrl": str,
+                    "bodyParts": [str],
+                    "equipments": [str],
+                    "exerciseType": str,
+                    "targetMuscles": [str],
+                    "secondaryMuscles": [str],
+                    "keywords": [str]
+                }
+            ]
+        }
         
         Args:
             name (str, optional): Exercise name to search for
@@ -110,6 +138,19 @@ class ExerciseDBService:
         """
         Search exercises using the search endpoint.
         
+        API Endpoint: GET /api/v1/exercises/search
+        Response Structure:
+        {
+            "success": true,
+            "data": [
+                {
+                    "exerciseId": str,
+                    "name": str,
+                    "imageUrl": str
+                }
+            ]
+        }
+        
         Args:
             search_term (str): Search term for finding exercises
             
@@ -164,6 +205,29 @@ class ExerciseDBService:
     def get_exercise_by_id(self, exercise_id: str) -> Dict:
         """
         Get detailed information about a specific exercise by ID.
+        
+        API Endpoint: GET /api/v1/exercises/{exercise_id}
+        Response Structure:
+        {
+            "success": true,
+            "data": {
+                "exerciseId": str,
+                "name": str,
+                "imageUrl": str,
+                "equipments": [str],
+                "bodyParts": [str],
+                "exerciseType": str,
+                "targetMuscles": [str],
+                "secondaryMuscles": [str],
+                "videoUrl": str,
+                "keywords": [str],
+                "overview": str,
+                "instructions": [str],
+                "exerciseTips": [str],
+                "variations": [str],
+                "relatedExerciseIds": [str]
+            }
+        }
         
         Args:
             exercise_id (str): The unique ID of the exercise
@@ -253,7 +317,7 @@ class ExerciseDBService:
                 for exercise in exercises:
                     exercise_name = exercise.get("exercise_name", "")
                     
-                    # Search for exercise data
+                    # Search for exercise data first
                     search_result = self.search_exercises(exercise_name)
                     
                     enriched_exercise = exercise.copy()
@@ -261,19 +325,42 @@ class ExerciseDBService:
                     if search_result.get("success", False):
                         exercise_data = search_result.get("data", {}).get("data", [])
                         if exercise_data:
-                            # Take the first matching exercise
-                            first_match = exercise_data[0]
-                            enriched_exercise["exercise_details"] = {
-                                "id": first_match.get("id"),
-                                "name": first_match.get("name"),
-                                "target": first_match.get("target"),
-                                "bodyPart": first_match.get("bodyPart"),
-                                "equipment": first_match.get("equipment"),
-                                "gifUrl": first_match.get("gifUrl"),
-                                "instructions": first_match.get("instructions", []),
-                                "secondaryMuscles": first_match.get("secondaryMuscles", [])
-                            }
-                            enriched_exercise["data_source"] = "exercisedb_api"
+                            # Get the exercise ID and fetch detailed data
+                            exercise_id = exercise_data[0].get("exerciseId")
+                            if exercise_id:
+                                # Get detailed exercise information
+                                detailed_result = self.get_exercise_by_id(exercise_id)
+                                if detailed_result.get("success", False):
+                                    detailed_data = detailed_result.get("data", {}).get("data", detailed_result.get("data", {}))
+                                    enriched_exercise["exercise_details"] = {
+                                        "exerciseId": detailed_data.get("exerciseId"),
+                                        "name": detailed_data.get("name"),
+                                        "imageUrl": detailed_data.get("imageUrl"),
+                                        "videoUrl": detailed_data.get("videoUrl"),
+                                        "bodyParts": detailed_data.get("bodyParts", []),
+                                        "equipments": detailed_data.get("equipments", []),
+                                        "exerciseType": detailed_data.get("exerciseType"),
+                                        "targetMuscles": detailed_data.get("targetMuscles", []),
+                                        "secondaryMuscles": detailed_data.get("secondaryMuscles", []),
+                                        "keywords": detailed_data.get("keywords", []),
+                                        "overview": detailed_data.get("overview"),
+                                        "instructions": detailed_data.get("instructions", []),
+                                        "exerciseTips": detailed_data.get("exerciseTips", []),
+                                        "variations": detailed_data.get("variations", [])
+                                    }
+                                    enriched_exercise["data_source"] = "exercisedb_api_detailed"
+                                else:
+                                    # Fallback to search data only
+                                    first_match = exercise_data[0]
+                                    enriched_exercise["exercise_details"] = {
+                                        "exerciseId": first_match.get("exerciseId"),
+                                        "name": first_match.get("name"),
+                                        "imageUrl": first_match.get("imageUrl")
+                                    }
+                                    enriched_exercise["data_source"] = "exercisedb_api_search"
+                            else:
+                                enriched_exercise["exercise_details"] = None
+                                enriched_exercise["data_source"] = "ai_only"
                         else:
                             enriched_exercise["exercise_details"] = None
                             enriched_exercise["data_source"] = "ai_only"
@@ -316,23 +403,33 @@ class ExerciseDBService:
             dict: Statistics about the enrichment
         """
         total_exercises = 0
-        enriched_exercises = 0
+        detailed_enriched = 0
+        search_enriched = 0
+        ai_only = 0
         
         for day in enriched_days:
             exercises = day.get("exercises", [])
             total_exercises += len(exercises)
             
             for exercise in exercises:
-                if exercise.get("data_source") == "exercisedb_api":
-                    enriched_exercises += 1
+                data_source = exercise.get("data_source", "ai_only")
+                if data_source == "exercisedb_api_detailed":
+                    detailed_enriched += 1
+                elif data_source == "exercisedb_api_search":
+                    search_enriched += 1
+                else:
+                    ai_only += 1
         
-        enrichment_rate = (enriched_exercises / total_exercises * 100) if total_exercises > 0 else 0
+        total_enriched = detailed_enriched + search_enriched
+        enrichment_rate = (total_enriched / total_exercises * 100) if total_exercises > 0 else 0
         
         return {
             "total_exercises": total_exercises,
-            "enriched_exercises": enriched_exercises,
-            "enrichment_rate": round(enrichment_rate, 2),
-            "missing_data": total_exercises - enriched_exercises
+            "detailed_enriched": detailed_enriched,
+            "search_enriched": search_enriched,
+            "ai_only": ai_only,
+            "total_enriched": total_enriched,
+            "enrichment_rate": round(enrichment_rate, 2)
         }
 
     def get_exercise_suggestions(self, exercise_names: List[str]) -> Dict:
@@ -371,8 +468,20 @@ class ExerciseDBService:
         """
         Get all available equipment types from ExerciseDB API.
         
+        API Endpoint: GET /api/v1/equipments
+        Response Structure:
+        {
+            "success": true,
+            "data": [
+                {
+                    "name": str,
+                    "imageUrl": str
+                }
+            ]
+        }
+        
         Returns:
-            dict: API response containing equipment data
+            dict: API response containing equipment data (28 equipment types)
         """
         try:
             url = f"{self.base_url}/equipments"
@@ -414,8 +523,20 @@ class ExerciseDBService:
         """
         Get all available exercise types from ExerciseDB API.
         
+        API Endpoint: GET /api/v1/exercisetypes
+        Response Structure:
+        {
+            "success": true,
+            "data": [
+                {
+                    "name": str,
+                    "imageUrl": str
+                }
+            ]
+        }
+        
         Returns:
-            dict: API response containing exercise type data
+            dict: API response containing exercise type data (7 types: STRENGTH, CARDIO, PLYOMETRICS, STRETCHING, WEIGHTLIFTING, YOGA, AEROBIC)
         """
         try:
             url = f"{self.base_url}/exercisetypes"
@@ -457,8 +578,20 @@ class ExerciseDBService:
         """
         Get all available body parts from ExerciseDB API.
         
+        API Endpoint: GET /api/v1/bodyparts
+        Response Structure:
+        {
+            "success": true,
+            "data": [
+                {
+                    "name": str,
+                    "imageUrl": str
+                }
+            ]
+        }
+        
         Returns:
-            dict: API response containing body part data
+            dict: API response containing body part data (18 body parts: BACK, CHEST, SHOULDERS, etc.)
         """
         try:
             url = f"{self.base_url}/bodyparts"
@@ -500,8 +633,19 @@ class ExerciseDBService:
         """
         Get all available muscle groups from ExerciseDB API.
         
+        API Endpoint: GET /api/v1/muscles
+        Response Structure:
+        {
+            "success": true,
+            "data": [
+                {
+                    "name": str
+                }
+            ]
+        }
+        
         Returns:
-            dict: API response containing muscle data
+            dict: API response containing muscle data (3 muscle groups)
         """
         try:
             url = f"{self.base_url}/muscles"
