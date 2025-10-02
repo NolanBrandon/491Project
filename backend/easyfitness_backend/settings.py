@@ -14,6 +14,16 @@ from pathlib import Path
 import os
 from decouple import config
 
+import os
+import dj_database_url
+
+DATABASES = {
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+}
+
+# Close connections quickly to prevent conflicts in CI
+CONN_MAX_AGE = 0
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -176,3 +186,4 @@ CORS_ALLOW_CREDENTIALS = True
 # Development settings
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
+
