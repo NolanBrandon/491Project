@@ -144,9 +144,36 @@ class RecipeTagViewSet(viewsets.ModelViewSet):
 @api_view(['GET'])
 def health_check(request):
     """Simple health check endpoint."""
-    return Response({"status": "ok"})
+    return Response({"status": "healthy"})
+
+
+
 
 @api_view(['GET'])
 def api_info(request):
     """Returns basic API info."""
-    return Response({"api_name": "EasyFitness API", "version": "1.0"})
+    return Response({
+        "name": "EasyFitness API",
+        "version": "1.0",
+        "endpoints": [
+            "/health/",
+            "/info/",
+            "/users/",
+            "/user-metrics/",
+            "/goals/",
+            "/foods/",
+            "/nutrition-logs/",
+            "/exercises/",
+            "/workout-plans/",
+            "/plan-days/",
+            "/plan-exercises/",
+            "/meal-plans/",
+            "/meal-plan-days/",
+            "/recipes/",
+            "/meal-plan-entries/",
+            "/ingredients/",
+            "/recipe-ingredients/",
+            "/tags/",
+            "/recipe-tags/"
+        ]  # ✅ added 'endpoints' key to match test
+    })
