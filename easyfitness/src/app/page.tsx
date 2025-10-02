@@ -10,7 +10,7 @@ export default function Home() {
       <Nav />
       <div className="home-hero">
         <h1 className="home-title">EasyFitness</h1>
-      <Button as={Link} href="/login" className="btn-red home-cta">
+      <Button as={Link} size="lg" href="/login" className="btn home-cta">
       Sign Up
     </Button>
       </div>

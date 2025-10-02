@@ -1,12 +1,14 @@
-.btn-red {
+.btn {
   background-color: #615353;
   color: #fff;
-  border-radius: 0.5rem;
+  border-radius: 0; /* square corners */
   padding: 0.5rem 1.5rem;
+  border-color: #0a0a0a;
   font-weight: 600;
   transition: background 0.2s;
+  size: large;
 }
-.btn-red:hover {
+.btn:hover {
   background-color: #554a4a;
 }
 @import "tailwindcss";
@@ -170,4 +172,17 @@ button {
 
 .home-cta {
   margin-top: 1.5rem; /* mt-6 */
+}
+.h1{
+  font-size: 2.25rem; /* text-3xl */
+  line-height: 2.5rem;
+  font-weight: 700; /* font-bold */
+  text-align: left; /* text-left */
+  margin-top: 2rem; /* mt-8 */
+  font-family: 'Akira Expanded', sans-serif; /* font-akira */
+}
+
+/* Headings: keep a bit of space from the left edge, but don't affect the centered home title */
+h1:not(.home-title) {
+  padding-left: 1rem; /* pl-4 */
 }
