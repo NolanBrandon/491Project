@@ -13,6 +13,100 @@
 
 
 
+.nav-root {
+  padding-top: 2rem;   /* py-8 */
+  padding-bottom: 2rem;
+  align-items: center; /* items-center (assumes flex context) */
+  font-size: 1.125rem; /* text-lg */
+  line-height: 1.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* border-b */
+  background-color: #27272a; /* bg-zinc-800 */
+}
+
+.nav-left {
+  flex: 1 1 0%; /* flex-1 */
+  padding-left: 2rem; /* pl-8 */
+}
+
+.nav-brand {
+  font-size: 1.5rem; /* text-2xl */
+  line-height: 2rem;
+  font-weight: 700; /* font-bold */
+  font-family: 'Akira Expanded', sans-serif; /* font-akira */
+}
+
+.nav-center {
+  display: none; /* hidden */
+  gap: 1.5rem; /* gap-6 */
+  align-items: center; /* items-center */
+}
+
+@media (min-width: 640px) { /* sm */
+  .nav-center {
+    display: flex; /* sm:flex */
+  }
+}
+
+.nav-link {
+  font-size: 1.25rem; /* text-xl */
+  line-height: 1.75rem;
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  font-family: 'Akira Expanded', sans-serif; /* font-akira */
+}
+
+/* Footer styles to mirror navbar formatting */
+.footer-root {
+  margin-top: 3rem; /* mt-12 */
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* border-t */
+  border-color: rgba(255, 255, 255, 0.2); /* border-gray-300 (approx in dark) */
+  background-color: #27272a; /* bg-zinc-800 for parity */
+}
+
+.footer-nav {
+  padding-top: 1.5rem; /* py-6 */
+  padding-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.125rem; /* text-lg */
+  line-height: 1.75rem;
+}
+
+.footer-left {
+  flex: 1 1 0%; /* flex-1 */
+  padding-left: 2rem; /* pl-8 */
+}
+
+.footer-brand {
+  font-size: 1.5rem; /* text-2xl */
+  line-height: 2rem;
+  font-weight: 700; /* font-bold */
+  font-family: 'Akira Expanded', sans-serif; /* font-akira */
+}
+
+.footer-center {
+  display: none; /* hidden */
+  gap: 1.5rem; /* gap-6 */
+  align-items: center; /* items-center */
+}
+
+@media (min-width: 640px) { /* sm */
+  .footer-center {
+    display: flex; /* sm:flex */
+  }
+}
+
+.footer-link {
+  font-size: 1.25rem; /* text-xl */
+  line-height: 1.75rem;
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  font-family: 'Akira Expanded', sans-serif; /* font-akira */
+}
+
+.footer-right {
+  flex: 1 1 0%; /* flex-1 */
+}
+
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -37,11 +131,43 @@ body {
 
 @font-face {
   font-family: 'Akira Expanded';
-  src: url('/fonts/Akira Expanded Demo.ttf') format('truetype');
-  font-weight: bold;
+  src: url('/fonts/Akira Expanded Demo.otf') format('opentype');
+  font-weight: normal;
   font-style: normal;
 }
 
 button {
   font-family: 'Akira Expanded';
+}
+
+.font-akira {
+  font-family: 'Akira Expanded', sans-serif;
+}
+
+/* Home page styles */
+.home-root {
+  min-height: 100vh; /* min-h-screen */
+  background-image: url('/bg.jpg'); /* bg-[url('/bg.jpg')] */
+  background-size: cover; /* bg-cover */
+  background-position: center; /* bg-center */
+}
+
+.home-hero {
+  display: flex; /* flex */
+  flex-direction: column; /* flex-col */
+  justify-content: center; /* justify-center */
+  align-items: center; /* items-center */
+  min-height: 80vh; /* min-h-[80vh] */
+}
+
+.home-title {
+  font-size: 5rem; /* text-4xl */
+  line-height: 2.5rem;
+  font-weight: 700; /* font-bold */
+  text-align: center; /* text-center */
+  font-family: 'Akira Expanded', sans-serif; /* font-akira */
+}
+
+.home-cta {
+  margin-top: 1.5rem; /* mt-6 */
 }

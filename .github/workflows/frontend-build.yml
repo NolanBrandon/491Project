@@ -1,0 +1,44 @@
+name: Frontend Build 
+
+on:
+  pull_request:
+    paths:
+      - 'easyfitness/**'
+      - '.github/workflows/frontend-build.yml'
+
+jobs:
+  build:
+    name: Build Next.js app
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: easyfitness
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: easyfitness/package-lock.json
+
+      - name: Install dependencies (npm ci)
+        if: hashFiles('easyfitness/package-lock.json') != ''
+        run: npm ci
+
+      - name: Install dependencies (npm install fallback)
+        if: hashFiles('easyfitness/package-lock.json') == ''
+        run: npm install
+
+
+      - name: Build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+        run: npm run build
