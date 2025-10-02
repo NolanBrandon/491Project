@@ -7,7 +7,7 @@ export default function Nav() {
       {/* Left: Brand/Logo centered in left section */}
       <NavbarContent justify="center" className="nav-left">
         <NavbarBrand>
-          <Link href="/" className="nav-brand">EasyFitness</Link>
+          <Link href="/" className="nav-brand">Home</Link>
         </NavbarBrand>
       </NavbarContent>
         

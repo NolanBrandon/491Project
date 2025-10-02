@@ -6,11 +6,11 @@ import Footer from './components/footer';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[url('/bg.jpg')] bg-cover bg-center">
+    <div className="home-root">
       <Nav />
-      <div className="flex flex-col justify-center items-center min-h-[80vh]">
-        <h1 className="text-4xl font-bold text-center font-akira">EasyFitness</h1>
-      <Button as={Link} href="/login" className="btn-red mt-6">
+      <div className="home-hero">
+        <h1 className="home-title">EasyFitness</h1>
+      <Button as={Link} href="/login" className="btn-red home-cta">
       Sign Up
     </Button>
       </div>
