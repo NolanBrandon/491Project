@@ -5,17 +5,24 @@ Django settings for easyfitness_backend project.
 from pathlib import Path
 import os
 from decouple import config
-
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY
+# ------------------------
+# Security
+# ------------------------
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-development-key-change-in-production')
 DEBUG = config('DEBUG', default=True, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,0.0.0.0', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS',
+    default='localhost,127.0.0.1,0.0.0.0',
+    cast=lambda v: [s.strip() for s in v.split(',')]
+)
 
+# ------------------------
 # Application definition
+# ------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -62,29 +69,31 @@ WSGI_APPLICATION = 'easyfitness_backend.wsgi.application'
 # ------------------------
 # Database configuration
 # ------------------------
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='postgres'),
-        'USER': config('DB_USER', default='postgres.wzgxtvqkivbiinkoewmf'),
-        'PASSWORD': config('DB_PASSWORD', default='cpsc491group8'),
-        'HOST': config('DB_HOST', default='aws-1-us-east-2.pooler.supabase.com'),
-        'PORT': config('DB_PORT', default='6543'),
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
-        # For Supabase, do not try to drop test DB
-        'TEST': {
-            'NAME': 'test_491project_temp',
-            'MIRROR': 'default',  # Use the same DB, don't drop
-        },
+if config("DATABASE_URL", default=None):
+    # Use DATABASE_URL (for CI/local dev containers)
+    DATABASES = {
+        "default": dj_database_url.parse(config("DATABASE_URL"))
     }
-}
+else:
+    # Default to Supabase
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": config("DB_NAME", default="postgres"),
+            "USER": config("DB_USER", default="postgres.wzgxtvqkivbiinkoewmf"),
+            "PASSWORD": config("DB_PASSWORD", default="cpsc491group8"),
+            "HOST": config("DB_HOST", default="aws-1-us-east-2.pooler.supabase.com"),
+            "PORT": config("DB_PORT", default="6543"),
+            "OPTIONS": {"sslmode": "require"},
+        }
+    }
 
-# Close connections quickly
+# Close connections quickly (avoid Supabase connection limits)
 CONN_MAX_AGE = 0
 
+# ------------------------
 # Password validation
+# ------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -92,13 +101,17 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+# ------------------------
 # Internationalization
+# ------------------------
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# ------------------------
+# Static & Media
+# ------------------------
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
@@ -106,7 +119,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# ------------------------
 # Django REST Framework
+# ------------------------
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny'],
     'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.SessionAuthentication'],
@@ -115,8 +130,13 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20
 }
 
+# ------------------------
 # CORS settings
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000"]
+# ------------------------
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+]
 CORS_ALLOW_CREDENTIALS = True
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
