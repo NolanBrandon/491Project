@@ -26,6 +26,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: SCRUM-65-Have-CICD-automatically-track-changes-bugs
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -40,20 +42,23 @@ jobs:
 
       - name: Run migrations
         run: |
-          python backend/manage.py migrate
+          cd backend
+          python manage.py migrate
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
 
       - name: Run tests with JUnit output
         run: |
-          pytest backend --junitxml=backend/test_results.xml
+          cd backend
+          pytest --junitxml=test_results.xml
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
 
-      - name: Parse and append test results and bugs
+      - name: Parse and append test results
         run: |
-          python cicd_scripts/parse_test_results.py backend/test_results.xml docs/test_results.md
-          python cicd_scripts/parse_test_failures.py backend/test_results.xml docs/bugs.md
+          cd backend
+          python ../cicd_scripts/parse_test_results.py test_results.xml ../docs/test_results.md
+          python ../cicd_scripts/parse_test_failures.py test_results.xml ../docs/bugs.md
 
       - name: Commit and push test docs
         run: |
@@ -61,4 +66,4 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/test_results.md docs/bugs.md
           git commit -m "Update test results and bug tracking from CI run" || echo "No changes to commit"
-          git push origin SCRUM-65-Have-CICD-automatically-track-changes-bugs
+          git push origin HEAD:SCRUM-65-Have-CICD-automatically-track-changes-bugs
