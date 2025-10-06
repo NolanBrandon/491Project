@@ -30,7 +30,7 @@ class ExerciseDBService:
 
     def test_connection(self) -> tuple[bool, str]:
         """
-        Test the API connection using the liveness endpoint.
+        Test the API connection using the liveness health endpoint. 
         
         API Endpoint: GET /api/v1/liveness
         Response: HTTP 200 status indicates API is alive
