@@ -17,7 +17,7 @@ class ExerciseDBService:
     def __init__(self):
         """Initialize the ExerciseDB API client with API key and base configuration."""
         try:
-            self.api_key = config('EXERCISEDB_API_KEY', default="e54b6f7f15mshdf7311120e07d4fp1e4a2djsn7ec38821b9ee")
+            self.api_key = config('EXERCISEDB_API_KEY')
             self.base_url = "https://exercisedb-api1.p.rapidapi.com/api/v1"
             self.headers = {
                 "x-rapidapi-key": self.api_key,
