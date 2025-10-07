@@ -6,7 +6,7 @@
   border-color: #0a0a0a;
   font-weight: 600;
   transition: background 0.2s;
-  size: large;
+  font-size: 1.125rem;
 }
 .btn:hover {
   background-color: #554a4a;
