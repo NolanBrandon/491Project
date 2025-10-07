@@ -10,9 +10,15 @@ export default function Home() {
       <Nav />
       <div className="home-hero">
         <h1 className="home-title">EasyFitness</h1>
-      <Button as={Link} size="lg" href="/login" className="btn home-cta">
-      Sign Up
-    </Button>
+      <Button
+        as={Link}
+        size="lg"
+        href="/login"
+        role="button"
+        className="btn home-cta"
+        aria-label="Sign Up">
+        Sign Up
+      </Button>
       </div>
   <Footer />
     </div>
