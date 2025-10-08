@@ -73,7 +73,7 @@ export default function LoginPage() {
               {isLoading ? 'Signing in…' : 'Sign In'}
             </button>
             <div className="text-center text-xs auth-muted">
-              Don't have an account? <a href="#" className="auth-link">Sign up</a>
+              Don&apos;t have an account? <a href="#" className="auth-link">Sign up</a>
             </div>
           </form>
         </div>
