@@ -1,15 +1,23 @@
 .btn {
-  background-color: #615353;
-  color: #fff;
+  background-color: #4b5563; /* gray-600 */
+  color: #f1f5f9; /* slate-100 */
   border-radius: 0; /* square corners */
   padding: 0.5rem 1.5rem;
-  border-color: #0a0a0a;
+  border: 1px solid #1f2937; /* gray-800 */
   font-weight: 600;
-  transition: background 0.2s;
+  transition: background-color 0.2s, filter 0.2s;
   font-size: 1.125rem;
+  letter-spacing: 0.5px;
 }
 .btn:hover {
-  background-color: #554a4a;
+  background-color: #374151; /* gray-700 */
+}
+.btn:active {
+  background-color: #1f2937; /* gray-800 */
+}
+.btn:focus-visible {
+  outline: 2px solid #9ca3af; /* gray-400 */
+  outline-offset: 2px;
 }
 @import "tailwindcss";
 
@@ -126,9 +134,18 @@
 }
 
 body {
-  background: var(--background);
+  /* Global background image applied to every page */
+  background-color: var(--background); /* fallback color */
+  background-image: 
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), /* dark overlay for text legibility */
+    url('/background.jpg'); /* replace with your image placed in /public */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* subtle parallax effect; remove if causing jank on mobile */
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
 }
 
 @font-face {
@@ -148,11 +165,87 @@ button {
 
 /* Home page styles */
 .home-root {
-  min-height: 100vh; /* min-h-screen */
-  background-image: url('/bg.jpg'); /* bg-[url('/bg.jpg')] */
-  background-size: cover; /* bg-cover */
-  background-position: center; /* bg-center */
+  min-height: 100vh; /* full viewport height */
+  display: flex;
+  flex-direction: column;
 }
+
+/* Generic page container for other pages */
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Content area that grows to push footer to bottom */
+.content-grow {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Blurred background layer for non-home pages */
+.blur-bg {
+  position: relative; /* establish containing block for pseudo-element */
+}
+
+.blur-bg::before {
+  content: "";
+  position: fixed; /* cover viewport regardless of scroll */
+  inset: 0;
+  z-index: -1; /* sit behind page content but above body */
+  background-image:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url('/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(8px) brightness(0.85); /* blur + slight dim for readability */
+  transform: scale(1.05); /* avoid edge clipping after blur */
+  pointer-events: none;
+  will-change: transform, filter; /* performance hint */
+}
+
+/* Glassmorphic auth / dialog card */
+.auth-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-radius: 1rem;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 30px -5px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.4);
+  max-width: 420px;
+  width: 100%;
+  color: #f5f5f5;
+}
+
+.auth-card h2 {
+  font-family: 'Akira Expanded', sans-serif;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.auth-muted { color: #d1d5db; font-size: 0.85rem; }
+.auth-link { color: #93c5fd; text-decoration: none; }
+.auth-link:hover { text-decoration: underline; }
+
+.auth-input {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+}
+.auth-input::placeholder { color: #e5e7eb; }
+.auth-input:focus { outline: 2px solid #60a5fa; outline-offset: 1px; }
+
+.auth-btn {
+  background: linear-gradient(135deg,#6366f1,#8b5cf6);
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.auth-btn:hover { filter: brightness(1.08); }
+.auth-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .home-hero {
   display: flex; /* flex */
@@ -185,4 +278,28 @@ button {
 /* Headings: keep a bit of space from the left edge, but don't affect the centered home title */
 h1:not(.home-title) {
   padding-left: 1rem; /* pl-4 */
+}
+
+/* Rotated side label */
+.side-vertical-label {
+  position: fixed;
+  top: 50%;
+  left: 0.75rem; /* slight inset from edge */
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: left top;
+  font-family: 'Akira Expanded', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.35rem;
+  color: white;
+  text-transform: uppercase;
+  pointer-events: none; /* ignore clicks */
+  user-select: none;
+  z-index: 50;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+}
+.side-vertical-label:hover { opacity: 1; }
+
+@media (max-width: 640px) {
+  .side-vertical-label { display: none; }
 }
