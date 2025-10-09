@@ -23,23 +23,6 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
-    def __str__(self):
-        return self.name
-    username = models.CharField(max_length=50, unique=True, default='')
-    email = models.EmailField(max_length=255, unique=True, default='')
-    password_hash = models.CharField(max_length=255, default='')
-    gender = models.CharField(max_length=50, null=True, blank=True)
-    date_of_birth = models.DateField(null=True, blank=True)
-    last_login_date = models.DateField(null=True, blank=True)
-    login_streak = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        db_table = 'users'
-
-    def __str__(self):
-        return self.username
-
 
 class UserMetrics(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -59,7 +42,7 @@ class UserMetrics(models.Model):
 class Goal(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    goal_type = models.CharField(max_length=50)
+    goal_type = models.CharField(max_length=50, default='')
     target_weight_kg = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
@@ -103,7 +86,7 @@ class Exercise(models.Model):
 
 class Muscle(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default='')
     
     class Meta:
         db_table = 'muscles'
@@ -121,7 +104,7 @@ class ExerciseMuscle(models.Model):
     
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     muscle = models.ForeignKey(Muscle, on_delete=models.CASCADE)
-    muscle_type = models.CharField(max_length=20, choices=MUSCLE_TYPE_CHOICES)
+    muscle_type = models.CharField(max_length=20, choices=MUSCLE_TYPE_CHOICES, default='primary')
     
     class Meta:
         db_table = 'exercise_muscles'
@@ -133,7 +116,7 @@ class ExerciseMuscle(models.Model):
 
 class Equipment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default='')
     
     class Meta:
         db_table = 'equipments'
@@ -156,7 +139,7 @@ class ExerciseEquipment(models.Model):
 
 class BodyPart(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default='')
     
     class Meta:
         db_table = 'body_parts'
@@ -179,7 +162,7 @@ class ExerciseBodyPart(models.Model):
 
 class Keyword(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    keyword = models.TextField()
+    keyword = models.TextField(default='')
     
     class Meta:
         db_table = 'keywords'
@@ -215,9 +198,9 @@ class RelatedExercise(models.Model):
 class WorkoutPlan(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default='')
     description = models.TextField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
     class Meta:
         db_table = 'workout_plans'
@@ -229,7 +212,7 @@ class WorkoutPlan(models.Model):
 class PlanDay(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     plan = models.ForeignKey(WorkoutPlan, on_delete=models.CASCADE, related_name='plan_days')
-    day_number = models.IntegerField()
+    day_number = models.IntegerField(default=1)
     name = models.CharField(max_length=100, null=True, blank=True)
     
     class Meta:
@@ -244,9 +227,9 @@ class PlanExercise(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     plan_day = models.ForeignKey(PlanDay, on_delete=models.CASCADE, related_name='plan_exercises')
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
-    display_order = models.IntegerField()
-    sets = models.IntegerField()
-    reps = models.CharField(max_length=50)  # Allows flexible formats like "8-12", "AMRAP", "30s"
+    display_order = models.IntegerField(default=1)
+    sets = models.IntegerField(default=1)
+    reps = models.CharField(max_length=50, default='1')  # Allows flexible formats like "8-12", "AMRAP", "30s"
     rest_period_seconds = models.IntegerField(null=True, blank=True)
     
     class Meta:
@@ -262,8 +245,8 @@ class WorkoutLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     date_performed = models.DateTimeField(auto_now_add=True)
-    sets_performed = models.IntegerField()
-    reps_performed = models.IntegerField()
+    sets_performed = models.IntegerField(default=1)
+    reps_performed = models.IntegerField(default=1)
     duration_minutes = models.IntegerField(null=True, blank=True)
     calories_burned = models.IntegerField(null=True, blank=True)
     perceived_effort = models.IntegerField(null=True, blank=True)  # RPE scale 1-10
@@ -281,7 +264,7 @@ class WorkoutLog(models.Model):
 
 class Food(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default='')
     serving_size_g = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     calories = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     protein_g = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
@@ -307,7 +290,7 @@ class NutritionLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
     date_eaten = models.DateTimeField()
-    quantity = models.DecimalField(max_digits=5, decimal_places=2)  # Multiplier of serving size
+    quantity = models.DecimalField(max_digits=5, decimal_places=2, default=1.0)  # Multiplier of serving size
     meal_type = models.CharField(max_length=50, choices=MEAL_TYPE_CHOICES, null=True, blank=True)
     
     class Meta:
@@ -319,7 +302,6 @@ class NutritionLog(models.Model):
 
 class Recipe(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    mealDbId = models.CharField(max_length=50, default='')
     name = models.CharField(max_length=255, default='')
     category = models.CharField(max_length=100, null=True, blank=True)
     area = models.CharField(max_length=100, null=True, blank=True)  # Cuisine origin
@@ -337,7 +319,7 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default='')
     
     class Meta:
         db_table = 'ingredients'
@@ -349,7 +331,7 @@ class Ingredient(models.Model):
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='recipe_ingredients')
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    measure = models.CharField(max_length=255)  # e.g., "1 cup", "200g", "2 tbsp"
+    measure = models.CharField(max_length=255, default='')  # e.g., "1 cup", "200g", "2 tbsp"
     
     class Meta:
         db_table = 'recipe_ingredients'
@@ -361,7 +343,7 @@ class RecipeIngredient(models.Model):
 
 class Tag(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    tag = models.CharField(max_length=255)
+    tag = models.CharField(max_length=255, default='')
     
     class Meta:
         db_table = 'tags'
@@ -385,9 +367,9 @@ class RecipeTag(models.Model):
 class MealPlan(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default='')
     description = models.TextField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
     class Meta:
         db_table = 'meal_plans'
@@ -399,7 +381,7 @@ class MealPlan(models.Model):
 class MealPlanDay(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     meal_plan = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name='meal_plan_days')
-    day_number = models.IntegerField()
+    day_number = models.IntegerField(default=1)
     
     class Meta:
         db_table = 'meal_plan_days'
@@ -421,7 +403,7 @@ class MealPlanEntry(models.Model):
     meal_plan_day = models.ForeignKey(MealPlanDay, on_delete=models.CASCADE, related_name='meal_plan_entries')
     food = models.ForeignKey(Food, on_delete=models.CASCADE, null=True, blank=True)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, null=True, blank=True)
-    meal_type = models.CharField(max_length=50, choices=MEAL_TYPE_CHOICES)
+    meal_type = models.CharField(max_length=50, choices=MEAL_TYPE_CHOICES, default='breakfast')
     
     class Meta:
         db_table = 'meal_plan_entries'

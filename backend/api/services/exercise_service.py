@@ -3,6 +3,7 @@ from decouple import config
 import logging
 import json
 from typing import Dict, List, Optional, Union
+from django.db import transaction
 
 logger = logging.getLogger(__name__)
 
@@ -290,6 +291,7 @@ class ExerciseDBService:
     def enrich_workout_plan(self, workout_plan: Dict) -> Dict:
         """
         Enrich an AI-generated workout plan with detailed exercise data from ExerciseDB.
+        Also automatically populates the muscles table with any new muscles found.
         
         Args:
             workout_plan (dict): The workout plan from AI service
@@ -309,6 +311,7 @@ class ExerciseDBService:
             days = plan_data.get("days", [])
             
             enriched_days = []
+            all_muscles_found = set()  # Track all muscles found during enrichment
             
             for day in days:
                 enriched_day = day.copy()
@@ -333,6 +336,16 @@ class ExerciseDBService:
                                 detailed_result = self.get_exercise_by_id(exercise_id)
                                 if detailed_result.get("success", False):
                                     detailed_data = detailed_result.get("data", {}).get("data", detailed_result.get("data", {}))
+                                    
+                                    # Collect muscles for auto-population - only from actual muscle fields
+                                    target_muscles = detailed_data.get("targetMuscles", [])
+                                    secondary_muscles = detailed_data.get("secondaryMuscles", [])
+                                    
+                                    # Add muscles to our tracking set only if they exist in API response
+                                    for muscle in target_muscles + secondary_muscles:
+                                        if muscle and muscle.strip():
+                                            all_muscles_found.add(muscle.strip().upper())
+                                    
                                     enriched_exercise["exercise_details"] = {
                                         "exerciseId": detailed_data.get("exerciseId"),
                                         "name": detailed_data.get("name"),
@@ -374,15 +387,21 @@ class ExerciseDBService:
                 enriched_day["exercises"] = enriched_exercises
                 enriched_days.append(enriched_day)
             
+            # Auto-populate muscles table with newly found muscles
+            muscles_created = self._auto_populate_muscles(all_muscles_found)
+            
             enriched_plan_data = plan_data.copy()
             enriched_plan_data["days"] = enriched_days
             
             logger.info("Successfully enriched workout plan with exercise data")
+            enrichment_stats = self._get_enrichment_stats(enriched_days)
+            enrichment_stats["muscles_auto_populated"] = muscles_created
+            
             return {
                 "success": True,
                 "data": enriched_plan_data,
                 "message": "Workout plan enriched with exercise database information",
-                "enrichment_stats": self._get_enrichment_stats(enriched_days)
+                "enrichment_stats": enrichment_stats
             }
             
         except Exception as e:
@@ -392,6 +411,50 @@ class ExerciseDBService:
                 "error": f"Enrichment error: {str(e)}",
                 "message": "Failed to enrich workout plan with exercise data"
             }
+
+    def _auto_populate_muscles(self, muscles_found: set) -> int:
+        """
+        Automatically populate the muscles table with any new muscles found during enrichment.
+        
+        Args:
+            muscles_found (set): Set of muscle names found in exercise data
+            
+        Returns:
+            int: Number of new muscles created
+        """
+        try:
+            from api.models import Muscle
+            
+            if not muscles_found:
+                return 0
+            
+            muscles_created = 0
+            
+            with transaction.atomic():
+                for muscle_name in muscles_found:
+                    if muscle_name and muscle_name.strip():
+                        # Clean and format the muscle name
+                        clean_name = muscle_name.strip().upper()
+                        
+                        # Use get_or_create to avoid duplicates
+                        muscle, created = Muscle.objects.get_or_create(
+                            name=clean_name,
+                            defaults={'name': clean_name}
+                        )
+                        
+                        if created:
+                            muscles_created += 1
+                            logger.info(f"Auto-created muscle: {clean_name}")
+            
+            if muscles_created > 0:
+                logger.info(f"Auto-populated {muscles_created} new muscles during workout plan enrichment")
+            
+            return muscles_created
+            
+        except Exception as e:
+            logger.error(f"Error auto-populating muscles: {e}")
+            # Don't fail the entire enrichment process if muscle population fails
+            return 0
 
     def _get_enrichment_stats(self, enriched_days: List[Dict]) -> Dict:
         """
@@ -430,7 +493,8 @@ class ExerciseDBService:
             "search_enriched": search_enriched,
             "ai_only": ai_only,
             "total_enriched": total_enriched,
-            "enrichment_rate": round(enrichment_rate, 2)
+            "enrichment_rate": round(enrichment_rate, 2),
+            "muscles_auto_populated": 0  # Will be updated by enrich_workout_plan
         }
 
     def get_exercise_suggestions(self, exercise_names: List[str]) -> Dict:
