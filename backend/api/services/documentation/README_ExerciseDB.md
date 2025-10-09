@@ -245,4 +245,3 @@ bodyparts = reference_data['data']['bodyparts']  # 18 body parts
 - Reference data is lightweight and cacheable
 - Pagination available on get_exercises endpoint
 
-This service is production-ready and provides robust integration between AI-generated workout plans and the ExerciseDB exercise database.
