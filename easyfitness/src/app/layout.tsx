@@ -28,6 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <NextUIProvider>
+          <div className="side-vertical-label">CPSC 491</div>
           {children}
         </NextUIProvider>
       </body>

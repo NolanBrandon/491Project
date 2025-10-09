@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import Nav from '../components/navbar';
+import Footer from '../components/footer';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -10,102 +12,73 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate login process
     setTimeout(() => {
       console.log('Login attempt:', { email, password });
       setIsLoading(false);
-      // Add your login logic here
     }, 1000);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Welcome to EasyFitness
-          </p>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+    <div className="page-container blur-bg">
+      <Nav />
+      <div className="content-grow flex items-center justify-center px-4 py-12">
+        <div className="auth-card space-y-8">
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-bold tracking-wide">Sign in</h2>
+            <p className="auth-muted">Welcome back to EasyFitness</p>
           </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                Remember me
+          <form className="space-y-5" onSubmit={handleSubmit}>
+            <div className="space-y-4">
+              <div className="space-y-1">
+                <label htmlFor="email" className="sr-only">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  className="auth-input w-full px-3 py-2 rounded-md text-sm"
+                  placeholder="Email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="space-y-1">
+                <label htmlFor="password" className="sr-only">Password</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  className="auth-input w-full px-3 py-2 rounded-md text-sm"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-between text-xs">
+              <label className="inline-flex items-center gap-2 cursor-pointer select-none">
+                <input type="checkbox" className="accent-indigo-500" />
+                <span className="auth-muted">Remember me</span>
               </label>
+              <a href="#" className="auth-link">Forgot password?</a>
             </div>
-
-            <div className="text-sm">
-              <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Forgot your password?
-              </a>
-            </div>
-          </div>
-
-          <div>
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="auth-btn w-full py-2.5 rounded-md text-sm text-white transition disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Signing in...' : 'Sign in'}
+              {isLoading ? 'Signing in…' : 'Sign In'}
             </button>
-          </div>
-
-          <div className="text-center">
-            <span className="text-sm text-gray-600">
-              Don&apos;t have an account?{' '}
-              <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Sign up
-              </a>
-            </span>
-          </div>
-        </form>
+            <div className="text-center text-xs auth-muted">
+              Don&apos;t have an account? <a href="#" className="auth-link">Sign up</a>
+            </div>
+          </form>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }
