@@ -2,9 +2,13 @@ name: Django CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, 'SCRUM-*' ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, 'SCRUM-*' ]
+
+permissions:
+  contents: write
+  pull-requests: read
 
 jobs:
   test:
@@ -25,9 +29,11 @@ jobs:
           --health-retries=5
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          ref: SCRUM-65-Have-CICD-automatically-track-changes-bugs
+          fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -54,16 +60,29 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
 
-      - name: Parse and append test results
+      - name: Append test results and bug tracking
         run: |
           cd backend
-          python ../cicd_scripts/parse_test_results.py test_results.xml ../docs/test_results.md
-          python ../cicd_scripts/parse_test_failures.py test_results.xml ../docs/bugs.md
+          TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
 
-      - name: Commit and push test docs
+          # Append test results
+          python ../cicd_scripts/parse_test_results.py test_results.xml ../docs/test_results.md
+          echo "\n# CI Run: $TIMESTAMP\n" >> ../docs/test_results.md
+
+          # Append bug tracking
+          python ../cicd_scripts/parse_test_failures.py test_results.xml ../docs/bugs.md
+          echo "\n# CI Run: $TIMESTAMP\n" >> ../docs/bugs.md
+
+      - name: Commit and push test docs (repo-only)
+        if: github.repository_owner == 'NolanBrandon'
         run: |
-         git config user.name "github-actions[bot]"
-         git config user.email "github-actions[bot]@users.noreply.github.com"
-         git add docs/test_results.md docs/bugs.md
-         git commit -m "Update test results and bug tracking from CI run" || echo "No changes to commit"
-         git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/NolanBrandon/491Project.git HEAD:SCRUM-65-Have-CICD-automatically-track-changes-bugs
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/test_results.md docs/bugs.md
+          git commit -m "Update test results and bug tracking from CI run" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }} HEAD:${{ github.head_ref || github.ref_name }}
+
+      - name: Skip push for forked PRs
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          echo "Skipping git push for forked PR – forks don’t have write access to this repo."
