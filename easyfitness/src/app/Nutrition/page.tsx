@@ -3,13 +3,15 @@ import Footer from '../components/footer';
 
 export default function CalorieTrack() {
     return (
-        <div>
-        <Nav />
-  <h1 className="text-3xl font-bold text-left mt-8">Calorie Tracker</h1>
-        <main className="col-span-1 space-y-4">
-            <p className="h-[600px] w-[1200px] bg-white p-4 mx-auto mt-16 rounded-lg flex items-center justify-center">LOG</p>
-        </main>
-    <Footer />
-    </div>
+        <div className="page-container blur-bg">
+            <Nav />
+            <div className="content-grow">
+                <h1 className="h1">Nutrition</h1>
+                <main className="col-span-1 space-y-4">
+                    <p className="h-[600px] w-[1200px] bg-white p-4 mx-auto mt-16 rounded-lg flex items-center justify-center">LOG</p>
+                </main>
+            </div>
+            <Footer />
+        </div>
     );
-    }
+}

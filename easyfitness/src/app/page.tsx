@@ -8,13 +8,20 @@ export default function Home() {
   return (
     <div className="home-root">
       <Nav />
-      <div className="home-hero">
+      <div className="home-hero content-grow">
         <h1 className="home-title">EasyFitness</h1>
-      <Button as={Link} href="/login" className="btn-red home-cta">
-      Sign Up
-    </Button>
+        <Button
+          as={Link}
+          size="lg"
+          href="/login"
+          role="button"
+          className="btn home-cta"
+          aria-label="Sign Up"
+        >
+          Sign Up
+        </Button>
       </div>
-  <Footer />
+      <Footer />
     </div>
   );
 }
