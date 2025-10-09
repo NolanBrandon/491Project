@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ main ]
 
+    permissions:
+  contents: write
+  pull-requests: write
+
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -66,4 +71,5 @@ jobs:
          git config user.email "github-actions[bot]@users.noreply.github.com"
          git add docs/test_results.md docs/bugs.md
          git commit -m "Update test results and bug tracking from CI run" || echo "No changes to commit"
-         git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/NolanBrandon/491Project.git HEAD:SCRUM-65-Have-CICD-automatically-track-changes-bugs
+         git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:SCRUM-65-Have-CICD-automatically-track-changes-bugs
+
