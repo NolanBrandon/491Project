@@ -324,7 +324,7 @@ class ExerciseDBService:
                 for exercise in exercises:
                     exercise_name = exercise.get("exercise_name", "")
                     
-                    # Search for exercise data  first
+                    # Search for exercise data first
                     search_result = self.search_exercises(exercise_name)
                     
                     enriched_exercise = exercise.copy()
