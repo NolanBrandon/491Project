@@ -312,6 +312,9 @@ class ExerciseDBService:
             
             enriched_days = []
             all_muscles_found = set()  # Track all muscles found during enrichment
+            all_equipments_found = set()  # Track all equipment found during enrichment
+            all_body_parts_found = set()  # Track all body parts found during enrichment
+            all_keywords_found = set()  # Track all keywords found during enrichment
             
             for day in days:
                 enriched_day = day.copy()
@@ -337,14 +340,32 @@ class ExerciseDBService:
                                 if detailed_result.get("success", False):
                                     detailed_data = detailed_result.get("data", {}).get("data", detailed_result.get("data", {}))
                                     
-                                    # Collect muscles for auto-population - only from actual muscle fields
+                                    # Collect data for auto-population
                                     target_muscles = detailed_data.get("targetMuscles", [])
                                     secondary_muscles = detailed_data.get("secondaryMuscles", [])
+                                    equipments = detailed_data.get("equipments", [])
+                                    body_parts = detailed_data.get("bodyParts", [])
+                                    keywords = detailed_data.get("keywords", [])
                                     
                                     # Add muscles to our tracking set only if they exist in API response
                                     for muscle in target_muscles + secondary_muscles:
                                         if muscle and muscle.strip():
                                             all_muscles_found.add(muscle.strip().upper())
+                                    
+                                    # Add equipments to our tracking set
+                                    for equipment in equipments:
+                                        if equipment and equipment.strip():
+                                            all_equipments_found.add(equipment.strip().upper())
+                                    
+                                    # Add body parts to our tracking set
+                                    for body_part in body_parts:
+                                        if body_part and body_part.strip():
+                                            all_body_parts_found.add(body_part.strip().upper())
+                                    
+                                    # Add keywords to our tracking set
+                                    for keyword in keywords:
+                                        if keyword and keyword.strip():
+                                            all_keywords_found.add(keyword.strip().lower())
                                     
                                     enriched_exercise["exercise_details"] = {
                                         "exerciseId": detailed_data.get("exerciseId"),
@@ -387,8 +408,11 @@ class ExerciseDBService:
                 enriched_day["exercises"] = enriched_exercises
                 enriched_days.append(enriched_day)
             
-            # Auto-populate muscles table with newly found muscles
+            # Auto-populate lookup tables with newly found data
             muscles_created = self._auto_populate_muscles(all_muscles_found)
+            equipments_created = self._auto_populate_equipments(all_equipments_found)
+            body_parts_created = self._auto_populate_body_parts(all_body_parts_found)
+            keywords_created = self._auto_populate_keywords(all_keywords_found)
             
             enriched_plan_data = plan_data.copy()
             enriched_plan_data["days"] = enriched_days
@@ -396,6 +420,9 @@ class ExerciseDBService:
             logger.info("Successfully enriched workout plan with exercise data")
             enrichment_stats = self._get_enrichment_stats(enriched_days)
             enrichment_stats["muscles_auto_populated"] = muscles_created
+            enrichment_stats["equipments_auto_populated"] = equipments_created
+            enrichment_stats["body_parts_auto_populated"] = body_parts_created
+            enrichment_stats["keywords_auto_populated"] = keywords_created
             
             return {
                 "success": True,
@@ -456,6 +483,138 @@ class ExerciseDBService:
             # Don't fail the entire enrichment process if muscle population fails
             return 0
 
+    def _auto_populate_equipments(self, equipments_found: set) -> int:
+        """
+        Automatically populate the equipments table with any new equipment found during enrichment.
+        
+        Args:
+            equipments_found (set): Set of equipment names found in exercise data
+            
+        Returns:
+            int: Number of new equipments created
+        """
+        try:
+            from api.models import Equipment
+            
+            if not equipments_found:
+                return 0
+            
+            equipments_created = 0
+            
+            with transaction.atomic():
+                for equipment_name in equipments_found:
+                    if equipment_name and equipment_name.strip():
+                        # Clean and format the equipment name
+                        clean_name = equipment_name.strip().upper()
+                        
+                        # Use get_or_create to avoid duplicates
+                        equipment, created = Equipment.objects.get_or_create(
+                            name=clean_name,
+                            defaults={'name': clean_name}
+                        )
+                        
+                        if created:
+                            equipments_created += 1
+                            logger.info(f"Auto-created equipment: {clean_name}")
+            
+            if equipments_created > 0:
+                logger.info(f"Auto-populated {equipments_created} new equipments during workout plan enrichment")
+            
+            return equipments_created
+            
+        except Exception as e:
+            logger.error(f"Error auto-populating equipments: {e}")
+            # Don't fail the entire enrichment process if equipment population fails
+            return 0
+
+    def _auto_populate_body_parts(self, body_parts_found: set) -> int:
+        """
+        Automatically populate the body_parts table with any new body parts found during enrichment.
+        
+        Args:
+            body_parts_found (set): Set of body part names found in exercise data
+            
+        Returns:
+            int: Number of new body parts created
+        """
+        try:
+            from api.models import BodyPart
+            
+            if not body_parts_found:
+                return 0
+            
+            body_parts_created = 0
+            
+            with transaction.atomic():
+                for body_part_name in body_parts_found:
+                    if body_part_name and body_part_name.strip():
+                        # Clean and format the body part name
+                        clean_name = body_part_name.strip().upper()
+                        
+                        # Use get_or_create to avoid duplicates
+                        body_part, created = BodyPart.objects.get_or_create(
+                            name=clean_name,
+                            defaults={'name': clean_name}
+                        )
+                        
+                        if created:
+                            body_parts_created += 1
+                            logger.info(f"Auto-created body part: {clean_name}")
+            
+            if body_parts_created > 0:
+                logger.info(f"Auto-populated {body_parts_created} new body parts during workout plan enrichment")
+            
+            return body_parts_created
+            
+        except Exception as e:
+            logger.error(f"Error auto-populating body parts: {e}")
+            # Don't fail the entire enrichment process if body part population fails
+            return 0
+
+    def _auto_populate_keywords(self, keywords_found: set) -> int:
+        """
+        Automatically populate the keywords table with any new keywords found during enrichment.
+        
+        Args:
+            keywords_found (set): Set of keywords found in exercise data
+            
+        Returns:
+            int: Number of new keywords created
+        """
+        try:
+            from api.models import Keyword
+            
+            if not keywords_found:
+                return 0
+            
+            keywords_created = 0
+            
+            with transaction.atomic():
+                for keyword_text in keywords_found:
+                    if keyword_text and keyword_text.strip():
+                        # Clean and format the keyword (keep original case for keywords)
+                        clean_keyword = keyword_text.strip().lower()
+                        
+                        # Use get_or_create to avoid duplicates
+                        keyword, created = Keyword.objects.get_or_create(
+                            keyword=clean_keyword,
+                            defaults={'keyword': clean_keyword}
+                        )
+                        
+                        if created:
+                            keywords_created += 1
+                            logger.info(f"Auto-created keyword: {clean_keyword}")
+            
+            if keywords_created > 0:
+                logger.info(f"Auto-populated {keywords_created} new keywords during workout plan enrichment")
+            
+            return keywords_created
+            
+        except Exception as e:
+            logger.error(f"Error auto-populating keywords: {e}")
+            # Don't fail the entire enrichment process if keyword population fails
+            return 0
+
     def _get_enrichment_stats(self, enriched_days: List[Dict]) -> Dict:
         """
         Calculate statistics about the enrichment process.
@@ -494,7 +653,10 @@ class ExerciseDBService:
             "ai_only": ai_only,
             "total_enriched": total_enriched,
             "enrichment_rate": round(enrichment_rate, 2),
-            "muscles_auto_populated": 0  # Will be updated by enrich_workout_plan
+            "muscles_auto_populated": 0,  # Will be updated by enrich_workout_plan
+            "equipments_auto_populated": 0,  # Will be updated by enrich_workout_plan
+            "body_parts_auto_populated": 0,  # Will be updated by enrich_workout_plan
+            "keywords_auto_populated": 0  # Will be updated by enrich_workout_plan
         }
 
     def get_exercise_suggestions(self, exercise_names: List[str]) -> Dict:
