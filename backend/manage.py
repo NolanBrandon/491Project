@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-"""Django's command-line utility for administrative tasks."""
+from decouple import config
 import os
 import sys
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", config('DJANGO_SETTINGS_MODULE'))
 
 
 def main():

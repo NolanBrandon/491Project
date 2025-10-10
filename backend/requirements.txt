@@ -2,8 +2,8 @@
 Django==4.2.7
 djangorestframework==3.14.0
 
-# Database
-psycopg2-binary==2.9.7  # PostgreSQL adapter (optional)
+# Database (switch from psycopg2 to psycopg v3)
+psycopg[binary]==3.2.10  # <-- Change here
 dj-database-url==2.1.0
 
 # CORS handling

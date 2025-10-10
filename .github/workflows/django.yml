@@ -28,6 +28,10 @@ jobs:
           --health-timeout=5s
           --health-retries=5
 
+    env:
+      DJANGO_SETTINGS_MODULE: easyfitness_backend.settings
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -49,37 +53,34 @@ jobs:
       - name: Run migrations
         run: |
           cd backend
-          python manage.py migrate
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+          python manage.py migrate --noinput
 
-      - name: Run tests with JUnit output
+      - name: Run tests with Pytest + JUnit output
         run: |
           cd backend
-          pytest --junitxml=test_results.xml
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+          python -m pytest --junitxml=test_results.xml --disable-warnings -q
 
-      - name: Append test results and bug tracking
+      - name: Parse test results and failures
         run: |
           cd backend
           TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
 
-          # Append test results
+          echo "🧩 Parsing JUnit test results..."
           python ../cicd_scripts/parse_test_results.py test_results.xml ../docs/test_results.md
           echo "\n# CI Run: $TIMESTAMP\n" >> ../docs/test_results.md
 
-          # Append bug tracking
+          echo "🐞 Parsing test failures..."
           python ../cicd_scripts/parse_test_failures.py test_results.xml ../docs/bugs.md
           echo "\n# CI Run: $TIMESTAMP\n" >> ../docs/bugs.md
 
-      - name: Commit and push test docs (repo-only)
+      - name: Commit and push test docs (main repo only)
         if: github.repository_owner == 'NolanBrandon'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git add docs/test_results.md docs/bugs.md
-          git commit -m "Update test results and bug tracking from CI run" || echo "No changes to commit"
+          git commit -m "✅ Update test results and bug tracking from CI run" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }} HEAD:${{ github.head_ref || github.ref_name }}
 
       - name: Skip push for forked PRs
