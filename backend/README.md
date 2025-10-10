@@ -38,7 +38,7 @@ backend/
 1. **Clone the repository:**
    ```bash
    git clone <repository-url>
-   cd capstone/backend
+   cd ../backend
    ```
 
 2. **Create and activate a virtual environment:**

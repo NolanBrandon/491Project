@@ -11,7 +11,7 @@ class WorkoutPlanAdmin(admin.ModelAdmin):
 
 @admin.register(PlanDay)
 class PlanDayAdmin(admin.ModelAdmin):
-    list_display = ('id', 'plan', 'day')
+    list_display = ('id', 'plan', 'day_number')
 
 @admin.register(PlanExercise)
 class PlanExerciseAdmin(admin.ModelAdmin):
