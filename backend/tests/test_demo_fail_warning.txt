@@ -1,0 +1,16 @@
+import unittest
+import warnings
+
+class TestDemoFailWarning(unittest.TestCase):
+
+    def test_warning_example(self):
+        # This will emit a warning, change the file into PY to test failures, otherwise ignore
+        warnings.warn("This is a demo warning for testing Markdown logging", UserWarning)
+        self.assertTrue(True)
+
+    def test_failure_example(self):
+        # This will intentionally fail
+        self.assertEqual(1, 0, "This is a demo failure for testing Markdown logging")
+
+if __name__ == "__main__":
+    unittest.main()
