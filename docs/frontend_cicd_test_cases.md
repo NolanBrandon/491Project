@@ -55,18 +55,7 @@ Expected Output:
 - Failure: "Build failed: .next directory not found" or "BUILD_ID not found"
 
 ---
-
-Test Case 1.5: Code Coverage Report
-Test Command: npx jest --coverage --ci --reporters=default --reporters=jest-junit
-Purpose: Measure and publish coverage; enforce thresholds
-Execution: GitHub Actions job “Code Coverage”; local: `cd easyfitness && npm test -- --coverage`
-Expected Output:
-- Success: `easyfitness/coverage/` (lcov, html) generated; overall >= 50% thresholds; optional PR comment
-- Failure: Coverage below thresholds; non-zero exit code and report still uploaded
-
----
-
-Test Case 1.6: Dependency Security Audit
+Test Case 1.5: Dependency Security Audit
 Test Command: npm audit --audit-level=moderate
 Purpose: Detect known vulnerabilities in dependencies
 Execution: GitHub Actions job “Dependency Security Check”; local: `cd easyfitness && npm audit --audit-level=moderate`
@@ -76,7 +65,7 @@ Expected Output:
 
 ---
 
-Test Case 1.7: Deployment Readiness — Server Startup
+Test Case 1.6: Deployment Readiness — Server Startup
 Test Command: npm run start (after build), curl http://localhost:3000
 Purpose: Validate that the production server can start and respond
 Execution: GitHub Actions job “Deployment Readiness Check”; local: build then start and curl
@@ -86,7 +75,7 @@ Expected Output:
 
 ---
 
-Test Case 1.8: Bundle Size Report
+Test Case 1.7: Bundle Size Report
 Test Function: CI step scans `.next/static` for JS bundles
 Purpose: Provide visibility into bundle size changes
 Execution: GitHub Actions job “Deployment Readiness Check” → step “Check Bundle Size”
@@ -96,7 +85,7 @@ Expected Output:
 
 ---
 
-Test Case 1.9: Lighthouse CI (Basic)
+Test Case 1.8: Lighthouse CI (Basic)
 Test Command: lhci autorun --upload.target=temporary-public-storage --collect.url=http://localhost:3000
 Purpose: Basic performance and best-practices check on the built app
 Execution: GitHub Actions job “Deployment Readiness Check” → step “Lighthouse CI (Basic)”
@@ -106,21 +95,19 @@ Expected Output:
 
 ---
 
-Test Case 1.10: Aggregated Status Gate
+Test Case 1.9: Aggregated Status Gate
 Test Function: Workflow job “All Checks Complete”
-Purpose: Enforce that tests, coverage, and security checks all passed
-Execution: GitHub Actions job “Status Check” with `needs: [test, coverage, dependency-check]`
+Purpose: Enforce that tests and security checks all passed
+Execution: GitHub Actions job “Status Check” with `needs: [test, dependency-check]`
 Expected Output:
 - Success: "All checks passed! ✅"
-- Failure: Emits specific failure message (e.g., "Tests failed", "Coverage check failed", "Dependency check failed") and exits non-zero
+- Failure: Emits specific failure message (e.g., "Tests failed", "Dependency check failed") and exits non-zero
 
 ---
 
 Locations & Config
 - Workflow: `.github/workflows/frontend-build.yml`
-- Jest config (coverage thresholds): `easyfitness/jest.config.js`
 - Tests: `easyfitness/src/app/__tests__/*.test.tsx`
 - Artifacts:
   - Test Results: `easyfitness/test-results/`
-  - Coverage: `easyfitness/coverage/`
   - Build: `easyfitness/.next/` (cache excluded)
