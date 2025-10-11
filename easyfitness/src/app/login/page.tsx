@@ -24,7 +24,7 @@ export default function LoginPage() {
       <div className="content-grow flex items-center justify-center px-4 py-12">
         <div className="auth-card space-y-8">
           <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold tracking-wide">Sign in</h2>
+            <h2 className="text-2xl font-bold tracking-wide">Sign in to your account</h2>
             <p className="auth-muted">Welcome back to EasyFitness</p>
           </div>
           <form className="space-y-5" onSubmit={handleSubmit}>
