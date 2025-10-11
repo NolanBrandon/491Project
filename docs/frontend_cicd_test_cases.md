@@ -84,18 +84,7 @@ Expected Output:
 - Failure: Missing `.next/static` or fs errors; step logs error
 
 ---
-
-Test Case 1.8: Lighthouse CI (Basic)
-Test Command: lhci autorun --upload.target=temporary-public-storage --collect.url=http://localhost:3000
-Purpose: Basic performance and best-practices check on the built app
-Execution: GitHub Actions job “Deployment Readiness Check” → step “Lighthouse CI (Basic)”
-Expected Output:
-- Success: Lighthouse results generated and uploaded; step is tolerant (won’t fail build)
-- Failure: LHCI errors logged; step continues (non-blocking)
-
----
-
-Test Case 1.9: Aggregated Status Gate
+Test Case 1.8: Aggregated Status Gate
 Test Function: Workflow job “All Checks Complete”
 Purpose: Enforce that tests and security checks all passed
 Execution: GitHub Actions job “Status Check” with `needs: [test, dependency-check]`

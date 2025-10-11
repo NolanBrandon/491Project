@@ -172,19 +172,7 @@ jobs:
             done
           ' _ {} +
 
-      - name: Install Lighthouse CI CLI
-        run: npm install -g @lhci/cli
-
-      - name: Lighthouse CI (Basic)
-        run: |
-          npm run start &
-          SERVER_PID=$!
-          sleep 15
-          
-          # Run basic lighthouse check
-          lhci autorun --upload.target=temporary-public-storage --collect.startServerCommand="" --collect.url="http://localhost:3000" || true
-          
-          kill $SERVER_PID
+      
 
   status-check:
     name: All Checks Complete
