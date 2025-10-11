@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 // Use Next.js provided Jest preset to handle SWC/Babel transforms, ESM modules, CSS modules, etc.
 const nextJest = require('next/jest');
 
@@ -24,8 +25,8 @@ const customJestConfig = {
     '/node_modules/(?!(framer-motion|@nextui-org|@heroui|@heroui/react|@heroui/navbar)/)'
   ],
   testMatch: [
-    '<rootDir>/src/**/__tests__/**/*.(ts|tsx|js|jsx)',
-    '<rootDir>/src/**/*.(test|spec).(ts|tsx|js|jsx)'
+    '<rootDir>/src/**/__tests__/**/*.{ts,tsx,js,jsx}',
+    '<rootDir>/src/**/*.{test,spec}.{ts,tsx,js,jsx}'
   ],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
@@ -47,8 +48,8 @@ const customJestConfig = {
   testTimeout: 10000,
   // Fail fast in CI
   bail: process.env.CI ? 1 : 0,
-  // Verbose output in CI
-  verbose: process.env.CI ? true : false
+  // Always show individual test results
+  verbose: true
 };
 
 module.exports = createJestConfig(customJestConfig);

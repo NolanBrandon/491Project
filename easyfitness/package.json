@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "jest --passWithNoTests",
-    "test:watch": "jest --watch",
-    "test:ci": "jest --ci --reporters=default --reporters=jest-junit"
+    "test": "jest --config ./jest.config.js --verbose",
+    "test:watch": "jest --config ./jest.config.js --watch --verbose",
+    "test:ci": "jest --config ./jest.config.js --ci --reporters=default --reporters=jest-junit --verbose"
   },
   "dependencies": {
     "@heroui/navbar": "^2.2.24",
