@@ -6,12 +6,22 @@ from .models import (
     User,
     UserMetrics,
     Goal,
-    Food,
-    NutritionLog,
     Exercise,
+    Muscle,
+    ExerciseMuscle,
+    Equipment,
+    ExerciseEquipment,
+    BodyPart,
+    ExerciseBodyPart,
+    Keyword,
+    ExerciseKeyword,
+    RelatedExercise,
     WorkoutPlan,
     PlanDay,
     PlanExercise,
+    WorkoutLog,
+    Food,
+    NutritionLog,
     MealPlan,
     MealPlanDay,
     Recipe,
@@ -25,17 +35,27 @@ from .serializers import (
     UserSerializer,
     UserMetricsSerializer,
     GoalSerializer,
-    FoodSerializer,
-    NutritionLogSerializer,
     ExerciseSerializer,
+    MuscleSerializer,
+    ExerciseMuscleSerializer,
+    EquipmentSerializer,
+    ExerciseEquipmentSerializer,
+    BodyPartSerializer,
+    ExerciseBodyPartSerializer,
+    KeywordSerializer,
+    ExerciseKeywordSerializer,
+    RelatedExerciseSerializer,
     WorkoutPlanSerializer,
     PlanDaySerializer,
     PlanExerciseSerializer,
+    WorkoutLogSerializer,
+    FoodSerializer,
+    NutritionLogSerializer,
     MealPlanSerializer,
     MealPlanDaySerializer,
     RecipeSerializer,
     MealPlanEntrySerializer,
-    IngredientsSerializer,
+    IngredientSerializer,
     RecipeIngredientSerializer,
     TagSerializer,
     RecipeTagSerializer
@@ -80,6 +100,51 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     serializer_class = ExerciseSerializer
     permission_classes = [AllowAny]
 
+class MuscleViewSet(viewsets.ModelViewSet):
+    queryset = Muscle.objects.all()
+    serializer_class = MuscleSerializer
+    permission_classes = [AllowAny]
+
+class ExerciseMuscleViewSet(viewsets.ModelViewSet):
+    queryset = ExerciseMuscle.objects.all()
+    serializer_class = ExerciseMuscleSerializer
+    permission_classes = [AllowAny]
+
+class EquipmentViewSet(viewsets.ModelViewSet):
+    queryset = Equipment.objects.all()
+    serializer_class = EquipmentSerializer
+    permission_classes = [AllowAny]
+
+class ExerciseEquipmentViewSet(viewsets.ModelViewSet):
+    queryset = ExerciseEquipment.objects.all()
+    serializer_class = ExerciseEquipmentSerializer
+    permission_classes = [AllowAny]
+
+class BodyPartViewSet(viewsets.ModelViewSet):
+    queryset = BodyPart.objects.all()
+    serializer_class = BodyPartSerializer
+    permission_classes = [AllowAny]
+
+class ExerciseBodyPartViewSet(viewsets.ModelViewSet):
+    queryset = ExerciseBodyPart.objects.all()
+    serializer_class = ExerciseBodyPartSerializer
+    permission_classes = [AllowAny]
+
+class KeywordViewSet(viewsets.ModelViewSet):
+    queryset = Keyword.objects.all()
+    serializer_class = KeywordSerializer
+    permission_classes = [AllowAny]
+
+class ExerciseKeywordViewSet(viewsets.ModelViewSet):
+    queryset = ExerciseKeyword.objects.all()
+    serializer_class = ExerciseKeywordSerializer
+    permission_classes = [AllowAny]
+
+class RelatedExerciseViewSet(viewsets.ModelViewSet):
+    queryset = RelatedExercise.objects.all()
+    serializer_class = RelatedExerciseSerializer
+    permission_classes = [AllowAny]
+
 class WorkoutPlanViewSet(viewsets.ModelViewSet):
     queryset = WorkoutPlan.objects.all()
     serializer_class = WorkoutPlanSerializer
@@ -93,6 +158,11 @@ class PlanDayViewSet(viewsets.ModelViewSet):
 class PlanExerciseViewSet(viewsets.ModelViewSet):
     queryset = PlanExercise.objects.all()
     serializer_class = PlanExerciseSerializer
+    permission_classes = [AllowAny]
+
+class WorkoutLogViewSet(viewsets.ModelViewSet):
+    queryset = WorkoutLog.objects.all()
+    serializer_class = WorkoutLogSerializer
     permission_classes = [AllowAny]
 
 # -------------------------------
