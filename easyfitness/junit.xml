@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="11" failures="0" errors="0" time="4.858">
+  <testsuite name="My Log Page" errors="0" failures="0" skipped="0" timestamp="2025-10-11T21:07:58" time="2.226" tests="1">
+    <testcase classname="My Log Page renders My Log heading" name="My Log Page renders My Log heading" time="0.067">
+    </testcase>
+  </testsuite>
+  <testsuite name="Progress Page" errors="0" failures="0" skipped="0" timestamp="2025-10-11T21:07:58" time="2.228" tests="1">
+    <testcase classname="Progress Page renders Progress heading" name="Progress Page renders Progress heading" time="0.067">
+    </testcase>
+  </testsuite>
+  <testsuite name="Routine Recommendation Page" errors="0" failures="0" skipped="0" timestamp="2025-10-11T21:07:58" time="2.229" tests="1">
+    <testcase classname="Routine Recommendation Page renders Routine Recommendation heading" name="Routine Recommendation Page renders Routine Recommendation heading" time="0.068">
+    </testcase>
+  </testsuite>
+  <testsuite name="Nutrition Page" errors="0" failures="0" skipped="0" timestamp="2025-10-11T21:07:58" time="2.23" tests="1">
+    <testcase classname="Nutrition Page renders Nutrition heading" name="Nutrition Page renders Nutrition heading" time="0.069">
+    </testcase>
+  </testsuite>
+  <testsuite name="Login Page" errors="0" failures="0" skipped="0" timestamp="2025-10-11T21:07:58" time="2.26" tests="2">
+    <testcase classname="Login Page renders login heading" name="Login Page renders login heading" time="0.074">
+    </testcase>
+    <testcase classname="Login Page allows typing email and password" name="Login Page allows typing email and password" time="0.026">
+    </testcase>
+  </testsuite>
+  <testsuite name="Home Page" errors="0" failures="0" skipped="0" timestamp="2025-10-11T21:07:58" time="4.001" tests="5">
+    <testcase classname="Home Page renders the EasyFitness title" name="Home Page renders the EasyFitness title" time="0.073">
+    </testcase>
+    <testcase classname="Home Page renders without crashing" name="Home Page renders without crashing" time="0.009">
+    </testcase>
+    <testcase classname="Home Page has proper page structure" name="Home Page has proper page structure" time="0.011">
+    </testcase>
+    <testcase classname="Home Page contains navigation links" name="Home Page contains navigation links" time="0.025">
+    </testcase>
+    <testcase classname="Home Page is accessible" name="Home Page is accessible" time="0.006">
+    </testcase>
+  </testsuite>
+</testsuites>
