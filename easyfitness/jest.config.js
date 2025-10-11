@@ -30,7 +30,24 @@ const customJestConfig = {
     'src/**/*.{ts,tsx}',
     '!src/**/types.{ts,tsx}',
     '!src/**/*.d.ts'
-  ]
+  ],
+  // Coverage thresholds for CI/CD
+  coverageThreshold: {
+    global: {
+      branches: 50,
+      functions: 50,
+      lines: 50,
+      statements: 50
+    }
+  },
+  // Coverage reporting
+  coverageReporters: ['text', 'lcov', 'html', 'json-summary'],
+  // Test timeout for CI environments
+  testTimeout: 10000,
+  // Fail fast in CI
+  bail: process.env.CI ? 1 : 0,
+  // Verbose output in CI
+  verbose: process.env.CI ? true : false
 };
 
 module.exports = createJestConfig(customJestConfig);

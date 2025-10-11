@@ -1,14 +1,19 @@
-name: Frontend Build 
+name: Frontend Build & Test
 
 on:
   pull_request:
     paths:
       - 'easyfitness/**'
       - '.github/workflows/frontend-build.yml'
+  push:
+    branches: [main, develop]
+    paths:
+      - 'easyfitness/**'
+      - '.github/workflows/frontend-build.yml'
 
 jobs:
-  build:
-    name: Build Next.js app
+  test:
+    name: Frontend Tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -16,13 +21,13 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [18.x, 20.x]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
@@ -37,8 +42,235 @@ jobs:
         if: hashFiles('easyfitness/package-lock.json') == ''
         run: npm install
 
+      - name: Type Check
+        run: npx tsc --noEmit
 
-      - name: Build
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Unit Tests
+        run: npm run test:ci
+        env:
+          JEST_JUNIT_OUTPUT_DIR: ./test-results/
+          JEST_JUNIT_OUTPUT_NAME: junit.xml
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-node-${{ matrix.node-version }}
+          path: easyfitness/test-results/
+
+      - name: Build Application
         env:
           NEXT_TELEMETRY_DISABLED: 1
         run: npm run build
+
+      - name: Verify Build Output
+        run: |
+          if [ ! -d ".next" ]; then
+            echo "Build failed: .next directory not found"
+            exit 1
+          fi
+          if [ ! -f ".next/BUILD_ID" ]; then
+            echo "Build failed: BUILD_ID not found"
+            exit 1
+          fi
+          echo "Build verification successful"
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-node-${{ matrix.node-version }}
+          path: |
+            easyfitness/.next/
+            !easyfitness/.next/cache/
+          retention-days: 7
+
+  coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: easyfitness
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+          cache-dependency-path: easyfitness/package-lock.json
+
+      - name: Install dependencies (npm ci)
+        if: hashFiles('easyfitness/package-lock.json') != ''
+        run: npm ci
+
+      - name: Install dependencies (npm install fallback)
+        if: hashFiles('easyfitness/package-lock.json') == ''
+        run: npm install
+
+      - name: Run Tests with Coverage
+        run: npx jest --coverage --ci --reporters=default --reporters=jest-junit
+        env:
+          JEST_JUNIT_OUTPUT_DIR: ./test-results/
+          JEST_JUNIT_OUTPUT_NAME: junit.xml
+
+      - name: Upload Coverage Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: easyfitness/coverage/
+
+      - name: Comment Coverage on PR
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const fs = require('fs');
+            try {
+              const coverageText = fs.readFileSync('easyfitness/coverage/lcov-report/index.html', 'utf8');
+              // Extract coverage percentage (simplified)
+              const match = coverageText.match(/class="strong">(\d+\.?\d*)%/);
+              const coverage = match ? match[1] : 'Unknown';
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 📊 Code Coverage Report\n\n**Overall Coverage:** ${coverage}%\n\n[View detailed coverage report in artifacts]`
+              });
+            } catch (error) {
+              console.log('Could not post coverage comment:', error);
+            }
+
+  dependency-check:
+    name: Dependency Security Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: easyfitness
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+          cache-dependency-path: easyfitness/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Run Security Audit
+        run: npm audit --audit-level=moderate
+
+      - name: Check for Outdated Dependencies
+        run: npm outdated || true
+
+      - name: Validate Package Lock
+        run: npm ls --depth=0
+
+  deployment-readiness:
+    name: Deployment Readiness Check
+    runs-on: ubuntu-latest
+    needs: [test, coverage]
+    if: github.event_name == 'pull_request'
+    defaults:
+      run:
+        working-directory: easyfitness
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+          cache-dependency-path: easyfitness/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Build for Production
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+          NODE_ENV: production
+        run: npm run build
+
+      - name: Test Production Build Start
+        run: |
+          npm run start &
+          SERVER_PID=$!
+          sleep 10
+          
+          # Test if server responds
+          curl -f http://localhost:3000 || (echo "Server failed to start" && kill $SERVER_PID && exit 1)
+          
+          # Cleanup
+          kill $SERVER_PID
+
+      - name: Check Bundle Size
+        run: |
+          echo "## 📦 Bundle Size Report" >> $GITHUB_STEP_SUMMARY
+          echo "| File | Size |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|" >> $GITHUB_STEP_SUMMARY
+          
+          find .next/static -name "*.js" -type f -exec sh -c '
+            for file do
+              size=$(du -h "$file" | cut -f1)
+              name=$(basename "$file")
+              echo "| $name | $size |" >> $GITHUB_STEP_SUMMARY
+            done
+          ' _ {} +
+
+      - name: Lighthouse CI (Basic)
+        run: |
+          npm install -g lighthouse-ci
+          npm run start &
+          SERVER_PID=$!
+          sleep 15
+          
+          # Run basic lighthouse check
+          lhci autorun --upload.target=temporary-public-storage --collect.startServerCommand="" --collect.url="http://localhost:3000" || true
+          
+          kill $SERVER_PID
+
+  status-check:
+    name: All Checks Complete
+    runs-on: ubuntu-latest
+    needs: [test, coverage, dependency-check]
+    if: always()
+    
+    steps:
+      - name: Check Job Status
+        run: |
+          echo "Test Job: ${{ needs.test.result }}"
+          echo "Coverage Job: ${{ needs.coverage.result }}"
+          echo "Dependency Check: ${{ needs.dependency-check.result }}"
+          
+          if [[ "${{ needs.test.result }}" != "success" ]]; then
+            echo "Tests failed"
+            exit 1
+          fi
+          
+          if [[ "${{ needs.coverage.result }}" != "success" ]]; then
+            echo "Coverage check failed"
+            exit 1
+          fi
+          
+          if [[ "${{ needs.dependency-check.result }}" != "success" ]]; then
+            echo "Dependency check failed"
+            exit 1
+          fi
+          
+          echo "All checks passed! ✅"
