@@ -1,11 +1,10 @@
 // Use Next.js provided Jest preset to handle SWC/Babel transforms, ESM modules, CSS modules, etc.
-const nextJest = require('next/jest');
+import nextJest from 'next/jest';
 
 const createJestConfig = nextJest({
   // Path to your Next.js app (root where next.config.* lives)
   dir: './'
 });
-
 
 /** @type {import('jest').Config} */
 const customJestConfig = {
@@ -51,4 +50,4 @@ const customJestConfig = {
   verbose: process.env.CI ? true : false
 };
 
-module.exports = createJestConfig(customJestConfig);
+export default createJestConfig(customJestConfig);
