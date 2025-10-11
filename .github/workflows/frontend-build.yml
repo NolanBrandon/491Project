@@ -137,13 +137,18 @@ jobs:
               // Extract coverage percentage (simplified)
               const match = coverageText.match(/class="strong">(\d+\.?\d*)%/);
               const coverage = match ? match[1] : 'Unknown';
-              
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: `## 📊 Code Coverage Report\n\n**Overall Coverage:** ${coverage}%\n\n[View detailed coverage report in artifacts]`
-              });
+
+              // Guard: Only comment if PR originates from the same repository (not a fork)
+              if (context.payload.pull_request.head.repo.full_name === `${context.repo.owner}/${context.repo.repo}`) {
+                await github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: `## 📊 Code Coverage Report\n\n**Overall Coverage:** ${coverage}%\n\n[View detailed coverage report in artifacts]`
+                });
+              } else {
+                console.log('Skipping coverage comment: PR from fork');
+              }
             } catch (error) {
               console.log('Could not post coverage comment:', error);
             }
