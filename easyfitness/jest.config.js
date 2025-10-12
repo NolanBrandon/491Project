@@ -1,36 +1,26 @@
-// Use Next.js provided Jest preset to handle SWC/Babel transforms, ESM modules, CSS modules, etc.
+// jest.config.js
+require('dotenv').config(); // <-- loads .env variables
+
 const nextJest = require('next/jest');
 
 const createJestConfig = nextJest({
-  // Path to your Next.js app (root where next.config.* lives)
-  dir: './'
+  dir: './', // Path to your Next.js app
 });
 
-/** @type {import('jest').Config} */
 const customJestConfig = {
-  testEnvironment: 'jest-environment-jsdom',
-  // Setup scripts
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  // Map path aliases & style imports
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '^.+\\.(css|less|scss|sass)$': 'identity-obj-proxy'
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
-  // Tell Jest to transform specific ESM packages inside node_modules that ship untranspiled code.
-  // Anything not listed here remains ignored for performance.
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+  },
   transformIgnorePatterns: [
-    '/node_modules/(?!(framer-motion|@nextui-org|@heroui|@heroui/react|@heroui/navbar)/)'
+    '/node_modules/(?!(axios|@supabase|@heroui|@nextui-org)/)',
   ],
-  testMatch: [
-    '<rootDir>/src/**/__tests__/**/*.(ts|tsx|js|jsx)',
-    '<rootDir>/src/**/*.(test|spec).(ts|tsx|js|jsx)'
-  ],
-  collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    '!src/**/types.{ts,tsx}',
-    '!src/**/*.d.ts'
-  ]
 };
 
+// Export the Jest config
 module.exports = createJestConfig(customJestConfig);
