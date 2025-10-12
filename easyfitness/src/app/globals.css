@@ -62,7 +62,15 @@
   line-height: 1.75rem;
   padding: 0.5rem 1rem; /* py-2 px-4 */
   font-family: 'Akira Expanded', sans-serif; /* font-akira */
+  color: #ffffff; /* <-- make links white */
+  text-decoration: none;
 }
+
+.nav-link:hover {
+  text-decoration: underline;
+  color: #93c5fd; /* optional hover color */
+}
+
 
 /* Footer styles to mirror navbar formatting */
 .footer-root {
@@ -171,18 +179,53 @@ button {
 }
 
 /* Generic page container for other pages */
-.page-container {
+.page-container,
+.content-grow {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  color: #ffffff; /* Make all text white inside these containers */
 }
 
-/* Content area that grows to push footer to bottom */
-.content-grow {
-  flex: 1 0 auto;
-  display: flex;
-  flex-direction: column;
+/* Ensure headings inside containers are white */
+.page-container h1,
+.page-container h2,
+.page-container h3,
+.content-grow h1,
+.content-grow h2,
+.content-grow h3 {
+  color: #ffffff;
 }
+
+/* Navbar links already set to white */
+.nav-link {
+  font-size: 1.25rem; /* text-xl */
+  line-height: 1.75rem;
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  font-family: 'Akira Expanded', sans-serif; /* font-akira */
+  color: #ffffff; /* white links */
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+  color: #93c5fd; /* optional hover color */
+}
+
+/* Footer text and links */
+.footer-root,
+.footer-left,
+.footer-center,
+.footer-right,
+.footer-link,
+.footer-brand {
+  color: #ffffff;
+}
+
+.footer-link:hover {
+  color: #93c5fd; /* optional hover on footer links */
+}
+
 
 /* Blurred background layer for non-home pages */
 .blur-bg {
