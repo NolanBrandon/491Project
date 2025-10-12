@@ -1,0 +1,1537 @@
+{
+  "success": true,
+  "data": {
+    "plan_name": "Advanced 5-Day Strength & Power Cycle",
+    "plan_description": "A high-frequency, compound-lift focused 5-day program designed for advanced lifters aiming to maximize strength across major lifts, incorporating strategic recovery.",
+    "days": [
+      {
+        "day_number": 1,
+        "day_name": "Lower Body Strength (Squat Focus)",
+        "exercises": [
+          {
+            "exercise_name": "Barbell Back Squat",
+            "sets": 4,
+            "reps": "3-5",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hKZmyYXB2UL4",
+              "name": "Elbows Back Stretch ",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/F99SEwF/41n2hKZmyYXB2UL4__Elbows-Back-Stretch-(male)_Chest.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/QUu6Gmp/41n2hKZmyYXB2UL4__Elbows-Back-Stretch-(male)_Chest.mp4",
+              "bodyParts": [
+                "BACK",
+                "CHEST"
+              ],
+              "equipments": [
+                "BODY WEIGHT"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Bodyweight back stretch",
+                "Elbows back exercise",
+                "Back and chest workout",
+                "Bodyweight chest stretch",
+                "Elbow stretch for back",
+                "Home exercise for back and chest",
+                "No equipment back stretch",
+                "Bodyweight exercise for back strength",
+                "Elbows back stretching technique",
+                "Chest opening bodyweight exercise"
+              ],
+              "overview": "The Elbows Back Stretch is a simple yet effective exercise designed to improve upper body flexibility and posture by targeting the chest and shoulder muscles. It's an excellent choice for anyone, especially those who spend long hours at a desk or performing repetitive tasks that can lead to poor posture. Incorporating this stretch into your routine can help alleviate tension, reduce the risk of injury, and promote better overall body alignment, making it a desirable exercise for maintaining physical health.",
+              "instructions": [
+                "Bend your elbows so that your hands are pointing up and your palms are facing forward.",
+                "Bring your elbows together behind your back as far as you can while keeping your hands pointing upward.",
+                "Hold this stretch for about 20 to 30 seconds, feeling the stretch in your chest and front shoulders.",
+                "Slowly return your arms to the starting position and repeat the exercise for the desired number of repetitions."
+              ],
+              "exerciseTips": [
+                "Arm Position: When performing the stretch, ensure your hands are behind your head and your elbows are pointing backwards. Avoid pulling on your neck or head which can cause strain. Instead, focus on moving your elbows back.",
+                "Controlled Movement: The movement should be slow and controlled. Avoid jerky or fast movements which can lead to muscle strain or injury. Take your time to feel the stretch in your chest and shoulders.",
+                "Breathing: Proper breathing is essential during any exercise. Inhale as you prepare for the stretch and exhale as you perform the stretch. This will help your muscles relax and increase the effectiveness of the stretch.",
+                "Regular Breaks: Do not hold the"
+              ],
+              "variations": [
+                "The Overhead Elbow Stretch: For this variation, you raise one arm straight up, bend it at the elbow to reach your upper back, and then use your other hand to apply gentle pressure on the bent elbow.",
+                "The Seated Elbow Stretch: This involves sitting on a chair, bending your arm behind your head and using the other hand to pull the elbow. This is great for those who may have balance issues.",
+                "The Lying Down Elbow Stretch: This is done by lying flat on your back, bending one arm behind your head, and using the other hand to gently pull the elbow. This variation can be more relaxing and less strenuous on the back.",
+                "The Wall-Assisted Elbow Stretch: In this variation, you stand facing a wall, place your palm on"
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hQeNyCnt3uFh",
+                "exr_41n2hw1QspZ6uXoW",
+                "exr_41n2hkknYAEEE3tc",
+                "exr_41n2hMydkzFvswVX",
+                "exr_41n2hUJNPAuUdoK7",
+                "exr_41n2hYWXejezzLjv",
+                "exr_41n2hcCMN6f2LNKG",
+                "exr_41n2hHRJwEk592pK",
+                "exr_41n2hu9qvtvbM3tV",
+                "exr_41n2hGu2acThJ2NB"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Elbows Back Stretch ",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Romanian Deadlift (RDL)",
+            "sets": 3,
+            "reps": "6-8",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hn8rpbYihzEW",
+              "name": "Romanian Deadlift",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/QxA3A5m/41n2hn8rpbYihzEW__Dumbbell-Romanian-Deadlift_Hips.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/sZiAup2/41n2hn8rpbYihzEW__Dumbbell-Romanian-Deadlift_Hips.mp4",
+              "bodyParts": [
+                "HIPS"
+              ],
+              "equipments": [
+                "DUMBBELL"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Dumbbell Romanian Deadlift workout",
+                "Hip strengthening exercises with Dumbbell",
+                "Dumbbell RDL for hip muscles",
+                "Romanian Deadlift hip workout",
+                "Strengthening hips with Romanian Deadlift",
+                "Dumbbell exercise for hip muscles",
+                "Hip-focused Romanian Deadlift",
+                "Dumbbell Romanian Deadlift for hip strength",
+                "Romanian Deadlift training for hips",
+                "Hip targeting exercises with Dumbbell."
+              ],
+              "overview": "The Romanian Deadlift is a highly effective strength training exercise that primarily targets the muscles of your lower back, glutes, and hamstrings. It is suitable for both beginners and advanced fitness enthusiasts as it can be modified to fit individual strength and skill levels. People might choose to incorporate this exercise into their routine due to its ability to improve overall strength, enhance muscle definition, and boost athletic performance.",
+              "instructions": [
+                "Keep your back straight and your shoulders back as you begin to bend at the hips, pushing them back while you lower the barbell along the front of your legs.",
+                "Continue lowering the barbell until it reaches mid-shin level, or until you feel a stretch in your hamstrings, making sure to keep the barbell close to your body throughout the movement.",
+                "After reaching this position, pause for a moment, and then slowly reverse the movement by driving your hips forward and standing back up to the starting position, squeezing your glutes at the top.",
+                "Remember to keep your core engaged and your back straight throughout the entire exercise to avoid injury."
+              ],
+              "exerciseTips": [
+                "Maintain a Neutral Spine: One common mistake is rounding the back during the movement, which can lead to injury. Instead, keep your back straight and your core engaged throughout the exercise. Your shoulders should be back and down, not hunched.",
+                "Hinge at the Hips: The Romanian Deadlift is a hip-hinge movement, meaning the action comes from bending at the hips, not the waist. Push your hips back as you lower the weights towards the ground, keeping them close to your legs to avoid straining your lower back.",
+                "Don\u2019t Lock Your Knees: Another common mistake is to lock your knees during the exercise. Your"
+              ],
+              "variations": [
+                "Dumbbell Romanian Deadlift: Instead of using a barbell, this variation utilizes dumbbells, allowing for a greater range of motion and targeting slightly different muscle groups.",
+                "Banded Romanian Deadlift: This variation incorporates a resistance band, which adds an extra level of challenge and helps to engage the glutes and hamstrings more effectively.",
+                "Deficit Romanian Deadlift: For this variation, you stand on a raised platform, which increases the range of motion and intensifies the stretch and engagement of the hamstrings.",
+                "Trap Bar Romanian Deadlift: This variation uses a trap bar instead of a standard barbell, which can be easier on the lower back and allows for a more neutral grip."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hqxV9YHN8SRE",
+                "exr_41n2ht4M6VatASeM",
+                "exr_41n2hxemCRnh3qzY",
+                "exr_41n2hHitkzn3vJj6",
+                "exr_41n2hXP5kHuAndaw",
+                "exr_41n2hXSYVwvP8V1m",
+                "exr_41n2hf3pjvn5ru6Z",
+                "exr_41n2hp3BptAS1Pu9",
+                "exr_41n2hLGstkoU4R13",
+                "exr_41n2hoMeAG4f2BQP"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Romanian Deadlift",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Leg Press",
+            "sets": 3,
+            "reps": "8-10",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hMRXm49mM62z",
+              "name": "Arnold Press",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/x8gEzvq/41n2hMRXm49mM62z__Dumbbell-Arnold-Press-II_Shoulders.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/08ys3e3/41n2hMRXm49mM62z__Dumbbell-Arnold-Press-II_Shoulders.mp4",
+              "bodyParts": [
+                "SHOULDERS"
+              ],
+              "equipments": [
+                "DUMBBELL"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Arnold Dumbbell Press",
+                "Shoulder Strengthening Exercises",
+                "Arnold Press Workout",
+                "Dumbbell Exercises for Shoulders",
+                "Arnold Shoulder Press",
+                "Bodybuilding Shoulder Workouts",
+                "Arnold Schwarzenegger Shoulder Exercise",
+                "How to do Arnold Press",
+                "Dumbbell Arnold Press Technique",
+                "Fitness Routine for Shoulder Muscles"
+              ],
+              "overview": "The Arnold Press is a versatile shoulder exercise that targets multiple muscles, promoting upper body strength and improved shoulder mobility. It's suitable for anyone from beginners to advanced fitness enthusiasts, offering modifications to cater to all fitness levels. People would want to perform this exercise not only to enhance their physical aesthetics, but also to improve their functional fitness, aiding in everyday activities and preventing shoulder injuries.",
+              "instructions": [
+                "Raise the dumbbells to shoulder height, then rotate your palms so they are facing forward.",
+                "Push the dumbbells upward until your arms are fully extended above your head.",
+                "Slowly lower the dumbbells back to shoulder height while rotating your palms to face your body again.",
+                "This completes one rep; repeat the process for your desired number of repetitions."
+              ],
+              "exerciseTips": [
+                "Controlled Movements: Avoid rushing through the movements. The Arnold Press should be performed slowly and controlled, both when lifting and lowering the weights. This not only ensures the targeted muscles are fully engaged, but also reduces the risk of injury.",
+                "Right Weight: Select a weight that is challenging but manageable. Using weights that are too heavy can lead to improper form and increase the risk of injury. On the other hand, weights that are too light might not provide enough resistance to effectively work the muscles.",
+                "Breathing Technique: Remember to breathe correctly. Inhale as you lower the weights"
+              ],
+              "variations": [
+                "Single-Arm Arnold Press: This variation is done by lifting one arm at a time, which helps to isolate and focus on each shoulder independently.",
+                "Standing Arnold Press: In this variation, the exercise is performed while standing, which requires more balance and engages the core muscles.",
+                "Alternating Arnold Press: This variation involves alternating between lifting the right and left dumbbells, which can help to improve coordination and balance.",
+                "Incline Arnold Press: This variation is performed on an incline bench, which targets the shoulder muscles from a different angle and can help to increase the range of motion."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hqBuTxvTWdaR",
+                "exr_41n2hHvaoaxzofoC",
+                "exr_41n2hzHyacL21TgE",
+                "exr_41n2hrbvL2DyjNkU",
+                "exr_41n2hHg8saAfvZSn",
+                "exr_41n2hgwk2tTmMCiB",
+                "exr_41n2hrC68sfKX8jC",
+                "exr_41n2hrF9tpS3TzMk",
+                "exr_41n2hnJphf3J99Vn",
+                "exr_41n2hGoCsXngMeQC"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Arnold Press",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Standing Calf Raises",
+            "sets": 3,
+            "reps": "10-15",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hzfRXQDaLYJh",
+              "name": "Standing Calf Raise ",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/XyFQ7cr/41n2hzfRXQDaLYJh__Standing-Calf-Raise-(female)_Calves.png"
+            },
+            "data_source": "exercisedb_api_search",
+            "match_confidence": "medium",
+            "matched_exercise_name": "Standing Calf Raise ",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Weighted Plank",
+            "sets": 3,
+            "reps": "45-60 seconds",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hXQw5yAbbXL8",
+              "name": "Front Plank",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/SGDtnU7/41n2hXQw5yAbbXL8__Front-Plank_Waist.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/nJZVWqt/41n2hXQw5yAbbXL8__Front-Plank-(female)_Waist_.mp4",
+              "bodyParts": [
+                "WAIST"
+              ],
+              "equipments": [
+                "BODY WEIGHT"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Body weight exercise for waist",
+                "Front Plank workout",
+                "Core strengthening exercises",
+                "Waist toning exercises",
+                "Bodyweight Plank routine",
+                "Exercises for a slimmer waist",
+                "Home workout for waist",
+                "Front Plank for core strength",
+                "Waist reduction exercises",
+                "Belly fat burning exercises"
+              ],
+              "overview": "The Front Plank is a highly effective core-strengthening exercise that targets not only the abs but also the back and the hips. It's suitable for individuals at all fitness levels, from beginners to advanced athletes, as it can be modified to increase or decrease difficulty. People would want to do the Front Plank because it improves posture, enhances balance, and reduces risk of back and spinal injuries.",
+              "instructions": [
+                "Push your body up onto your forearms and toes, making sure your elbows are directly under your shoulders and your forearms are facing forward.",
+                "Keep your body in a straight line from your head to your feet, ensuring your back is flat and your hips are not dropping or rising.",
+                "Engage your core muscles and hold this position for as long as you can, ideally aiming for 30 seconds to 1 minute.",
+                "Lower your body back to the starting position in a controlled manner and repeat the exercise as desired."
+              ],
+              "exerciseTips": [
+                "Engage Your Core: The Front Plank is a core exercise, so it's essential to engage your abdominal muscles. Avoid the common mistake of holding your breath during the exercise. Instead, breathe normally and focus on tightening your abs, as if you were bracing for a punch to the stomach.",
+                "Keep Your Neck and Spine Neutral: Another common mistake is craning your neck upwards or looking down at your feet. This can put unnecessary strain on your neck. Instead, keep your gaze slightly ahead of you on the floor and maintain a neutral neck and spine position.",
+                "Start Slow and Increase Grad"
+              ],
+              "variations": [
+                "Plank with Leg Lift: This version adds a leg lift to the traditional plank, challenging your balance and engaging your glutes.",
+                "Reverse Plank: Instead of facing the floor, you face upwards, supporting yourself on your hands and feet.",
+                "Plank with Arm Reach: This variation involves reaching one arm at a time out in front of you, engaging your core to keep your body stable.",
+                "Walking Plank: This dynamic plank variation involves moving your hands and feet out to the side and then back to the center."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hsd2ZnJ12j72",
+                "exr_41n2hgvre5qwJns1",
+                "exr_41n2hskeb9dXgBoC",
+                "exr_41n2hvjqDrr4GLqE",
+                "exr_41n2hKfVawi5Kgi6",
+                "exr_41n2hiqSb4t66Pg8",
+                "exr_41n2hUXCU7qcA4dR",
+                "exr_41n2hz8D2du9LjpP",
+                "exr_41n2htkt8b7a3uVb",
+                "exr_41n2hmzHZMXBWVsF"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Front Plank",
+            "search_strategy": "direct"
+          }
+        ]
+      },
+      {
+        "day_number": 2,
+        "day_name": "Upper Body Strength (Bench Focus)",
+        "exercises": [
+          {
+            "exercise_name": "Barbell Bench Press",
+            "sets": 4,
+            "reps": "3-5",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hxnFMotsXTj3",
+              "name": "Bench Press",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/boDyoVc/41n2hxnFMotsXTj3__Barbell-Bench-Press_Chest.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/N75Uemp/41n2hxnFMotsXTj3__Barbell-Bench-Press_Chest2_.mp4",
+              "bodyParts": [
+                "CHEST"
+              ],
+              "equipments": [
+                "BARBELL"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Chest workout with barbell",
+                "Barbell bench press exercise",
+                "Strength training for chest",
+                "Upper body workout with barbell",
+                "Barbell chest exercises",
+                "Bench press for chest muscles",
+                "Building chest muscles with bench press",
+                "Chest strengthening with barbell",
+                "Bench press workout routine",
+                "Barbell exercises for chest muscle growth"
+              ],
+              "overview": "The Bench Press is a classic strength training exercise that primarily targets the chest, shoulders, and triceps, contributing to upper body muscle development. It is suitable for anyone, from beginners to professional athletes, looking to improve their upper body strength and muscular endurance. Individuals may want to incorporate bench press into their routine for its effectiveness in enhancing physical performance, promoting bone health, and improving body composition.",
+              "instructions": [
+                "Grip the barbell with your hands slightly wider than shoulder-width apart, palms facing your feet, and lift it off the rack, holding it straight over your chest with your arms fully extended.",
+                "Slowly lower the barbell down to your chest while keeping your elbows at a 90-degree angle.",
+                "Once the barbell touches your chest, push it back up to the starting position while keeping your back flat on the bench.",
+                "Repeat this process for the desired number of repetitions, always maintaining control of the barbell and ensuring your form is correct."
+              ],
+              "exerciseTips": [
+                "Avoid Arching Your Back: One common mistake is excessively arching the back during the lift. This can lead to lower back injuries. Your lower back should have a natural arch, but it should not be overly exaggerated. Your butt, shoulders, and head should maintain contact with the bench at all times.",
+                "Controlled Movement: Avoid the temptation to lift the barbell too quickly. A controlled, steady lift is more effective and reduces the risk of injury. Lower the bar to your mid-chest slowly, pause briefly, then push it back up without locking your elbows at the top.",
+                "Don't Lift Alone:"
+              ],
+              "variations": [
+                "Decline Bench Press: This variation is performed on a decline bench to target the lower part of the chest.",
+                "Close-Grip Bench Press: This variation focuses on the triceps and the inner part of the chest by placing the hands closer together on the bar.",
+                "Dumbbell Bench Press: This variation uses dumbbells instead of a barbell, allowing for a greater range of motion and individual arm movement.",
+                "Reverse-Grip Bench Press: This variation is performed by flipping your grip so that your palms face towards you, targeting the upper chest and triceps."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hPFTn4fEG8Bx",
+                "exr_41n2hfGATUH6QYu5",
+                "exr_41n2hYxxWAwXX57z",
+                "exr_41n2heKDPVZrnq5Y",
+                "exr_41n2hM1MEG81baQX",
+                "exr_41n2hjhUQ3cXvDpe",
+                "exr_41n2hNpnikEpEu7g",
+                "exr_41n2htZnfjAfHeum",
+                "exr_41n2hKxRy59v8iGj",
+                "exr_41n2hU3GCnWWS86T"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Bench Press",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Weighted Pull-ups (or Lat Pulldowns)",
+            "sets": 4,
+            "reps": "6-8",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hsBtDXapcADg",
+              "name": "Pull-up",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/qx0CUFh/41n2hsBtDXapcADg__Pull-up_Back.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/AYBx4nr/41n2hsBtDXapcADg__Pull-up_Back_.mp4",
+              "bodyParts": [
+                "BACK"
+              ],
+              "equipments": [
+                "BODY WEIGHT"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Body weight back exercise",
+                "Back strengthening pull-ups",
+                "Bodyweight pull-up workout",
+                "Upper body workout",
+                "Home back exercises",
+                "Pull-up training",
+                "Back muscle development exercises",
+                "No-equipment back workout",
+                "Strengthening back with pull-ups",
+                "Bodyweight exercises for back."
+              ],
+              "overview": "The Pull-up exercise is a highly beneficial upper body workout that targets multiple muscle groups, including the back, arms, shoulders, and chest, improving strength and endurance. It's an ideal exercise for anyone, from beginners to fitness enthusiasts, who are interested in building upper body strength and enhancing muscle definition. People would want to do pull-ups as they not only boost overall body strength but also improve posture, enhance athletic performance, and support functional fitness.",
+              "instructions": [
+                "Pull your body up by driving your elbows towards the floor, keep pulling until your chin is above the bar, while keeping your body straight and core engaged.",
+                "At the top of the movement, pause for a second, then slowly lower your body back down to the starting position, maintaining control throughout the descent.",
+                "Ensure your arms are fully extended before starting the next repetition.",
+                "Repeat the process for the desired number of repetitions, making sure to maintain proper form throughout."
+              ],
+              "exerciseTips": [
+                "Engage the Right Muscles: Pull-ups primarily work your back muscles, but they can also engage your arms and shoulders if done correctly. One common mistake is using too much arm strength and not enough back. Try to focus on pulling your elbows down and back, rather than pulling yourself up with your arms. This will help engage the right muscles.",
+                "Avoid Kipping: Kipping, or using a swinging motion to help propel yourself up, is a common mistake. While this may allow you to do more pull-ups, it reduces the effectiveness of"
+              ],
+              "variations": [
+                "The Wide-grip Pull-up is another version where the hands are placed wider than shoulder-width apart, focusing on the outer lats.",
+                "The Close-grip Pull-up involves placing your hands closer together, which targets the lower lats and the brachialis.",
+                "The Commando Pull-up is done by gripping the bar with hands close together and palms facing opposite directions, working the muscles from different angles.",
+                "The L-sit Pull-up is a challenging variation where you hold your legs parallel to the ground in an 'L' shape while performing the pull-up, engaging the core and lower body."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hPhtdRXjC3RN",
+                "exr_41n2hNBqHwAdvXDC",
+                "exr_41n2hrvuMVP7me8M",
+                "exr_41n2huvBeMzPBpHt",
+                "exr_41n2hn2SveK61VUX",
+                "exr_41n2hgc8t464CcHU",
+                "exr_41n2hb2NuuDsCQtz",
+                "exr_41n2hhfb4VgWHwxh",
+                "exr_41n2hws2QYfuVUXK",
+                "exr_41n2hQY7cmgfUBjU"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Pull-up",
+            "search_strategy": "word"
+          },
+          {
+            "exercise_name": "Incline Dumbbell Press",
+            "sets": 3,
+            "reps": "8-10",
+            "exercise_details": {
+              "exerciseId": "exr_41n2haNJ3NA8yCE2",
+              "name": "Dumbbell Incline One Arm Hammer Press",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/iFeKp3f/41n2haNJ3NA8yCE2__Dumbbell-Incline-One-Arm-Hammer-Press_Upper-Arms.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/cCtHUc4/41n2haNJ3NA8yCE2__Dumbbell-Incline-One-Arm-Hammer-Press_Upper-Arms_.mp4",
+              "bodyParts": [
+                "UPPER ARMS"
+              ],
+              "equipments": [
+                "DUMBBELL"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "One Arm Dumbbell Press",
+                "Hammer Press Workout",
+                "Incline Dumbbell Exercise",
+                "Upper Arm Strengthening",
+                "Single Arm Dumbbell Press",
+                "Incline Hammer Press",
+                "Dumbbell Workout for Arms",
+                "One Arm Incline Press",
+                "Upper Arm Dumbbell Exercise",
+                "Single Hand Incline Dumbbell Press"
+              ],
+              "overview": "The Dumbbell Incline One Arm Hammer Press is a highly effective exercise targeting the upper chest and shoulders, offering a great way to build strength and muscle definition. It's suitable for both beginners and advanced fitness enthusiasts, as it can be easily modified to match individual strength levels. People may choose this exercise for its ability to isolate and engage the chest muscles more effectively, promote muscle balance and symmetry, and add variety to their workout routine.",
+              "instructions": [
+                "With a dumbbell in one hand, raise your arm until it is fully extended above you, keeping your palm facing inward in a hammer grip (thumb up).",
+                "Slowly lower the dumbbell towards your shoulder, bending your elbow and keeping the rest of your body still, until your arm forms a 90-degree angle.",
+                "Push the dumbbell back up to the starting position, fully extending your arm but not locking your elbow, while exhaling and engaging your chest muscles.",
+                "Repeat the movement for your desired amount of repetitions, then switch to the other arm and repeat the process."
+              ],
+              "exerciseTips": [
+                "Proper Grip: Hold the dumbbell with a neutral grip, meaning your palms should be facing each other. This is where the 'hammer' in the name comes from, as your hand positioning should resemble holding a hammer. Avoid gripping the dumbbell too tightly as this can lead to unnecessary forearm fatigue.",
+                "Controlled Movement: As you press the dumbbell upwards, ensure your movement is slow and controlled. Avoid the common mistake of using momentum to lift the weight, as this can lead to muscle strain and doesn't effectively engage the targeted muscles. At the top of the movement, your arm should be fully extended but not locked out.\n\n4"
+              ],
+              "variations": [
+                "Dumbbell Flat Bench Hammer Press: This variation is performed on a flat bench, targeting the middle chest muscles and offering a different angle of resistance.",
+                "Dumbbell Decline Hammer Press: This variation is performed on a decline bench, targeting the lower chest muscles and offering a different angle of resistance.",
+                "Dumbbell Incline One Arm Hammer Press with Rotation: This variation involves rotating the wrist at the top of the movement, engaging more of the chest and shoulder muscles.",
+                "Dumbbell Incline Hammer Press with Resistance Bands: This variation involves using resistance bands along with the dumbbells, adding an element of instability and increased resistance to the exercise."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hba1jB58A7ns",
+                "exr_41n2hW8KcsJKyQ3y",
+                "exr_41n2hZ7uoN5JnUJY",
+                "exr_41n2hXkHMALCvi5v",
+                "exr_41n2hGXk1QDZierU",
+                "exr_41n2hrd1VZUXbQJG",
+                "exr_41n2hsVHu7B1MTdr",
+                "exr_41n2hkqhvF25q7bJ",
+                "exr_41n2hpVmahxjaKo9",
+                "exr_41n2hJHaVdsxZhiJ"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Dumbbell Incline One Arm Hammer Press",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Barbell Bent-Over Row",
+            "sets": 3,
+            "reps": "6-8",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hHdjQpnyNdie",
+              "name": "One Arm Bent-over Row",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/3jCUx9e/41n2hHdjQpnyNdie__Dumbbell-Bent-over-Row_back_Back.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/zjTR7xI/41n2hHdjQpnyNdie__Dumbbell-Bent-over-Row_Back_.mp4",
+              "bodyParts": [
+                "BACK"
+              ],
+              "equipments": [
+                "DUMBBELL"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Dumbbell One Arm Row",
+                "Back Exercise with Dumbbell",
+                "Single Arm Dumbbell Row",
+                "Bent-over Dumbbell Back Workout",
+                "One Arm Dumbbell Back Exercise",
+                "Strength Training Back Exercise",
+                "One Arm Row Workout",
+                "Dumbbell Row for Back Muscles",
+                "Single Arm Bent-over Row",
+                "One Hand Dumbbell Back Workout"
+              ],
+              "overview": "The One Arm Bent-over Row is a strength-building exercise that primarily targets the muscles in the back, shoulders, and arms, while also engaging the core. This workout is suitable for individuals at all fitness levels, from beginners to advanced, who want to improve their upper body strength and posture. People may opt for this exercise as it can enhance muscular balance and symmetry, promote better body alignment, and aid in daily functional movements.",
+              "instructions": [
+                "Place your opposite knee and hand on the bench for support, keeping your back flat and parallel to the floor.",
+                "Let the arm holding the dumbbell hang down and a bit forward.",
+                "Pull the dumbbell upward to the side of your torso, keeping your upper arm close to your side and keeping the torso stationary.",
+                "Lower the dumbbell back down slowly to the starting position, completing one repetition. Repeat for the desired number of reps, then switch sides."
+              ],
+              "exerciseTips": [
+                "Controlled Movements: When you pull the weight up, do so in a controlled manner, ensuring that your elbow is close to your body. Similarly, lower the weight in a controlled manner. Avoid jerky or fast movements, as this can lead to muscle strain and doesn't effectively work the targeted muscles.",
+                "Focus on the Right Muscles: The One Arm Bent-over Row primarily targets the muscles in your back, so it's important to consciously engage these muscles during the exercise. Avoid the common mistake of using your b"
+              ],
+              "variations": [
+                "Incline Bench One Arm Row: For this variation, you use an incline bench to support your body, which can help isolate the muscles in your back and reduce strain on your lower back.",
+                "One Arm Bent-Over Cable Row: This version uses a cable machine, which can provide consistent resistance throughout the entire movement and may help improve your muscle control.",
+                "Resistance Band One Arm Bent-Over Row: By using a resistance band instead of weights, you can challenge your muscles in a different way and make the exercise more portable and versatile.",
+                "Kettlebell One Arm Bent-Over Row: This variation involves using a kettlebell, which can help improve your grip strength and challenge your stability due to the unique shape and weight distribution of the kettle"
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hY9EdwkdGz9a",
+                "exr_41n2hiLBKmrpdKsd",
+                "exr_41n2hsPQ1MvBiAeC",
+                "exr_41n2hixLEhS8MrPc",
+                "exr_41n2hwkEoVniykzD",
+                "exr_41n2hqFzDdN9RHxG",
+                "exr_41n2hTq9Bnm7XLMi",
+                "exr_41n2hcjbvkWFabod",
+                "exr_41n2hnVcMXti1xdH",
+                "exr_41n2hntoY9YiYGtV"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "One Arm Bent-over Row",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Overhead Triceps Extension (Dumbbell/Cable)",
+            "sets": 3,
+            "reps": "10-12",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hn2kPMag9WCf",
+              "name": "Cable Seated Neck Extension ",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/WoXh4BR/41n2hn2kPMag9WCf__Cable-Seated-Neck-Extension-(with-head-harness)_Neck.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/jRTrvu1/41n2hn2kPMag9WCf__Cable-Seated-Neck-Extension-(with-head-harness)_Neck.mp4",
+              "bodyParts": [
+                "NECK"
+              ],
+              "equipments": [
+                "CABLE"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Cable Neck Extension workout",
+                "Neck strengthening exercises with cable",
+                "Cable Seated Neck Extension technique",
+                "How to do Cable Seated Neck Extension",
+                "Cable workouts for neck muscles",
+                "Improving neck strength with cable exercises",
+                "Cable Seated Neck Extension tutorial",
+                "Gym exercises for neck using cable",
+                "Cable Seated Neck Extension demonstration",
+                "Neck muscle building with cable"
+              ],
+              "overview": "The Cable Seated Neck Extension is a targeted exercise designed to strengthen the neck muscles, especially the posterior neck muscles, improving posture and reducing the risk of neck injuries. This exercise is particularly beneficial for athletes, like wrestlers or boxers, who require strong neck muscles, but it can also be beneficial for office workers or anyone prone to neck strain due to prolonged periods of sitting or looking at screens. Incorporating Cable Seated Neck Extensions into a workout routine can help enhance overall neck strength and flexibility, potentially improving performance in sports and daily activities, and reducing discomfort associated with poor posture.",
+              "instructions": [
+                "Sit on a bench with your back to the cable machine, holding the ends of the rope handle in each hand, and position your hands at the base of your neck.",
+                "Keep your back straight and your head facing forward, then slowly extend your neck backward, pulling the rope upward until you feel a stretch in your neck muscles.",
+                "Pause for a moment at the top of the extension, then slowly return to the starting position, making sure to maintain control throughout the movement.",
+                "Repeat this exercise for your desired number of repetitions, ensuring you keep your movements slow and controlled to avoid injury."
+              ],
+              "exerciseTips": [
+                "Proper Grip: Hold the rope attachment with both hands behind your head. Your palms should be facing towards each other and your fingers should be interlocked. Avoid holding the rope too tightly as this could cause unnecessary tension in your hands and arms.",
+                "Controlled Movement: The movement should be slow and controlled. Extend your neck backwards, using the muscles at the back of your neck to pull the weight. Avoid jerking or using momentum to lift the weight, as this could lead to injury.",
+                "Range of Motion: Make sure to fully extend your neck without going beyond your comfortable range of motion. Avoid overextending as this could lead to strain or injury.",
+                "Breathing: Breathe"
+              ],
+              "variations": [
+                "Resistance Band Seated Neck Extension: This variation uses a resistance band instead of a cable, providing a different type of tension and resistance for the exercise.",
+                "Standing Cable Neck Extension: This variation is performed standing up rather than seated, which can engage different muscles and offer a different range of motion.",
+                "Smith Machine Seated Neck Extension: This variation uses a Smith machine instead of a cable machine, which can provide more stability and control during the exercise.",
+                "Plate Loaded Seated Neck Extension: This variation involves using a plate-loaded machine or free weight plates, which can be adjusted to better suit your strength level."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hUDuvCas2EB3",
+                "exr_41n2ho1c3F2tAVTX",
+                "exr_41n2hS82SGVvvCFo",
+                "exr_41n2hRmyVXe2yocH",
+                "exr_41n2hkBPnYcfY7SH",
+                "exr_41n2hxAt538xTvQt",
+                "exr_41n2hnWq9SDvyZYM",
+                "exr_41n2hVztFo2z8eXy",
+                "exr_41n2hRgkFgHRzZRC",
+                "exr_41n2hq77S7Bpf915"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Cable Seated Neck Extension ",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Face Pulls",
+            "sets": 3,
+            "reps": "12-15",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hPxDaq9kFjiL",
+              "name": "Side Wrist Pull Stretch",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/nTjHmBJ/41n2hPxDaq9kFjiL__Side-Wrist-Pull-Stretch_Forearms.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/njePiaf/41n2hPxDaq9kFjiL__Side-Wrist-Pull-Stretch_Forearms.mp4",
+              "bodyParts": [
+                "FOREARMS"
+              ],
+              "equipments": [
+                "BODY WEIGHT"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Bodyweight forearm exercise",
+                "Side Wrist Pull Stretch workout",
+                "Forearm strengthening exercises",
+                "Bodyweight wrist stretches",
+                "Side Wrist Pull technique",
+                "Bodyweight exercises for forearms",
+                "Wrist pull stretch exercise",
+                "Training for stronger forearms",
+                "Wrist stretching workouts",
+                "Side Wrist Pull Stretch tutorial"
+              ],
+              "overview": "The Side Wrist Pull Stretch is a beneficial exercise that primarily targets the muscles in your wrists and forearms, helping to improve flexibility, reduce the risk of injury, and alleviate pain from repetitive strain or overuse. This exercise is ideal for individuals who frequently engage in activities that require wrist mobility such as athletes, musicians, and those who spend long hours on the computer. By incorporating the Side Wrist Pull Stretch into their routine, these individuals can maintain their wrist health, improve their performance in various tasks, and prevent discomfort in the long run.",
+              "instructions": [
+                "Extend your right arm out in front of you, with your palm facing down.",
+                "With your left hand, gently grasp the fingers of your extended right hand.",
+                "Slowly pull the fingers of your right hand towards your body until you feel a stretch along the top of your wrist and forearm.",
+                "Hold this stretch for about 15 to 30 seconds, then release and switch to the other hand. Repeat this process for both hands as needed."
+              ],
+              "exerciseTips": [
+                "Correct Stretching Technique: Reach out with your other hand and gently pull your fingers down and towards your body until you feel a stretch in your forearm. Keep your arm straight during this process to ensure that the stretch is targeting the correct muscles.",
+                "Maintain Control: It's crucial to avoid jerky movements or pulling too hard on your wrist. This could lead to strains or injuries. Instead, ensure that your movements are smooth and controlled, increasing the stretch gradually.",
+                "Hold and Release: Hold the stretch for about 20-30 seconds, then release slowly. This will allow your muscles to relax and adapt to the stretch. Avoid releasing the stretch abruptly as it could lead to muscle strain.",
+                "Common Mistakes to Avoid:"
+              ],
+              "variations": [],
+              "relatedExerciseIds": [
+                "exr_41n2hSF5U97sFAr8",
+                "exr_41n2hwXSkxYRwujy",
+                "exr_41n2hg5FNSYCagCy",
+                "exr_41n2hozyXuCmDTdZ",
+                "exr_41n2hQcqPQ37Dmxj",
+                "exr_41n2hc6Vrdj8XqvL",
+                "exr_41n2hcuKVDmy4PX2",
+                "exr_41n2hk98rCnJuZM4",
+                "exr_41n2hdx1nWzXXfPQ",
+                "exr_41n2hjVMCCabZJxY"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Side Wrist Pull Stretch",
+            "search_strategy": "word"
+          }
+        ]
+      },
+      {
+        "day_number": 3,
+        "day_name": "Rest or Active Recovery",
+        "exercises": [
+          {
+            "exercise_name": "Light Cardio (e.g., Walking, Cycling)",
+            "sets": 1,
+            "reps": "30-45 minutes",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hmFcGGUCS289",
+              "name": "Walking High Knees Lunge",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/Q89MA5y/41n2hmFcGGUCS289__Walking-High-Knees-Lunge_Cardio.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/rA7PPG8/41n2hmFcGGUCS289__Walking-High-Knees-Lunge_Cardio_.mp4",
+              "bodyParts": [
+                "THIGHS",
+                "QUADRICEPS",
+                "HAMSTRINGS",
+                "CALVES",
+                "HIPS"
+              ],
+              "equipments": [
+                "BODY WEIGHT"
+              ],
+              "exerciseType": "CARDIO",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "High Knees Lunge Workout",
+                "Bodyweight Cardio Exercise",
+                "Walking Lunge with High Knees",
+                "Bodyweight High Knees Lunge",
+                "Cardiovascular Walking Lunge Exercise",
+                "High Knees Lunge Bodyweight Training",
+                "Walking High Knees Lunge Cardio Workout",
+                "High Knees Bodyweight Lunge Exercise",
+                "Cardio Training with Walking High Knees Lunge",
+                "Bodyweight Exercise for Cardio - Walking High Knees Lunge"
+              ],
+              "overview": "Walking High Knees Lunge is a dynamic exercise that combines two classic movements to help improve balance, core strength, and overall lower body flexibility. It's suitable for individuals at all fitness levels, from beginners to advanced athletes, who are looking to enhance their cardiovascular fitness and muscle endurance. This exercise is particularly beneficial for those looking to target their glutes, quadriceps, and hamstrings, while also promoting better posture and coordination.",
+              "instructions": [
+                "Lift your right knee as high as you can, then step forward while lowering your body into a lunge position. Your right knee should be bent at a 90-degree angle and your left knee should be hovering just above the ground.",
+                "As you move into the lunge, swing your arms as if you are running, with the opposite arm and leg moving together.",
+                "Push off with your right foot and return to the starting position.",
+                "Repeat the exercise with your left leg, and continue to alternate between legs for the duration of your workout."
+              ],
+              "exerciseTips": [
+                "Engage Your Core: Engaging your core is crucial while performing this exercise. It will not only help you maintain balance but also make the exercise more effective. A common mistake is to forget about the core and focus only on the legs. But remember, this exercise is meant to work your entire body.",
+                "Correct Knee Positioning: When you bring your knee up, it should be parallel to the ground. Also, when you step into the lunge, make sure your front knee is directly above your ankle, not pushed out too far in front. Misalignment can lead to knee injuries.",
+                "Controlled Movement: Avoid rushing through the exercise. Each movement should be slow and controlled. This will"
+              ],
+              "variations": [
+                "High Knee Lunge with a Twist: This variation adds an abdominal twist to the traditional high knee lunge, giving your core a more intense workout.",
+                "Weighted High Knee Lunge: This variation involves holding dumbbells or kettlebells in your hands while performing the high knee lunge, adding resistance and increasing the intensity.",
+                "Jumping High Knee Lunge: This is a more advanced variation where you add a jump as you switch legs, increasing the cardiovascular intensity and working on your explosiveness.",
+                "Side High Knee Lunge: Instead of stepping forward or backward, this variation involves stepping to the side, which works different muscles in your legs and glutes."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hc5mVw1QsJjN",
+                "exr_41n2hTg3nwDwR8fy",
+                "exr_41n2hu8p7baWFUeE",
+                "exr_41n2hTFWLadrrZWR",
+                "exr_41n2hwn2wpSTFmAx",
+                "exr_41n2hk5VaGJcY3PC",
+                "exr_41n2hnBjrU7P7ixA",
+                "exr_41n2hKiaWSZQTqgE",
+                "exr_41n2hR3Jk3N8UGBH",
+                "exr_41n2hvEANTmjmAtg"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Walking High Knees Lunge",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Foam Rolling & Mobility Drills",
+            "sets": 1,
+            "reps": "20-30 minutes",
+            "exercise_details": null,
+            "data_source": "ai_only",
+            "match_confidence": "none",
+            "search_strategy": "fallback"
+          }
+        ]
+      },
+      {
+        "day_number": 4,
+        "day_name": "Lower Body Strength (Deadlift Focus)",
+        "exercises": [
+          {
+            "exercise_name": "Conventional Deadlift (or Sumo Deadlift)",
+            "sets": 4,
+            "reps": "3-5",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hn8rpbYihzEW",
+              "name": "Romanian Deadlift",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/QxA3A5m/41n2hn8rpbYihzEW__Dumbbell-Romanian-Deadlift_Hips.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/sZiAup2/41n2hn8rpbYihzEW__Dumbbell-Romanian-Deadlift_Hips.mp4",
+              "bodyParts": [
+                "HIPS"
+              ],
+              "equipments": [
+                "DUMBBELL"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Dumbbell Romanian Deadlift workout",
+                "Hip strengthening exercises with Dumbbell",
+                "Dumbbell RDL for hip muscles",
+                "Romanian Deadlift hip workout",
+                "Strengthening hips with Romanian Deadlift",
+                "Dumbbell exercise for hip muscles",
+                "Hip-focused Romanian Deadlift",
+                "Dumbbell Romanian Deadlift for hip strength",
+                "Romanian Deadlift training for hips",
+                "Hip targeting exercises with Dumbbell."
+              ],
+              "overview": "The Romanian Deadlift is a highly effective strength training exercise that primarily targets the muscles of your lower back, glutes, and hamstrings. It is suitable for both beginners and advanced fitness enthusiasts as it can be modified to fit individual strength and skill levels. People might choose to incorporate this exercise into their routine due to its ability to improve overall strength, enhance muscle definition, and boost athletic performance.",
+              "instructions": [
+                "Keep your back straight and your shoulders back as you begin to bend at the hips, pushing them back while you lower the barbell along the front of your legs.",
+                "Continue lowering the barbell until it reaches mid-shin level, or until you feel a stretch in your hamstrings, making sure to keep the barbell close to your body throughout the movement.",
+                "After reaching this position, pause for a moment, and then slowly reverse the movement by driving your hips forward and standing back up to the starting position, squeezing your glutes at the top.",
+                "Remember to keep your core engaged and your back straight throughout the entire exercise to avoid injury."
+              ],
+              "exerciseTips": [
+                "Maintain a Neutral Spine: One common mistake is rounding the back during the movement, which can lead to injury. Instead, keep your back straight and your core engaged throughout the exercise. Your shoulders should be back and down, not hunched.",
+                "Hinge at the Hips: The Romanian Deadlift is a hip-hinge movement, meaning the action comes from bending at the hips, not the waist. Push your hips back as you lower the weights towards the ground, keeping them close to your legs to avoid straining your lower back.",
+                "Don\u2019t Lock Your Knees: Another common mistake is to lock your knees during the exercise. Your"
+              ],
+              "variations": [
+                "Dumbbell Romanian Deadlift: Instead of using a barbell, this variation utilizes dumbbells, allowing for a greater range of motion and targeting slightly different muscle groups.",
+                "Banded Romanian Deadlift: This variation incorporates a resistance band, which adds an extra level of challenge and helps to engage the glutes and hamstrings more effectively.",
+                "Deficit Romanian Deadlift: For this variation, you stand on a raised platform, which increases the range of motion and intensifies the stretch and engagement of the hamstrings.",
+                "Trap Bar Romanian Deadlift: This variation uses a trap bar instead of a standard barbell, which can be easier on the lower back and allows for a more neutral grip."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hqxV9YHN8SRE",
+                "exr_41n2ht4M6VatASeM",
+                "exr_41n2hxemCRnh3qzY",
+                "exr_41n2hHitkzn3vJj6",
+                "exr_41n2hXP5kHuAndaw",
+                "exr_41n2hXSYVwvP8V1m",
+                "exr_41n2hf3pjvn5ru6Z",
+                "exr_41n2hp3BptAS1Pu9",
+                "exr_41n2hLGstkoU4R13",
+                "exr_41n2hoMeAG4f2BQP"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Romanian Deadlift",
+            "search_strategy": "word"
+          },
+          {
+            "exercise_name": "Front Squat",
+            "sets": 3,
+            "reps": "5-8",
+            "exercise_details": {
+              "exerciseId": "exr_41n2howQHvcrcrW6",
+              "name": "Front Raise",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/1xKTESs/41n2howQHvcrcrW6__Dumbbell-Front-Raise_Shoulders.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/s0tBYjQ/41n2howQHvcrcrW6__Dumbbell-Front-Raise_Shoulders.mp4",
+              "bodyParts": [
+                "SHOULDERS"
+              ],
+              "equipments": [
+                "DUMBBELL"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Dumbbell Front Raise workout",
+                "Shoulder strengthening exercises",
+                "Dumbbell exercises for shoulders",
+                "Front Raise workout routine",
+                "How to do Front Raises",
+                "Shoulder workout with dumbbells",
+                "Dumbbell Front Raise technique",
+                "Improving shoulder muscles with Front Raises",
+                "Front Raise shoulder exercise",
+                "Detailed guide for Dumbbell Front Raise."
+              ],
+              "overview": "The Front Raise is a strength-building exercise primarily targeting the anterior deltoids, and also engaging the upper pectorals and serratus anterior. This exercise is ideal for anyone looking to enhance shoulder strength and definition, from fitness enthusiasts to athletes. Incorporating Front Raises into your routine can improve upper body strength, enhance shoulder stability, and contribute to better posture.",
+              "instructions": [
+                "While maintaining the torso stationary (no swinging), lift the left dumbbell to the front of your body while slightly bending the elbow and palms facing down. Continue to go up until your arm is slightly above parallel to the floor. Exhale as you execute this portion of the movement and pause for a second at the top.",
+                "Inhale after the second pause and slowly lower the dumbbell back down to the starting position.",
+                "Now perform the same movement for the right hand while the left hand holds the dumbbell at the waist.",
+                "Continue alternating in this manner until all of the recommended repetitions for each arm have been completed."
+              ],
+              "exerciseTips": [
+                "Grip and Position: Hold the dumbbells in your hands with palms facing towards you. Your hands should be slightly less than shoulder-width apart. Avoid holding the dumbbells too wide or too close as this can strain your wrists and reduce the effectiveness of the exercise.",
+                "Smooth and Controlled Movement: Raise the dumbbells in front of you until your arms are slightly above parallel to the floor. Make sure the movement is slow and controlled, both when lifting and lowering the dumbbells. Avoid swinging or using momentum to lift the weights, as this can lead to injury and reduce the effectiveness of the exercise.",
+                "Breathing Technique: Breathe out as you lift the weights and breathe in as you lower them."
+              ],
+              "variations": [
+                "Barbell Front Raise: Instead of dumbbells, this variation uses a barbell which you raise from thigh level to shoulder height, keeping your arms straight.",
+                "Seated Front Raise: This variation is performed while sitting on a bench, which helps to isolate the shoulder muscles as it prevents any momentum or body movement.",
+                "Incline Bench Front Raise: In this variation, you lie face down on an incline bench and raise the weights from the floor to shoulder height, which targets different parts of the shoulder muscles.",
+                "One Arm Cable Front Raise: This variation uses a cable machine for resistance and allows you to focus on one arm at a time, ensuring equal strength development in both shoulders."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hYugHFAncj8q",
+                "exr_41n2ho8vzjbEj9aG",
+                "exr_41n2hXxnkb4mCif3",
+                "exr_41n2haBBLjBXbcZS",
+                "exr_41n2heBbod6nfqaW",
+                "exr_41n2hWFXBXaP3viA",
+                "exr_41n2hvT4XwzF2P7f",
+                "exr_41n2hnpaV7fwAXdc",
+                "exr_41n2hb7QeQiBTjj4",
+                "exr_41n2hW4ejUZ1aDjt"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Front Raise",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Glute Ham Raise (or Lying Hamstring Curl)",
+            "sets": 3,
+            "reps": "8-12",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hqfZb8UHBvB9",
+              "name": "Alternate Lying Floor Leg Raise ",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/UkKzwQF/41n2hqfZb8UHBvB9__Alternate-Lying-Floor-Leg-Raise-(male)_Waist.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/9mKjO63/41n2hqfZb8UHBvB9__Alternate-Lying-Floor-Leg-Raise-(male)_Waist.mp4",
+              "bodyParts": [
+                "HIPS",
+                "WAIST"
+              ],
+              "equipments": [
+                "BODY WEIGHT"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Bodyweight leg raise exercise",
+                "Hips and waist workout",
+                "Alternate lying leg raise",
+                "Bodyweight exercise for hips",
+                "Home workout for waist",
+                "Leg raise for hip strength",
+                "Floor leg raise exercise",
+                "Strengthen waist with leg raise",
+                "Bodyweight workout for hips and waist",
+                "Alternate lying floor exercise for hips"
+              ],
+              "overview": "The Alternate Lying Floor Leg Raise is a beneficial exercise that primarily targets the lower abdominal muscles and hip flexors, helping to strengthen the core and improve balance. This exercise is suitable for both beginners and advanced fitness enthusiasts as it can be easily modified to match individual strength levels. Individuals may want to incorporate this exercise into their routine to enhance core stability, improve posture, and aid in daily movements or other athletic performances.",
+              "instructions": [
+                "Lift one leg off the ground, keeping it straight, until it forms a 90-degree angle with your body.",
+                "Hold this position for a few seconds, then slowly lower your leg back down to the floor.",
+                "Repeat the same movement with your other leg, keeping your lower back pressed against the floor throughout the exercise.",
+                "Continue alternating between both legs for the desired number of repetitions, ensuring your movements are controlled and deliberate."
+              ],
+              "exerciseTips": [
+                "Controlled Movement: When raising your leg, do so in a slow and controlled manner. Avoid the common mistake of using momentum to lift your leg, as this can lead to lower back strain and reduces the effectiveness of the exercise on your abdominal muscles.",
+                "Keep Your Lower Back Pressed Down: A common mistake is arching the lower back off the floor, which can cause back pain and injury. To avoid this, keep your lower back pressed firmly against the floor during the entire movement. You can achieve this by engaging your core and imagining you're trying to press your belly button down to the floor.",
+                "Full Range of Motion: Ensure that you're using a full range of motion by lowering your leg as far"
+              ],
+              "variations": [
+                "Double Leg Floor Raise: Instead of alternating legs, you raise both legs simultaneously, which increases the challenge to your core muscles.",
+                "Weighted Leg Floor Raise: In this variation, you wear ankle weights or hold a dumbbell between your feet, adding resistance to make the exercise more challenging.",
+                "Bent-Knee Floor Raise: Instead of keeping your legs straight, you bend your knees as you raise your legs. This can be easier on your lower back.",
+                "Elevated Lying Floor Leg Raise: This variation involves doing the exercise on an incline bench or with your hips elevated on a block or step, which increases the range of motion and the challenge to your core muscles."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2htH3Th9VjnCS",
+                "exr_41n2hkB3FeGM3DEL",
+                "exr_41n2hc4gTtrPRRpm",
+                "exr_41n2hfhWpzMi7tUj",
+                "exr_41n2hkHNZ15gRLmf",
+                "exr_41n2hUZz3h5rmhcX",
+                "exr_41n2hpkrKu12CTHM",
+                "exr_41n2hpDWoTxocW8G",
+                "exr_41n2haz32UoCRUP9",
+                "exr_41n2hsQb6QRUmi3Q"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Alternate Lying Floor Leg Raise ",
+            "search_strategy": "word"
+          },
+          {
+            "exercise_name": "Weighted Walking Lunges",
+            "sets": 3,
+            "reps": "8-10 per leg",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hQHmRSoUkk9F",
+              "name": "Walking Lunge",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/vxsAnsy/41n2hQHmRSoUkk9F__Walking-Lunge-Male_Hips.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/KZH2srt/41n2hQHmRSoUkk9F__Walking-Lunge-Male_Hips_.mp4",
+              "bodyParts": [
+                "QUADRICEPS",
+                "THIGHS"
+              ],
+              "equipments": [
+                "BODY WEIGHT"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Bodyweight exercise for thighs",
+                "Quadriceps strengthening exercise",
+                "Walking Lunge workout",
+                "Bodyweight lunge movement",
+                "Thigh toning exercises",
+                "Quadricep exercises with no equipment",
+                "Walking Lunge for leg muscle",
+                "Bodyweight exercises for lower body",
+                "Walking Lunge technique",
+                "Strengthening thighs with lunges."
+              ],
+              "overview": "The Walking Lunge is a dynamic strength-training exercise that targets multiple muscle groups, including the glutes, quadriceps, and hamstrings, thereby enhancing lower body strength and improving balance. It's suitable for individuals of all fitness levels, from beginners to advanced athletes, due to its adjustable intensity. People would want to perform this exercise not only for its muscle-building and toning benefits, but also for its contribution to better posture, flexibility, and overall functional fitness.",
+              "instructions": [
+                "Take a step forward with your right foot, lowering your body into a lunge position. Your right knee should be directly above your right ankle and your left knee should be hovering just above the ground.",
+                "Push off with your right foot, bringing your left foot forward to step into the next lunge. This completes one rep.",
+                "Repeat this motion, alternating legs as you move forward across the room.",
+                "Remember to keep your upper body straight and your core engaged throughout the exercise."
+              ],
+              "exerciseTips": [
+                "Avoid Leaning Forward: A common mistake to avoid is leaning forward. This can put unnecessary strain on your lower back and knees. Instead, try to keep your torso upright throughout the movement. If you find yourself leaning forward, it might be a sign that you're trying to lunge too far forward.",
+                "Mind Your Pace: Don't rush through your lunges. Performing them at a slow, controlled pace will help you maintain balance and focus on your form. It also ensures that your muscles are fully engaged throughout the exercise.",
+                "Even Distribution of Weight: Make sure to distribute your weight evenly between both"
+              ],
+              "variations": [
+                "Walking Lunge with a Twist: Add a torso twist to your walking lunge to engage your core and enhance balance.",
+                "Overhead Walking Lunge: Holding a weight overhead while lunging adds an upper body challenge and tests your stability.",
+                "Lateral Walking Lunge: This variation has you stepping to the side, which targets your inner and outer thighs.",
+                "Walking Lunge with Bicep Curl: Adding a bicep curl to your lunge works your upper body and increases the intensity of the exercise."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hmGR8WuVfe1U",
+                "exr_41n2hpLLs1uU5atr",
+                "exr_41n2hd78zujKUEWK",
+                "exr_41n2hNjcmNgtPJ1H",
+                "exr_41n2hvkiECv8grsi",
+                "exr_41n2hbdZww1thMKz",
+                "exr_41n2homrPqqs8coG",
+                "exr_41n2hvjrFJ2KjzGm",
+                "exr_41n2hHRszDHarrxK",
+                "exr_41n2hJsKtjS1phW4"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Walking Lunge",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Ab Rollout (or Hanging Leg Raises)",
+            "sets": 3,
+            "reps": "10-15",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hMZCmZBvQApL",
+              "name": "Hanging Straight Leg Raise ",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/ze58T2O/41n2hMZCmZBvQApL__Hanging-Straight-Leg-Raise-(female)_Hips.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/tICSJgV/41n2hMZCmZBvQApL__Hanging-Straight-Leg-Raise-(female)_Hips.mp4",
+              "bodyParts": [
+                "HIPS",
+                "WAIST"
+              ],
+              "equipments": [
+                "BODY WEIGHT"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Body weight hip exercise",
+                "Waist toning workouts",
+                "Hanging leg raises",
+                "Core strengthening exercises",
+                "Lower body workouts",
+                "Bodyweight exercises for hips",
+                "Hanging straight leg lift",
+                "Abdominal muscle workouts",
+                "Waist slimming exercises",
+                "Fitness routines for lower body"
+              ],
+              "overview": "The Hanging Straight Leg Raise is a dynamic core exercise that primarily targets the abdominal and hip flexor muscles, enhancing core strength and stability. It is suitable for people of all fitness levels, from beginners to advanced athletes, as it can be modified to match individual fitness abilities. Individuals would want to incorporate this exercise into their routine to improve their overall balance, posture, athletic performance, and to help prevent lower back pain.",
+              "instructions": [
+                "Keeping your legs straight and together, raise them up in front of you until they are parallel to the ground, or as high as you can comfortably go.",
+                "Hold this position for a few seconds, making sure to engage your abdominal muscles.",
+                "Slowly lower your legs back down to the starting position, maintaining control to avoid swinging.",
+                "Repeat this process for your desired number of repetitions, ensuring to keep your core engaged throughout the exercise."
+              ],
+              "exerciseTips": [
+                "Breathe Properly: Breathing is crucial when performing any exercise. Inhale as you lower your legs and exhale as you lift them. This will help engage your abdominal muscles more effectively.",
+                "Keep Your Movements Controlled: Avoid rushing through the exercise. The key to getting the most out of the Hanging Straight Leg Raise is to perform it slowly and with control. This will engage your muscles more effectively and reduce the risk of injury.",
+                "Don't Overarch Your Back: Overarching your back can put unnecessary strain on your spine and lead to injury. Instead, aim to keep your back in a neutral position throughout the exercise.",
+                ""
+              ],
+              "variations": [
+                "Hanging Oblique Knee Raise: Instead of lifting the legs straight up, you lift them to the side, targeting the oblique muscles.",
+                "Weighted Hanging Leg Raise: Adding ankle weights or holding a medicine ball between your feet can increase the intensity of the exercise.",
+                "Hanging Windshield Wipers: This advanced variation involves swinging your legs from side to side in a windshield wiper motion, challenging your core stability and oblique muscles.",
+                "Hanging Straight Leg Hip Raise: In this variation, you lift your legs straight up until your body forms a 90-degree angle, then push your hips up towards the ceiling, targeting the lower abs."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hHxwKs7pPH4a",
+                "exr_41n2hKoQnnSRPZrE",
+                "exr_41n2hupSbcVD2EmF",
+                "exr_41n2hvfokpGqHUFx",
+                "exr_41n2hpFsM5LCD4KM",
+                "exr_41n2hw6VZLXSBoHW",
+                "exr_41n2hYHdnXauMhZ7",
+                "exr_41n2hNCTCWtWAqzH",
+                "exr_41n2hpnMgqtP2HuR",
+                "exr_41n2hyxVB3r1ofGj"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Hanging Straight Leg Raise ",
+            "search_strategy": "word"
+          }
+        ]
+      },
+      {
+        "day_number": 5,
+        "day_name": "Upper Body Strength (Overhead Press Focus)",
+        "exercises": [
+          {
+            "exercise_name": "Barbell Overhead Press (Standing)",
+            "sets": 4,
+            "reps": "3-5",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hwoc6PkW1UJJ",
+              "name": "Barbell Standing Calf Raise",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/4eFp5ph/41n2hwoc6PkW1UJJ__Barbell-Standing-Calf-Raise_Calves.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/z7FhmMt/41n2hwoc6PkW1UJJ__Barbell-Standing-Calf-Raise_Calves.mp4",
+              "bodyParts": [
+                "CALVES"
+              ],
+              "equipments": [
+                "BARBELL"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Barbell Calf Workouts",
+                "Standing Calf Raise Exercise",
+                "Calf Muscle Building with Barbell",
+                "Barbell Exercises for Calves",
+                "Strengthen Calves with Barbell",
+                "Barbell Standing Calf Raise Technique",
+                "How to do Barbell Standing Calf Raises",
+                "Barbell Workout for Strong Calves",
+                "Barbell Calf Raise Instructions",
+                "Standing Barbell Calf Muscle Exercise"
+              ],
+              "overview": "The Barbell Standing Calf Raise is a strength training exercise that primarily targets the calf muscles, enhancing lower leg strength, balance, and muscular definition. This exercise is suitable for athletes, fitness enthusiasts, and anyone looking to improve their lower body strength or enhance their physical performance. People may choose to do this exercise to boost their running or jumping ability, improve overall lower body aesthetics, or to support functional movements in daily life.",
+              "instructions": [
+                "Position your feet shoulder-width apart, with your toes pointing straight ahead or slightly outward.",
+                "Slowly raise your heels off the ground, pushing up onto your toes while keeping your core engaged and your back straight.",
+                "Hold the position at the top for a moment, squeezing your calf muscles.",
+                "Slowly lower your heels back down to the ground, returning to the starting position. Repeat the movement for the desired number of reps."
+              ],
+              "exerciseTips": [
+                "Full Range of Motion: For an effective calf raise, you need to go through the full range of motion. This means rising up on your toes as high as possible and then lowering your heels below the level of the step. Avoid the common mistake of not lowering your heels enough, which can limit the effectiveness of the exercise.",
+                "Controlled Movements: Avoid rushing through the exercise. The movements should be slow and controlled, both when lifting and lowering the weight. This not only increases muscle engagement but also reduces the risk of injury.",
+                "Weight Selection: Don't overload the barbell. It's a common mistake to think that more weight will lead to better results. However, using a weight that's too heavy can compromise"
+              ],
+              "variations": [
+                "Barbell Calf Raise on a Step: This exercise is performed by standing on a step or raised platform, allowing for a greater range of motion during the exercise.",
+                "Smith Machine Calf Raise: This variation uses the Smith machine for added stability and balance, making it easier to focus on the calf muscles.",
+                "Barbell Calf Raise with a Pause: This involves pausing at the top of the movement for a few seconds to increase intensity and muscle engagement.",
+                "Single-Leg Barbell Calf Raise: This variation is performed one leg at a time, helping to address any muscle imbalances."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hR6VnCK42TPt",
+                "exr_41n2hGLWqqehysyv",
+                "exr_41n2hzZME76YwkfG",
+                "exr_41n2hvzxocyjoGgL",
+                "exr_41n2hTs4q3ihihZs",
+                "exr_41n2hZTDJxhfpezt",
+                "exr_41n2hmVSYPeTCDkT",
+                "exr_41n2hpAC555tiNbZ",
+                "exr_41n2hTjrQ7CGMvzm",
+                "exr_41n2hT4uwpGbHXEd"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Barbell Standing Calf Raise",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Pendlay Row (or Chest Supported Row)",
+            "sets": 3,
+            "reps": "6-8",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hdkBpqwoDmVq",
+              "name": "Suspended Row",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/moTFBCp/41n2hdkBpqwoDmVq__Suspended-Row_back.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/im3VsRd/41n2hdkBpqwoDmVq__Suspended-Row_Back_.mp4",
+              "bodyParts": [
+                "BACK"
+              ],
+              "equipments": [
+                "BODY WEIGHT"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Bodyweight back exercise",
+                "Suspended row workout",
+                "Suspension training for back",
+                "Bodyweight rowing exercise",
+                "Home workout for back muscles",
+                "Back strengthening with body weight",
+                "Suspension row exercise",
+                "Bodyweight exercises for back",
+                "Suspended row for back strength",
+                "Back muscle workout with suspension row"
+              ],
+              "overview": "The Suspended Row is a dynamic full-body exercise that primarily targets the muscles in your back, arms, and core, promoting muscle growth and endurance. It's a versatile workout suitable for both beginners and advanced fitness enthusiasts, as it can be easily modified to match individual strength levels. People would want to incorporate this exercise into their routine to improve upper body strength, promote better posture, and increase functional fitness.",
+              "instructions": [
+                "Stand facing the straps, grab the handles and lean back until your body is at a slight angle, keeping your feet shoulder-width apart.",
+                "Keeping your body straight and your core engaged, pull your chest up to the handles by bending your elbows and squeezing your shoulder blades together.",
+                "Pause at the top of the movement, then slowly lower your body back to the starting position, extending your arms fully.",
+                "Repeat this movement for the desired number of repetitions, maintaining control and proper form throughout each rep."
+              ],
+              "exerciseTips": [
+                "Engage Your Core: To get the most out of the Suspended Row, it's important to engage your core throughout the entire exercise. This not only helps to stabilize your body but also maximizes the strength you can gain from the exercise. A common mistake is to focus only on pulling with your arms, while ignoring your core.",
+                "Controlled Movement: Ensure that your movements are slow and controlled. Avoid the temptation to use momentum to pull yourself up, as this can lead to injury and makes the exercise less effective. Instead, focus on pulling yourself up using your"
+              ],
+              "variations": [
+                "Single Arm Suspended Row: This variation is performed by using only one arm at a time, which can help to improve balance and coordination.",
+                "Suspended Tuck Row: In this exercise, you pull your body up while simultaneously bringing your knees towards your chest, which engages your core muscles.",
+                "Wide Grip Suspended Row: This variation is performed with a wider than shoulder-width grip, which can help to target the muscles in your upper back and shoulders.",
+                "Suspended Row with Rotation: This variation involves twisting your body as you pull yourself up, which can help to improve rotational strength and flexibility."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hpfnw9dskeWu",
+                "exr_41n2hcMcMVtuahGV",
+                "exr_41n2hvS1T68k6DVD",
+                "exr_41n2hpF1DCVxEQ5m",
+                "exr_41n2hisuDmnQHqzf",
+                "exr_41n2hvqD6pJbg78R",
+                "exr_41n2htRw54y28bCK",
+                "exr_41n2hYsMKoVdsZ1K",
+                "exr_41n2hoYn3TAMxMn6",
+                "exr_41n2hP5j5aPAZAvx"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Suspended Row",
+            "search_strategy": "word"
+          },
+          {
+            "exercise_name": "Weighted Dips",
+            "sets": 3,
+            "reps": "8-10",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hHH9bNfi98YU",
+              "name": "Triceps Dips Floor",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/O424Uel/41n2hHH9bNfi98YU__Triceps-Dips-Floor_Upper-Arms.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/A0jMsUc/41n2hHH9bNfi98YU__Triceps-Dips-Floor_Upper-Arms.mp4",
+              "bodyParts": [
+                "TRICEPS",
+                "UPPER ARMS"
+              ],
+              "equipments": [
+                "BODY WEIGHT"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Bodyweight tricep exercises",
+                "Tricep dips workout",
+                "Upper arm strengthening exercises",
+                "Home workouts for triceps",
+                "Bodyweight upper arm exercises",
+                "Tricep dips on floor",
+                "No equipment tricep workout",
+                "Triceps dips without weights",
+                "Floor exercises for upper arms",
+                "Bodyweight exercises for arm muscles"
+              ],
+              "overview": "Triceps Dips Floor is a bodyweight exercise that primarily targets the triceps, helping to build strength and muscle definition in the upper body. This exercise is suitable for individuals at all fitness levels, as it can be easily modified to match one's abilities and goals. People might choose to do Triceps Dips Floor because it requires no special equipment, can be performed anywhere, and effectively engages the upper body, improving overall functional fitness.",
+              "instructions": [
+                "Push your hips up by straightening your arms, keeping your hands and feet in place, and your body should be lifted off the ground.",
+                "Lower your body back down by bending your elbows until your buttocks almost touch the floor, but do not rest your body weight on the floor.",
+                "Push your body back up by straightening your arms again, returning to the starting position.",
+                "Repeat this movement for a set number of repetitions, ensuring you maintain control and proper form throughout the exercise."
+              ],
+              "exerciseTips": [
+                "Keep Elbows Close: A common mistake is flaring out the elbows, which can strain the shoulder joints. Instead, keep your elbows close to your body as you lower and raise your body. This will ensure that the focus of the exercise remains on your triceps.",
+                "Controlled Movements: Avoid rushing through the motions. Lower your body in a slow, controlled manner and then push back up. This will help you to engage your muscles more effectively and reduce the risk of injury.",
+                "Warm Up: Before doing any strength training exercise, it's important to warm up your muscles to prevent injury. You can do this by doing some light cardio, such as"
+              ],
+              "variations": [
+                "Weighted Dips: To increase the intensity, you can perform the triceps dips with a weight plate on your lap or a dumbbell between your legs.",
+                "Single-Leg Dips: This variation involves lifting one leg off the floor while performing the dip, which also engages the core and improves balance.",
+                "Elevated Feet Dips: In this variation, both hands and feet are elevated on separate surfaces (like two benches), increasing the difficulty level as more body weight is involved.",
+                "Triceps Dips with a Stability Ball: This variation involves placing your hands on a stability ball instead of the floor, which adds an element of instability and engages the core muscles more."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hndkoGHD1ogh",
+                "exr_41n2hoFGGwZDNFT1",
+                "exr_41n2hadQgEEX8wDN",
+                "exr_41n2hj9BnSmUu3Eo",
+                "exr_41n2hNJoa8pZ5XSy",
+                "exr_41n2hm6ArroHDETJ",
+                "exr_41n2hGVp2iKNQAda",
+                "exr_41n2hHPJc5GY5LBZ",
+                "exr_41n2hVcuaY9F3ukX",
+                "exr_41n2hHru39AiA5Dd"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Triceps Dips Floor",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Dumbbell Lateral Raises",
+            "sets": 3,
+            "reps": "10-15",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hjuGpcex14w7",
+              "name": "Lateral Raise",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/wINC5NY/41n2hjuGpcex14w7__Dumbbell-Lateral-Raise_shoulder.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/j3qqj9g/41n2hjuGpcex14w7__Dumbbell-Lateral-Raise_shoulder_.mp4",
+              "bodyParts": [
+                "SHOULDERS"
+              ],
+              "equipments": [
+                "DUMBBELL"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Dumbbell Lateral Raise",
+                "Shoulder Strengthening Exercises",
+                "Dumbbell Exercises for Shoulders",
+                "Lateral Raise Workout",
+                "Shoulder Muscle Building Exercises",
+                "Dumbbell Shoulder Raise",
+                "Lateral Dumbbell Raise Technique",
+                "Shoulder Toning Exercises with Dumbbells",
+                "How to do Lateral Raises",
+                "Dumbbell Lateral Lifts."
+              ],
+              "overview": "The Lateral Raise is a strength training exercise that primarily targets the deltoids, helping to build shoulder width and definition. It's suitable for individuals at any fitness level, from beginners to advanced athletes, looking to improve upper body strength and posture. People may want to incorporate Lateral Raises into their routine to enhance shoulder stability, promote balanced muscle development, and improve daily functional movements.",
+              "instructions": [
+                "Keeping your torso stationary, lift the dumbbells to your side with a slight bend on the elbow and the hands slightly tilted forward as if pouring water in a glass. Continue to lift them until they are at shoulder level.",
+                "Pause for a second at the top of the movement, then slowly lower the weights back down to the starting position.",
+                "Repeat this movement for the desired number of repetitions.",
+                "Remember to keep your spine neutral and your movements controlled throughout the exercise, avoiding any swinging or jerking."
+              ],
+              "exerciseTips": [
+                "Avoid Using Momentum: Avoid using momentum to swing the weights up, as this can lead to injury and reduces the effectiveness of the exercise. Instead, lift and lower the weights in a controlled manner, focusing on the muscles you're trying to work.",
+                "Choose the Right Weight: Using too heavy weights can lead to poor form and potential injuries. Start with lighter weights and gradually increase as your strength improves. Remember, the goal is not to lift the heaviest weight, but to perform the exercise correctly and safely.",
+                "Focus on the Shoulders: The lateral raise primarily targets the shoulder muscles, specifically the"
+              ],
+              "variations": [
+                "Seated Lateral Raise: This variation requires you to be seated on a bench, which can help to isolate the shoulder muscles and reduce the ability to use momentum to lift the weights.",
+                "Incline Lateral Raise: In this variation, you lay chest-down on an incline bench, which changes the angle of the movement and targets different parts of the shoulder muscles.",
+                "Bent Over Lateral Raise: This variation involves bending over at the waist and lifting the weights from this position, which targets the rear deltoids rather than the side deltoids.",
+                "One Arm Cable Lateral Raise: This variation involves using a cable machine, which provides a more consistent level of resistance throughout the movement compared to free weights."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hZEg1rmRm1PB",
+                "exr_41n2hu1bys73zUm3",
+                "exr_41n2hHaYg4ghZQ43",
+                "exr_41n2hKYnH7M4tn7q",
+                "exr_41n2hK768qYUUAUY",
+                "exr_41n2hwPpWZTb5DAo",
+                "exr_41n2hGgiPBtmRKnH",
+                "exr_41n2hunNDBzrz6Qa",
+                "exr_41n2hTpsBxw21tfa",
+                "exr_41n2hpiQMNx9ujHc"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Lateral Raise",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Barbell Bicep Curls",
+            "sets": 3,
+            "reps": "8-12",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hxqpSU5p6DZv",
+              "name": "Biceps Leg Concentration Curl",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/a6Od29C/41n2hxqpSU5p6DZv__Biceps-Leg-Concentration-Curl_Upper-Arms.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/kaolGLQ/41n2hxqpSU5p6DZv__Biceps-Leg-Concentration-Curl_Upper-Arms.mp4",
+              "bodyParts": [
+                "BICEPS",
+                "UPPER ARMS"
+              ],
+              "equipments": [
+                "BODY WEIGHT"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Biceps Leg Concentration Curl",
+                "Bodyweight Bicep Exercise",
+                "Upper Arm Toning Exercise",
+                "Bodyweight Concentration Curl",
+                "Leg Bicep Curl",
+                "Home Workout for Biceps",
+                "Bicep Strengthening Exercise",
+                "Bodyweight Upper Arm Exercise",
+                "No Equipment Bicep Workout",
+                "Concentration Curl for Biceps"
+              ],
+              "overview": "The Biceps Leg Concentration Curl is an effective exercise that targets and strengthens the biceps and forearms, contributing to improved arm definition and muscular endurance. This exercise is ideal for both beginners and advanced fitness enthusiasts as it can be easily modified to match individual strength levels. People may choose to incorporate this exercise into their routine to enhance upper body strength, improve muscle tone, and potentially boost overall athletic performance.",
+              "instructions": [
+                "Position your elbow on the inside of your thigh, close to your knee, with your arm fully extended.",
+                "Slowly curl the dumbbell up towards your chest, keeping your elbow stable and ensuring the movement is only happening in your forearm.",
+                "Hold the position for a second, feeling the tension in your biceps.",
+                "Lower the dumbbell back down to the starting position, making sure to keep the movement controlled. Repeat the exercise for your desired number of repetitions and then switch to the other arm."
+              ],
+              "exerciseTips": [
+                "Maintain Control: Avoid using momentum to lift the weight. This is a common mistake that can lead to injury and reduces the effectiveness of the exercise. Keep your movements slow and controlled, focusing on the muscle contraction and relaxation.",
+                "Full Range of Motion: To get the most out of this exercise, ensure you're using a full range of motion. This means lowering the weight all the way down until your arm is fully extended, then curling it back up as far as it will comfortably go.",
+                "Avoid Elbow Movement: Your elbow should remain stationary throughout the exercise. If your elbow is moving, it"
+              ],
+              "variations": [
+                "Hammer Curls: In this variation, you hold the dumbbells with palms facing your torso, which targets the brachialis, a muscle that lies underneath the biceps brachii.",
+                "Preacher Curls: This variation uses a preacher bench to isolate the biceps. You rest your arms on the sloping part of the bench and curl the weight up towards your shoulders.",
+                "Standing Resistance Band Bicep Curls: For this variation, you step on the center of a resistance band and curl up, providing constant tension on the biceps.",
+                "Incline Dumbbell Curls: In this variation, you sit on an incline bench and perform dumbbell curls, which increases the range of motion and targets the"
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2hc2VrB8ofxrW",
+                "exr_41n2hzAMXkkQQ5T2",
+                "exr_41n2htBQBchhJEFn",
+                "exr_41n2hx6oyEujP1B6",
+                "exr_41n2hXKdB9ktSASg",
+                "exr_41n2hydnNUJygyFB",
+                "exr_41n2hjVXxKoYuDdn",
+                "exr_41n2hPMH1qxsumQn",
+                "exr_41n2hiL123KPcmn4",
+                "exr_41n2hk4JPVrcJyX6"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Biceps Leg Concentration Curl",
+            "search_strategy": "direct"
+          },
+          {
+            "exercise_name": "Reverse Pec Deck Fly (or Dumbbell Rear Delt Fly)",
+            "sets": 3,
+            "reps": "12-15",
+            "exercise_details": {
+              "exerciseId": "exr_41n2hx6oyEujP1B6",
+              "name": "Two Legs Reverse Biceps Curl with Towel ",
+              "imageUrl": "https://cdn.exercisedb.dev/w/images/RM6e6Dl/41n2hx6oyEujP1B6__Two-Legs-Reverse-Biceps-Curl-with-Towel-(VERSION-2)_Upper-Arms_720.png",
+              "videoUrl": "https://cdn.exercisedb.dev/w/videos/UBucvJE/41n2hx6oyEujP1B6__Two-Legs-Reverse-Biceps-Curl-with-Towel-(VERSION-2).mp4",
+              "bodyParts": [
+                "BICEPS",
+                "UPPER ARMS"
+              ],
+              "equipments": [
+                "BODY WEIGHT"
+              ],
+              "exerciseType": "STRENGTH",
+              "targetMuscles": [],
+              "secondaryMuscles": [],
+              "keywords": [
+                "Bodyweight bicep exercises",
+                "Towel reverse curl workout",
+                "Upper arm strengthening exercises",
+                "No-equipment bicep workouts",
+                "Two legs bicep curls",
+                "Bodyweight exercises for upper arms",
+                "Bicep curl variations",
+                "Towel bicep curl technique",
+                "Home workouts for biceps",
+                "Bodyweight bicep curl with towel."
+              ],
+              "overview": "The Two Legs Reverse Biceps Curl with Towel is an innovative strength-training exercise that targets the biceps, forearms, and grip strength. It's an ideal choice for athletes, fitness enthusiasts, or anyone looking to enhance their upper body strength and endurance. Incorporating this exercise into your routine can improve your lifting capabilities, enhance muscle tone, and provide a unique challenge to your regular arm workouts.",
+              "instructions": [
+                "Extend your arms fully in front of you at chest level, making sure the towel is taut between your hands.",
+                "Slowly curl your arms towards your chest while keeping your elbows stationary, pulling the towel as if you were trying to bend it in half, this will engage your biceps.",
+                "Hold this position for a few seconds to maximize muscle contraction, then slowly extend your arms back to the starting position.",
+                "Repeat this movement for the desired amount of repetitions, ensuring to keep the towel taut and your movements controlled throughout the exercise."
+              ],
+              "exerciseTips": [
+                "Controlled Movement: Avoid using momentum or swinging your arms to lift the towel. Instead, focus on using your biceps to pull the towel towards your chest. This controlled movement will ensure that your muscles are properly engaged, leading to more effective results.",
+                "Breathing Technique: Proper breathing is crucial for any exercise. Inhale as you lower the towel and exhale as you curl it up. This will help maintain your energy levels and ensure that your muscles receive enough oxygen.",
+                "Consistent Tension: Keep the towel taut throughout the exercise. This constant resistance will engage your biceps throughout the entire movement,"
+              ],
+              "variations": [
+                "Single Leg Reverse Biceps Curl with Towel: This variation adds a balance challenge by lifting one foot off the ground while performing the curl.",
+                "Two Legs Reverse Biceps Curl with Dumbbells: Instead of a towel, this variation uses dumbbells to add weight and increase the intensity of the exercise.",
+                "Two Legs Reverse Biceps Curl with Barbell: This variation uses a barbell instead of a towel, which allows for heavier weights and increased muscle activation.",
+                "Two Legs Reverse Biceps Curl with Kettlebell: This variation replaces the towel with a kettlebell, which can help improve grip strength and add an extra challenge to the exercise."
+              ],
+              "relatedExerciseIds": [
+                "exr_41n2htBQBchhJEFn",
+                "exr_41n2hxqpSU5p6DZv",
+                "exr_41n2hc2VrB8ofxrW",
+                "exr_41n2hzAMXkkQQ5T2",
+                "exr_41n2hXKdB9ktSASg",
+                "exr_41n2hydnNUJygyFB",
+                "exr_41n2hjVXxKoYuDdn",
+                "exr_41n2hnsmztLyuhYf",
+                "exr_41n2heHYiGDFgyGD",
+                "exr_41n2hK1AGZocF2Wb"
+              ]
+            },
+            "data_source": "exercisedb_api_detailed",
+            "match_confidence": "high",
+            "matched_exercise_name": "Two Legs Reverse Biceps Curl with Towel ",
+            "search_strategy": "word"
+          }
+        ]
+      }
+    ]
+  },
+  "message": "Workout plan enriched with exercise database information",
+  "enrichment_stats": {
+    "total_exercises": 24,
+    "detailed_enriched": 22,
+    "search_enriched": 1,
+    "ai_only": 1,
+    "total_enriched": 23,
+    "enrichment_rate": 95.83,
+    "high_confidence_matches": 22,
+    "medium_confidence_matches": 1,
+    "no_matches": 1,
+    "high_confidence_rate": 91.67,
+    "muscles_auto_populated": 0,
+    "equipments_auto_populated": 0,
+    "body_parts_auto_populated": 0,
+    "keywords_auto_populated": 0
+  }
+}

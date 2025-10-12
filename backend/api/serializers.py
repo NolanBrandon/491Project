@@ -1,12 +1,22 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from .models import (
+    User,
     UserMetrics,
     Goal,
     Exercise,
+    Muscle,
+    ExerciseMuscle,
+    Equipment,
+    ExerciseEquipment,
+    BodyPart,
+    ExerciseBodyPart,
+    Keyword,
+    ExerciseKeyword,
+    RelatedExercise,
     WorkoutPlan,
     PlanDay,
     PlanExercise,
+    WorkoutLog,
     Ingredient,
     RecipeIngredient,
     Food,
@@ -25,7 +35,7 @@ from .models import (
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name']
+        fields = ['id', 'username', 'email', 'gender', 'date_of_birth', 'last_login_date', 'login_streak', 'created_at']
 
 class UserMetricsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,6 +55,51 @@ class ExerciseSerializer(serializers.ModelSerializer):
         model = Exercise
         fields = '__all__'
 
+class MuscleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Muscle
+        fields = '__all__'
+
+class ExerciseMuscleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExerciseMuscle
+        fields = '__all__'
+
+class EquipmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Equipment
+        fields = '__all__'
+
+class ExerciseEquipmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExerciseEquipment
+        fields = '__all__'
+
+class BodyPartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BodyPart
+        fields = '__all__'
+
+class ExerciseBodyPartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExerciseBodyPart
+        fields = '__all__'
+
+class KeywordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Keyword
+        fields = '__all__'
+
+class ExerciseKeywordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExerciseKeyword
+        fields = '__all__'
+
+class RelatedExerciseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RelatedExercise
+        fields = '__all__'
+
 class WorkoutPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkoutPlan
@@ -58,6 +113,11 @@ class PlanDaySerializer(serializers.ModelSerializer):
 class PlanExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlanExercise
+        fields = '__all__'
+
+class WorkoutLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkoutLog
         fields = '__all__'
 
 # -------------------------------
@@ -96,7 +156,7 @@ class MealPlanEntrySerializer(serializers.ModelSerializer):
         model = MealPlanEntry
         fields = '__all__'
 
-class IngredientsSerializer(serializers.ModelSerializer):
+class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = '__all__'
