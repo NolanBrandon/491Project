@@ -30,7 +30,7 @@ export default function NutritionPageContent() {
       date_eaten: dateEaten,
       meal_type: mealType,
       food_name: foodName,
-      quantity: quantity,
+      quantity: parseFloat(quantity),
       user_id: user.id, // use current authenticated user
       food_id: null, // allow manual entry
     });
