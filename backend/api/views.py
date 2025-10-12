@@ -33,6 +33,10 @@ from .models import (
 )
 from .serializers import (
     UserSerializer,
+    UserCreateSerializer,
+    UserProfileSerializer,
+    LoginSerializer,
+    ChangePasswordSerializer,
     UserMetricsSerializer,
     GoalSerializer,
     ExerciseSerializer,
@@ -66,8 +70,80 @@ from .serializers import (
 # -------------------------------
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserProfileSerializer  # Default to profile serializer (no password)
     permission_classes = [AllowAny]
+    
+    def get_serializer_class(self):
+        """Return appropriate serializer based on action"""
+        if self.action == 'create':
+            return UserCreateSerializer
+        elif self.action in ['update', 'partial_update']:
+            return UserSerializer
+        return UserProfileSerializer
+    
+    def create(self, request, *args, **kwargs):
+        """Create user with password hashing"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        
+        # Return profile data (without password)
+        profile_serializer = UserProfileSerializer(user)
+        return Response(profile_serializer.data, status=status.HTTP_201_CREATED)
+    
+    @action(detail=False, methods=['post'])
+    def login(self, request):
+        """Simple login endpoint"""
+        serializer = LoginSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        username = serializer.validated_data['username']
+        password = serializer.validated_data['password']
+        
+        try:
+            user = User.objects.get(username=username)
+            # Import the verification function
+            from .serializers import verify_password
+            if verify_password(password, user.password_hash):
+                user_data = UserProfileSerializer(user).data
+                return Response({
+                    'message': 'Login successful',
+                    'user': user_data
+                })
+            else:
+                return Response(
+                    {'error': 'Invalid credentials'}, 
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
+        except User.DoesNotExist:
+            return Response(
+                {'error': 'Invalid credentials'}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+    
+    @action(detail=True, methods=['post'])
+    def change_password(self, request, pk=None):
+        """Change user password"""
+        user = self.get_object()
+        serializer = ChangePasswordSerializer(data=request.data)
+        
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        old_password = serializer.validated_data['old_password']
+        new_password = serializer.validated_data['new_password']
+        
+        from .serializers import verify_password, hash_password
+        if verify_password(old_password, user.password_hash):
+            user.password_hash = hash_password(new_password)
+            user.save()
+            return Response({'message': 'Password changed successfully'})
+        else:
+            return Response(
+                {'error': 'Invalid old password'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
     
     @action(detail=True, methods=['get'])
     def dashboard(self, request, pk=None):
