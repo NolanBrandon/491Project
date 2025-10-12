@@ -204,6 +204,228 @@ class ExerciseDBService:
                 "message": "An unexpected error occurred during search"
             }
 
+    def _enhanced_exercise_search(self, exercise_name: str) -> Dict:
+        """
+        Enhanced exercise search with multiple strategies for better matching.
+        
+        Tries different search approaches:
+        1. Direct search with full name
+        2. Search with cleaned name (remove hyphens, underscores)
+        3. Search with individual words
+        4. Search with partial terms
+        
+        Args:
+            exercise_name (str): Exercise name to search for
+            
+        Returns:
+            dict: Best search result found, or failure result
+        """
+        try:
+            if not exercise_name or not exercise_name.strip():
+                return {
+                    "success": False,
+                    "error": "Empty exercise name",
+                    "message": "Exercise name cannot be empty"
+                }
+            
+            search_strategies = []
+            
+            # Strategy 1: Direct search with original name
+            search_strategies.append(("direct", exercise_name.strip()))
+            
+            # Strategy 2: Cleaned name (normalize spaces, remove special chars)
+            cleaned_name = exercise_name.strip().replace('-', ' ').replace('_', ' ')
+            cleaned_name = ' '.join(cleaned_name.split())  # Normalize spaces
+            if cleaned_name != exercise_name.strip():
+                search_strategies.append(("cleaned", cleaned_name))
+            
+            # Strategy 3: Search with individual significant words (longer than 2 chars)
+            words = [word for word in cleaned_name.split() if len(word) > 2]
+            if len(words) > 1:
+                for word in words:
+                    search_strategies.append(("word", word))
+            
+            # Strategy 4: Partial search with first significant word + last word
+            if len(words) > 1:
+                partial_search = f"{words[0]} {words[-1]}"
+                if partial_search != cleaned_name:
+                    search_strategies.append(("partial", partial_search))
+            
+            best_result = None
+            best_match_count = 0
+            
+            for strategy_name, search_term in search_strategies:
+                logger.debug(f"Trying {strategy_name} search for '{exercise_name}' with term: '{search_term}'")
+                
+                search_result = self.search_exercises(search_term)
+                
+                if search_result.get("success", False):
+                    exercise_data = search_result.get("data", {}).get("data", [])
+                    match_count = len(exercise_data)
+                    
+                    if match_count > 0:
+                        # Find best match using intelligent matching
+                        best_match = self._find_best_exercise_match(exercise_name, exercise_data)
+                        
+                        if best_match:
+                            logger.info(f"Strategy '{strategy_name}' found {match_count} results for '{exercise_name}'")
+                            return {
+                                "success": True,
+                                "data": {"data": exercise_data},
+                                "best_match": best_match,
+                                "strategy_used": strategy_name,
+                                "search_term": search_term,
+                                "message": f"Found match using {strategy_name} search"
+                            }
+                        elif match_count > best_match_count:
+                            # Keep track of best result even if no good match found
+                            best_result = search_result
+                            best_match_count = match_count
+                    else:
+                        logger.debug(f"Strategy '{strategy_name}' returned no results")
+                else:
+                    logger.debug(f"Strategy '{strategy_name}' failed: {search_result.get('message', 'Unknown error')}")
+            
+            # If no good matches found, return the best result we got
+            if best_result:
+                logger.warning(f"No intelligent matches found for '{exercise_name}', returning best result with {best_match_count} exercises")
+                return {
+                    "success": True,
+                    "data": best_result["data"],
+                    "best_match": None,
+                    "strategy_used": "fallback",
+                    "message": f"Found {best_match_count} results but no good matches"
+                }
+            
+            logger.warning(f"All search strategies failed for exercise: '{exercise_name}'")
+            return {
+                "success": False,
+                "error": "No search results found",
+                "message": f"No exercises found matching '{exercise_name}'"
+            }
+            
+        except Exception as e:
+            logger.error(f"Error in enhanced exercise search for '{exercise_name}': {e}")
+            return {
+                "success": False,
+                "error": f"Search error: {str(e)}",
+                "message": "An error occurred during exercise search"
+            }
+
+    def _find_best_exercise_match(self, target_exercise_name: str, search_results: List[Dict]) -> Optional[Dict]:
+        """
+        Find the best matching exercise from search results using intelligent matching.
+        
+        Uses multiple scoring criteria:
+        1. Exact name match (highest priority)
+        2. Name similarity (fuzzy matching)
+        3. Keyword matching
+        4. Partial name matching
+        
+        Args:
+            target_exercise_name (str): The exercise name from AI-generated workout
+            search_results (list): List of exercises from search API
+            
+        Returns:
+            dict or None: Best matching exercise or None if no good match found
+        """
+        try:
+            if not search_results or not target_exercise_name:
+                return None
+            
+            target_name_lower = target_exercise_name.lower().strip()
+            target_words = set(target_name_lower.split())
+            
+            best_match = None
+            best_score = 0
+            
+            for exercise in search_results:
+                exercise_name = exercise.get('name', '').lower().strip()
+                exercise_words = set(exercise_name.split())
+                
+                score = 0
+                
+                # 1. Exact match (highest priority)
+                if target_name_lower == exercise_name:
+                    score += 100
+                
+                # 2. Exact substring match
+                elif target_name_lower in exercise_name or exercise_name in target_name_lower:
+                    score += 80
+                
+                # 3. Word overlap scoring
+                common_words = target_words.intersection(exercise_words)
+                if common_words:
+                    word_overlap_ratio = len(common_words) / max(len(target_words), len(exercise_words))
+                    score += word_overlap_ratio * 60
+                
+                # 4. Partial word matching (for abbreviations, etc.)
+                for target_word in target_words:
+                    for exercise_word in exercise_words:
+                        if len(target_word) >= 3 and len(exercise_word) >= 3:
+                            if target_word in exercise_word or exercise_word in target_word:
+                                score += 20
+                
+                # 5. Character similarity (simple Levenshtein-like scoring)
+                if len(target_name_lower) > 0 and len(exercise_name) > 0:
+                    char_similarity = self._calculate_string_similarity(target_name_lower, exercise_name)
+                    score += char_similarity * 30
+                
+                # 6. Bonus for exercise type matching common patterns
+                # This helps with exercises like "push-up" vs "push up" or "pushup"
+                normalized_target = target_name_lower.replace('-', ' ').replace('_', ' ')
+                normalized_exercise = exercise_name.replace('-', ' ').replace('_', ' ')
+                if normalized_target == normalized_exercise:
+                    score += 50
+                
+                logger.debug(f"Exercise '{exercise_name}' scored {score:.2f} for target '{target_exercise_name}'")
+                
+                # Update best match if this exercise scores higher
+                if score > best_score and score >= 30:  # Minimum threshold for acceptable match
+                    best_score = score
+                    best_match = exercise
+            
+            if best_match:
+                logger.info(f"Best match for '{target_exercise_name}': '{best_match.get('name')}' (score: {best_score:.2f})")
+            else:
+                logger.warning(f"No suitable match found for '{target_exercise_name}' (best score: {best_score:.2f})")
+            
+            return best_match
+            
+        except Exception as e:
+            logger.error(f"Error finding best exercise match: {e}")
+            return None
+
+    def _calculate_string_similarity(self, str1: str, str2: str) -> float:
+        """
+        Calculate similarity between two strings using a simple character-based approach.
+        
+        Args:
+            str1 (str): First string
+            str2 (str): Second string
+            
+        Returns:
+            float: Similarity score between 0.0 and 1.0
+        """
+        try:
+            if not str1 or not str2:
+                return 0.0
+            
+            if str1 == str2:
+                return 1.0
+            
+            # Simple character overlap approach
+            set1 = set(str1.lower())
+            set2 = set(str2.lower())
+            
+            intersection = len(set1.intersection(set2))
+            union = len(set1.union(set2))
+            
+            return intersection / union if union > 0 else 0.0
+            
+        except Exception:
+            return 0.0
+
     def get_exercise_by_id(self, exercise_id: str) -> Dict:
         """
         Get detailed information about a specific exercise by ID.
@@ -324,18 +546,21 @@ class ExerciseDBService:
                 for exercise in exercises:
                     exercise_name = exercise.get("exercise_name", "")
                     
-                    # Search for exercise data first
-                    search_result = self.search_exercises(exercise_name)
+                    # Enhanced search for exercise data with multiple strategies and intelligent matching
+                    search_result = self._enhanced_exercise_search(exercise_name)
                     
                     enriched_exercise = exercise.copy()
                     
                     if search_result.get("success", False):
-                        exercise_data = search_result.get("data", {}).get("data", [])
-                        if exercise_data:
-                            # Get the exercise ID and fetch detailed data
-                            exercise_id = exercise_data[0].get("exerciseId")
+                        best_match = search_result.get("best_match")
+                        strategy_used = search_result.get("strategy_used", "unknown")
+                        
+                        if best_match:
+                            exercise_id = best_match.get("exerciseId")
                             if exercise_id:
-                                # Get detailed exercise information
+                                logger.info(f"Found match for '{exercise_name}' using {strategy_used} strategy: '{best_match.get('name')}' (ID: {exercise_id})")
+                                
+                                # Get detailed exercise information using the matched exercise ID
                                 detailed_result = self.get_exercise_by_id(exercise_id)
                                 if detailed_result.get("success", False):
                                     detailed_data = detailed_result.get("data", {}).get("data", detailed_result.get("data", {}))
@@ -381,27 +606,45 @@ class ExerciseDBService:
                                         "overview": detailed_data.get("overview"),
                                         "instructions": detailed_data.get("instructions", []),
                                         "exerciseTips": detailed_data.get("exerciseTips", []),
-                                        "variations": detailed_data.get("variations", [])
+                                        "variations": detailed_data.get("variations", []),
+                                        "relatedExerciseIds": detailed_data.get("relatedExerciseIds", [])
                                     }
                                     enriched_exercise["data_source"] = "exercisedb_api_detailed"
+                                    enriched_exercise["match_confidence"] = "high"
+                                    enriched_exercise["matched_exercise_name"] = detailed_data.get("name")
+                                    enriched_exercise["search_strategy"] = strategy_used
+                                    logger.info(f"Successfully enriched '{exercise_name}' with detailed data")
                                 else:
-                                    # Fallback to search data only
-                                    first_match = exercise_data[0]
+                                    # Fallback to search data only if detailed fetch fails
                                     enriched_exercise["exercise_details"] = {
-                                        "exerciseId": first_match.get("exerciseId"),
-                                        "name": first_match.get("name"),
-                                        "imageUrl": first_match.get("imageUrl")
+                                        "exerciseId": best_match.get("exerciseId"),
+                                        "name": best_match.get("name"),
+                                        "imageUrl": best_match.get("imageUrl")
                                     }
                                     enriched_exercise["data_source"] = "exercisedb_api_search"
+                                    enriched_exercise["match_confidence"] = "medium"
+                                    enriched_exercise["matched_exercise_name"] = best_match.get("name")
+                                    enriched_exercise["search_strategy"] = strategy_used
+                                    logger.warning(f"Detailed fetch failed for '{exercise_name}', using search data only")
                             else:
                                 enriched_exercise["exercise_details"] = None
                                 enriched_exercise["data_source"] = "ai_only"
+                                enriched_exercise["match_confidence"] = "none"
+                                enriched_exercise["search_strategy"] = strategy_used
+                                logger.warning(f"No exercise ID found for best match: '{exercise_name}'")
                         else:
+                            # Search succeeded but no good match found
                             enriched_exercise["exercise_details"] = None
                             enriched_exercise["data_source"] = "ai_only"
+                            enriched_exercise["match_confidence"] = "none"
+                            enriched_exercise["search_strategy"] = strategy_used
+                            logger.warning(f"Search found results but no suitable match for exercise: '{exercise_name}'")
                     else:
                         enriched_exercise["exercise_details"] = None
-                        enriched_exercise["data_source"] = "ai_only"
+                        enriched_exercise["data_source"] = "ai_only" 
+                        enriched_exercise["match_confidence"] = "none"
+                        enriched_exercise["search_strategy"] = "failed"
+                        logger.warning(f"Enhanced search failed for exercise: '{exercise_name}' - {search_result.get('message', 'Unknown error')}")
                         
                     enriched_exercises.append(enriched_exercise)
                 
@@ -630,21 +873,38 @@ class ExerciseDBService:
         search_enriched = 0
         ai_only = 0
         
+        # Match confidence tracking
+        high_confidence_matches = 0
+        medium_confidence_matches = 0
+        no_matches = 0
+        
         for day in enriched_days:
             exercises = day.get("exercises", [])
             total_exercises += len(exercises)
             
             for exercise in exercises:
                 data_source = exercise.get("data_source", "ai_only")
+                match_confidence = exercise.get("match_confidence", "none")
+                
+                # Count by data source
                 if data_source == "exercisedb_api_detailed":
                     detailed_enriched += 1
                 elif data_source == "exercisedb_api_search":
                     search_enriched += 1
                 else:
                     ai_only += 1
+                
+                # Count by match confidence
+                if match_confidence == "high":
+                    high_confidence_matches += 1
+                elif match_confidence == "medium":
+                    medium_confidence_matches += 1
+                else:
+                    no_matches += 1
         
         total_enriched = detailed_enriched + search_enriched
         enrichment_rate = (total_enriched / total_exercises * 100) if total_exercises > 0 else 0
+        high_confidence_rate = (high_confidence_matches / total_exercises * 100) if total_exercises > 0 else 0
         
         return {
             "total_exercises": total_exercises,
@@ -653,6 +913,10 @@ class ExerciseDBService:
             "ai_only": ai_only,
             "total_enriched": total_enriched,
             "enrichment_rate": round(enrichment_rate, 2),
+            "high_confidence_matches": high_confidence_matches,
+            "medium_confidence_matches": medium_confidence_matches,
+            "no_matches": no_matches,
+            "high_confidence_rate": round(high_confidence_rate, 2),
             "muscles_auto_populated": 0,  # Will be updated by enrich_workout_plan
             "equipments_auto_populated": 0,  # Will be updated by enrich_workout_plan
             "body_parts_auto_populated": 0,  # Will be updated by enrich_workout_plan

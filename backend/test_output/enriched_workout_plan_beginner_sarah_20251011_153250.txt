@@ -1,0 +1,492 @@
+================================================================================
+ENRICHED WORKOUT PLAN FOR: Beginner Sarah
+================================================================================
+Goal: lose weight
+Experience Level: beginner
+Days per Week: 3
+User Profile: {'age': 28, 'gender': 'female', 'weight_kg': 70, 'height_cm': 165, 'activity_level': 'sedentary'}
+
+PLAN NAME: Beginner 3-Day Weight Loss Foundations
+DESCRIPTION: A targeted 3-day full-body workout plan for beginners focusing on fundamental movements to build strength, improve endurance, and effectively support weight loss goals. Emphasizes proper form and includes cardio for calorie expenditure.
+
+ENRICHMENT STATISTICS:
+----------------------------------------
+Total Exercises: 18
+Successfully Enriched: 18
+Enrichment Rate: 100.0%
+High Confidence Matches: 18
+Medium Confidence Matches: 0
+No Matches: 0
+
+DAY 1: Full Body & Cardio A
+============================================================
+1. Bodyweight Squats
+   Sets: 3 | Reps: 12-15
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: direct
+   Matched to: Split Squats
+   Exercise ID: exr_41n2hHRszDHarrxK
+   Body Parts: QUADRICEPS, THIGHS
+   Equipment: BODY WEIGHT
+   Exercise Type: STRENGTH
+   Overview: Split Squats are a valuable exercise that targets multiple muscle groups, including the quadriceps, glutes, and hamstrings, thereby enhancing overall lower body strength and balance. This exercise is ...
+   Instructions (4 steps):
+     1. Keep your upper body straight, with your shoulders back and relaxed and chin up. Your hands can be on your hips or extended out for balance.
+     2. Lower your body until your front knee is at a 90-degree angle and your back knee is just above the floor. Your front heel should be flat on the floor and your knee should be directly over your ankle.
+     3. Push yourself back up to the starting position by pressing into your front heel, keeping your weight balanced evenly, not leaning forward or backward.
+     ... and 1 more steps
+   Tips (3 available):
+     • Maintain Upright Posture: Keep your torso upright throughout the exercise. Leaning too far forward o...
+     • Correct Foot Placement: Your front foot should be flat on the floor and your back foot should be on ...
+     ... and 1 more tips
+   Variations (4 available):
+     • Side Split Squat: In this version, you step out to the side to perform the squat, which targets your...
+     • Jumping Split Squat: This is a more dynamic variation where you add a jump as you switch legs, incre...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/mj01SgJ/41n2hHRszDHarrxK__Split-Squats_Thighs.png
+   Video: https://cdn.exercisedb.dev/w/videos/u2MkvDg/41n2hHRszDHarrxK__Split-Squats_Thighs.mp4
+   Related Exercises: 10 available
+
+2. Knee Push-ups (or Incline Push-ups)
+   Sets: 3 | Reps: 8-12
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: word
+   Matched to: Kneeling Rotational Push-up
+   Exercise ID: exr_41n2hSvEPVntpxSG
+   Body Parts: CHEST, WAIST
+   Equipment: BODY WEIGHT
+   Exercise Type: STRENGTH
+   Overview: The Kneeling Rotational Push-up is an advanced exercise that combines strength training and core stabilization, targeting the chest, arms, and abdominal muscles. It's suitable for individuals with an ...
+   Instructions (4 steps):
+     1. Lower your body down towards the floor, bending your elbows and keeping your body straight.
+     2. As you push your body back up, rotate your upper body to the right, extending your right arm towards the ceiling while keeping your left hand on the ground.
+     3. Return to the starting position and repeat the push-up, this time rotating your upper body to the left and extending your left arm towards the ceiling.
+     ... and 1 more steps
+   Tips (2 available):
+     • Controlled Movement: As you lower your body towards the ground, keep your elbows close to your body....
+     • Core Engagement: Keep your core engaged throughout the exercise. This will not only help to stabiliz...
+   Variations (4 available):
+     • Kneeling Diamond Push-up: In this variation, you form a diamond shape with your hands on the ground,...
+     • Kneeling Spiderman Push-up: This involves bringing your knee to your elbow during each push-up, addi...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/u3ifRW7/41n2hSvEPVntpxSG__Kneeling-Rotational-Push-Up_Chest.png
+   Video: https://cdn.exercisedb.dev/w/videos/pyn3aV3/41n2hSvEPVntpxSG__Kneeling-Rotational-Push-Up_Chest.mp4
+   Related Exercises: 10 available
+
+3. Dumbbell Bent-Over Row (Two-Arm)
+   Sets: 3 | Reps: 10-12
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: direct
+   Matched to: Dumbbell One Arm Bent-over Row
+   Exercise ID: exr_41n2hY9EdwkdGz9a
+   Body Parts: BACK
+   Equipment: DUMBBELL
+   Exercise Type: STRENGTH
+   Overview: The Dumbbell One Arm Bent-over Row is a strength-building exercise that primarily targets the muscles in your back, shoulders, and arms. It is ideal for individuals at intermediate or advanced fitness...
+   Instructions (4 steps):
+     1. Bend your knees slightly and lean forward from your waist until your torso is almost parallel to the floor, making sure to keep your back straight.
+     2. Hold onto the bench with your free hand for support, and let the hand holding the dumbbell hang down from your shoulder.
+     3. Pull the dumbbell up towards your waist, keeping your elbow close to your body and squeezing your shoulder blades together at the top of the movement.
+     ... and 1 more steps
+   Tips (3 available):
+     • Control the Weight: Don't let the weight control you. A common mistake is to use momentum to lift th...
+     • Choose the Right Weight: It's important to choose a weight that is challenging but manageable. A com...
+     ... and 1 more tips
+   Variations (4 available):
+     • Incline Bench Dumbbell Row: This variation involves using an incline bench to support your body, all...
+     • Renegade Dumbbell Row: In this variation, you start in a high plank position with a dumbbell in each...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/ok68B3e/41n2hY9EdwkdGz9a__Dumbbell-Bent-over-Row_back_Back.png
+   Video: https://cdn.exercisedb.dev/w/videos/7imWBgZ/41n2hY9EdwkdGz9a__Dumbbell-Bent-over-Row_Back_.mp4
+   Related Exercises: 10 available
+
+4. Plank
+   Sets: 3 | Reps: 30-45 seconds
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: direct
+   Matched to: Front Plank
+   Exercise ID: exr_41n2hXQw5yAbbXL8
+   Body Parts: WAIST
+   Equipment: BODY WEIGHT
+   Exercise Type: STRENGTH
+   Overview: The Front Plank is a highly effective core-strengthening exercise that targets not only the abs but also the back and the hips. It's suitable for individuals at all fitness levels, from beginners to a...
+   Instructions (4 steps):
+     1. Push your body up onto your forearms and toes, making sure your elbows are directly under your shoulders and your forearms are facing forward.
+     2. Keep your body in a straight line from your head to your feet, ensuring your back is flat and your hips are not dropping or rising.
+     3. Engage your core muscles and hold this position for as long as you can, ideally aiming for 30 seconds to 1 minute.
+     ... and 1 more steps
+   Tips (3 available):
+     • Engage Your Core: The Front Plank is a core exercise, so it's essential to engage your abdominal mus...
+     • Keep Your Neck and Spine Neutral: Another common mistake is craning your neck upwards or looking dow...
+     ... and 1 more tips
+   Variations (4 available):
+     • Plank with Leg Lift: This version adds a leg lift to the traditional plank, challenging your balance...
+     • Reverse Plank: Instead of facing the floor, you face upwards, supporting yourself on your hands and ...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/SGDtnU7/41n2hXQw5yAbbXL8__Front-Plank_Waist.png
+   Video: https://cdn.exercisedb.dev/w/videos/nJZVWqt/41n2hXQw5yAbbXL8__Front-Plank-(female)_Waist_.mp4
+   Related Exercises: 10 available
+
+5. Glute Bridge
+   Sets: 3 | Reps: 15-20
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: direct
+   Matched to: Thoracic Bridge
+   Exercise ID: exr_41n2hLUqpev5gSzJ
+   Body Parts: FULL BODY
+   Equipment: BODY WEIGHT
+   Exercise Type: STRETCHING
+   Overview: The Thoracic Bridge is a dynamic exercise that targets the thoracic spine, shoulders, and hips, helping to improve mobility, flexibility, and strength. It is suitable for individuals of all fitness le...
+   Instructions (4 steps):
+     1. Push your hips up towards the ceiling, arching your back and allowing your head to fall back gently, creating a bridge-like shape with your body.
+     2. At the same time, push your chest up and out, opening up your thoracic spine and stretching your chest and shoulders.
+     3. Hold this position for a few seconds, focusing on deep, steady breathing.
+     ... and 1 more steps
+   Tips (3 available):
+     • Body Alignment: Keep your body in a proper alignment. This means your hands should be shoulder-width...
+     • Controlled Movement: Move into and out of the bridge position slowly and with control. Don't rush or...
+     ... and 1 more tips
+   Variations (4 available):
+     • Thoracic Bridge with Arm Reach: In this variation, you reach one arm towards the ceiling while maint...
+     • Thoracic Bridge with Hip Dip: This version involves dipping your hips towards the ground and then li...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/ALLlKpv/41n2hLUqpev5gSzJ__Thoracic-Bridge_Stretching.png
+   Video: https://cdn.exercisedb.dev/w/videos/Mab7fLh/41n2hLUqpev5gSzJ__Thoracic-Bridge_Stretching.mp4
+   Related Exercises: 10 available
+
+6. Brisk Walk or Light Jog
+   Sets: 1 | Reps: 20-25 minutes
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: word
+   Matched to: Walk Elliptical Cross Trainer 
+   Exercise ID: exr_41n2hLZZAH2F2UkS
+   Body Parts: FULL BODY
+   Equipment: LEVERAGE MACHINE
+   Exercise Type: CARDIO
+   Overview: The Walk Elliptical Cross Trainer exercise is a low-impact workout that benefits both the upper and lower body, making it ideal for individuals of all fitness levels, including those recovering from i...
+   Instructions (4 steps):
+     1. Grab the handlebars and start moving your legs in a forward motion, as if you are walking or running, ensuring that your movements are smooth and controlled.
+     2. Engage your upper body by pushing and pulling the handlebars in sync with your leg movements, this will help to increase the intensity of your workout.
+     3. Maintain a straight posture, keeping your core engaged and your back straight throughout the exercise.
+     ... and 1 more steps
+   Tips (3 available):
+     • Correct Foot Placement: Always make sure that your feet are properly positioned on the pedals. They ...
+     • Use the Handles: The handles are not just for balance, they also provide a great upper body workout....
+     ... and 1 more tips
+   Variations (4 available):
+     • The Schwinn 470 Compact Elliptical Machine features a dual track LCD system and 29 preset workout pr...
+     • The Bowflex Max Trainer Series provides a hybrid elliptical-stair stepper workout, targeting both up...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/IueYRZr/41n2hLZZAH2F2UkS__Walk-Elliptical-Cross-Trainer-(female)_Cardio.png
+   Video: https://cdn.exercisedb.dev/w/videos/lIlmhwr/41n2hLZZAH2F2UkS__Walk-Elliptical-Cross-Trainer-(female)_Cardio.mp4
+   Related Exercises: 10 available
+
+
+DAY 2: Full Body & Cardio B
+============================================================
+1. Goblet Squat (Light Dumbbell)
+   Sets: 3 | Reps: 10-12
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: direct
+   Matched to: Goblet Squat
+   Exercise ID: exr_41n2hQDiSwTZXM4F
+   Body Parts: THIGHS
+   Equipment: DUMBBELL
+   Exercise Type: STRENGTH
+   Overview: The Goblet Squat is a full-body exercise that primarily strengthens the lower body, including the quads, hamstrings, and glutes, while also engaging the core and upper body. It is suitable for both be...
+   Instructions (4 steps):
+     1. Engage your core and keep your chest up, then start to lower your body into a squat position by bending your knees and pushing your hips back.
+     2. Continue lowering yourself until your hips are below your knees, making sure your elbows are inside your knees at the bottom of the squat.
+     3. Pause for a moment at the bottom of the squat, then push through your heels to stand back up to the starting position.
+     ... and 1 more steps
+   Tips (3 available):
+     • Foot Placement: Your feet should be slightly wider than shoulder-width apart, with toes pointing sli...
+     • Squat Depth: Aim to lower your body until your elbows touch your knees or your thighs are parallel t...
+     ... and 1 more tips
+   Variations (4 available):
+     • The Goblet Squat with Pulse: In this variation, you add a pulse at the bottom of the squat before co...
+     • The Goblet Box Squat: This variation involves squatting down onto a box or bench, which helps to per...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/7zfmW8Q/41n2hQDiSwTZXM4F__Dumbbell-Goblet-Squat_Thighs.png
+   Video: https://cdn.exercisedb.dev/w/videos/nFmXQAf/41n2hQDiSwTZXM4F__Dumbbell-Goblet-Squat_Thighs.mp4
+   Related Exercises: 10 available
+
+2. Dumbbell Overhead Press (Seated)
+   Sets: 3 | Reps: 10-12
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: direct
+   Matched to: Dumbbell Clean and Press
+   Exercise ID: exr_41n2hXfpvSshoXWG
+   Body Parts: SHOULDERS, BICEPS, BACK, THIGHS
+   Equipment: DUMBBELL
+   Exercise Type: WEIGHTLIFTING
+   Overview: The Dumbbell Clean and Press is a compound exercise that targets multiple muscle groups including the shoulders, back, hips, glutes, and legs, making it an excellent choice for full-body strength and ...
+   Instructions (4 steps):
+     1. Bend your knees slightly and using your whole body, lift the dumbbells up to your shoulders in a swift, clean motion, rotating your wrists so that your palms face forward.
+     2. Once the dumbbells are at shoulder height, press them upward until your arms are fully extended, keeping your core engaged and your back straight.
+     3. Hold the position for a second, then slowly lower the dumbbells back to your shoulders.
+     ... and 1 more steps
+   Tips (2 available):
+     • Avoid Using Momentum: Another common mistake is using momentum to lift the weights. This not only re...
+     • Right Weight Selection: Choosing the right weight is crucial. If the weight is too heavy, it can lea...
+   Variations (4 available):
+     • Dumbbell Squat Clean and Press: This variation incorporates a squat into the movement, working the l...
+     • Alternating Dumbbell Clean and Press: This variation involves alternating between arms for each repe...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/XwJ4aFB/41n2hXfpvSshoXWG__Dumbbell-Clean-and-Press_Weightlifting_720.png
+   Video: https://cdn.exercisedb.dev/w/videos/AiGDWtY/41n2hXfpvSshoXWG__Dumbbell-Clean-and-Press_Weightlifting_.mp4
+   Related Exercises: 10 available
+
+3. Resistance Band Pull-Aparts
+   Sets: 3 | Reps: 15-20
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: word
+   Matched to: Feet and Ankles Stretch 
+   Exercise ID: exr_41n2hnx1hnDdketU
+   Body Parts: CALVES
+   Equipment: BODY WEIGHT
+   Exercise Type: STRENGTH
+   Overview: Feet and Ankles Stretch is a beneficial exercise for individuals of all fitness levels, specifically those seeking to enhance their flexibility, improve balance, and alleviate discomfort from foot or ...
+   Instructions (4 steps):
+     1. Slowly extend one foot out in front of you, keeping your heel on the ground and lifting your toes towards the sky to stretch your ankle.
+     2. Hold this position for about 20 to 30 seconds, feeling the stretch in your calf and the back of your ankle.
+     3. Slowly lower your foot back to the starting position and repeat the stretch with the other foot.
+     ... and 1 more steps
+   Tips (2 available):
+     • Proper Form: When stretching, make sure your form is correct. For a basic ankle stretch, sit on the ...
+     • Gradual Stretch: Avoid bouncing or jerky movements when stretching. These can cause micro-tears in t...
+   Variations (4 available):
+     • The Standing Calf Stretch requires you to stand facing a wall, placing your hands on the wall at eye...
+     • The Towel Foot Stretch involves sitting with your legs extended, wrapping a towel around your toes, ...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/p3iC2es/41n2hnx1hnDdketU__Feet-and-Ankles-Stretch-(male)_Calves.png
+   Video: https://cdn.exercisedb.dev/w/videos/dxZgBTt/41n2hnx1hnDdketU__Feet-and-Ankles-Stretch-(male)_Calves.mp4
+   Related Exercises: 10 available
+
+4. Reverse Lunges (Bodyweight)
+   Sets: 3 | Reps: 10-12 per leg
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: direct
+   Matched to: Reverse Lunge 
+   Exercise ID: exr_41n2hGNrmUnF58Yy
+   Body Parts: QUADRICEPS, THIGHS
+   Equipment: BODY WEIGHT
+   Exercise Type: STRENGTH
+   Overview: The Reverse Lunge is a lower body exercise that primarily strengthens the quadriceps, glutes, and hamstrings, while also improving balance and coordination. It is suitable for individuals at any fitne...
+   Instructions (4 steps):
+     1. Take a step backward with your right foot, lowering your body into a lunge position. Your left knee should be directly above your left ankle and your right knee should be hovering just off the floor.
+     2. Maintain a straight posture with your chest up and your gaze straight ahead, ensuring that your back knee is close but not touching the ground.
+     3. Push off your right foot, returning to the starting position.
+     ... and 1 more steps
+   Tips (3 available):
+     • Avoid Leaning Forward: One common mistake many people make when performing reverse lunges is leaning...
+     • Core Engagement: Engage your core throughout the entire movement. This not only helps with balance b...
+     ... and 1 more tips
+   Variations (4 available):
+     • Reverse Lunge with Overhead Press: This version adds an overhead press to the lunge, increasing the ...
+     • Reverse Lunge with Twist: In this variation, you add a twist to the torso when you step back into th...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/xPs3BlN/41n2hGNrmUnF58Yy__Reverse-Lunge-(leg-kick)_Thighs.png
+   Video: https://cdn.exercisedb.dev/w/videos/PTiSEyK/41n2hGNrmUnF58Yy__Reverse-Lunge-(leg-kick)-(female)_Thighs2_.mp4
+   Related Exercises: 10 available
+
+5. Russian Twists (Bodyweight)
+   Sets: 3 | Reps: 15-20 per side
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: direct
+   Matched to: Russian Twist
+   Exercise ID: exr_41n2hWVVEwU54UtF
+   Body Parts: WAIST
+   Equipment: BODY WEIGHT
+   Exercise Type: STRENGTH
+   Overview: The Russian Twist is a core exercise that strengthens and tones your abdominal muscles, obliques, and lower back. It is suitable for individuals at all fitness levels looking to improve their core str...
+   Instructions (4 steps):
+     1. Hold your hands in front of you and pull your abs to your spine, then slightly lean back until you feel your abs engaged in a balanced position.
+     2. Twist your torso to the right, then to the left to complete one rep, moving your hands from one side to the other.
+     3. Keep your back straight and avoid moving your hips as you twist.
+     ... and 1 more steps
+   Tips (3 available):
+     • Use Your Abs, Not Your Arms: The Russian Twist is an abdominal exercise, not an arm exercise. While ...
+     • Controlled Movement: Avoid the mistake of rushing through the movement. The key to getting the most ...
+     ... and 1 more tips
+   Variations (4 available):
+     • Russian Twist with Leg Extension: In this variation, you extend one leg out straight as you twist to...
+     • Elevated Russian Twist: This variation is performed by lifting your feet off the ground, increasing ...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/yu2m14e/41n2hWVVEwU54UtF__Russian-Twist_waist.png
+   Video: https://cdn.exercisedb.dev/w/videos/9l8Wxjc/41n2hWVVEwU54UtF__Russian-Twist_waist.mp4
+   Related Exercises: 10 available
+
+6. Cycling or Elliptical
+   Sets: 1 | Reps: 20-25 minutes
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: word
+   Matched to: Elliptical Machine Walk 
+   Exercise ID: exr_41n2hpTMDhTxYkvi
+   Body Parts: FULL BODY
+   Equipment: LEVERAGE MACHINE
+   Exercise Type: CARDIO
+   Overview: The Elliptical Machine Walk is a low-impact exercise that offers a full-body workout, making it beneficial for individuals of all fitness levels. It's especially suitable for those with joint issues o...
+   Instructions (4 steps):
+     1. Set your desired workout settings on the machine's console, such as time, resistance level, and incline, if available.
+     2. Begin the exercise by pushing the pedals in a smooth, gliding motion, making sure to keep your back straight and your core engaged.
+     3. As you move your legs, also push and pull the handles with your arms, alternating as you would when naturally walking or running.
+     ... and 1 more steps
+   Tips (3 available):
+     • Full Foot Contact: Ensure your entire foot, from heel to toe, is in contact with the pedal throughou...
+     • Use the Handles: The handles are there to help engage your upper body. However, avoid pulling on the...
+     ... and 1 more tips
+   Variations (4 available):
+     • The Incline Elliptical Walk: This variation involves adjusting the machine to a higher incline, whic...
+     • The Reverse Elliptical Walk: In this variation, you walk backwards on the machine, which can help to...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/oo21uwA/41n2hpTMDhTxYkvi__Elliptical-Machine-Walk-(female)_Cardio.png
+   Video: https://cdn.exercisedb.dev/w/videos/wnfS9xw/41n2hpTMDhTxYkvi__Elliptical-Machine-Walk-(female)_Cardio.mp4
+   Related Exercises: 10 available
+
+
+DAY 3: Full Body & Cardio C
+============================================================
+1. Dumbbell Romanian Deadlift (RDL)
+   Sets: 3 | Reps: 10-12
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: direct
+   Matched to: Romanian Deadlift
+   Exercise ID: exr_41n2hn8rpbYihzEW
+   Body Parts: HIPS
+   Equipment: DUMBBELL
+   Exercise Type: STRENGTH
+   Overview: The Romanian Deadlift is a highly effective strength training exercise that primarily targets the muscles of your lower back, glutes, and hamstrings. It is suitable for both beginners and advanced fit...
+   Instructions (4 steps):
+     1. Keep your back straight and your shoulders back as you begin to bend at the hips, pushing them back while you lower the barbell along the front of your legs.
+     2. Continue lowering the barbell until it reaches mid-shin level, or until you feel a stretch in your hamstrings, making sure to keep the barbell close to your body throughout the movement.
+     3. After reaching this position, pause for a moment, and then slowly reverse the movement by driving your hips forward and standing back up to the starting position, squeezing your glutes at the top.
+     ... and 1 more steps
+   Tips (3 available):
+     • Maintain a Neutral Spine: One common mistake is rounding the back during the movement, which can lea...
+     • Hinge at the Hips: The Romanian Deadlift is a hip-hinge movement, meaning the action comes from bend...
+     ... and 1 more tips
+   Variations (4 available):
+     • Dumbbell Romanian Deadlift: Instead of using a barbell, this variation utilizes dumbbells, allowing ...
+     • Banded Romanian Deadlift: This variation incorporates a resistance band, which adds an extra level o...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/QxA3A5m/41n2hn8rpbYihzEW__Dumbbell-Romanian-Deadlift_Hips.png
+   Video: https://cdn.exercisedb.dev/w/videos/sZiAup2/41n2hn8rpbYihzEW__Dumbbell-Romanian-Deadlift_Hips.mp4
+   Related Exercises: 10 available
+
+2. Incline Push-ups (or Regular Push-ups)
+   Sets: 3 | Reps: 8-12
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: word
+   Matched to: Incline Push-up
+   Exercise ID: exr_41n2hXXpvbykPY3q
+   Body Parts: CHEST
+   Equipment: BODY WEIGHT
+   Exercise Type: STRENGTH
+   Overview: The Incline Push-up is a strength-building exercise that primarily targets the chest, shoulders, and triceps, while also engaging the core and lower body. It's an ideal workout for beginners or those ...
+   Instructions (4 steps):
+     1. Step back and extend your legs so your body forms a straight line from your head to your heels, this is your starting position.
+     2. Lower your body towards the bench by bending your elbows, keeping your body straight and your elbows close to your body.
+     3. Push your body back up to the starting position by straightening your arms, ensuring that you maintain a straight body line.
+     ... and 1 more steps
+   Tips (3 available):
+     • Maintain Body Alignment: One common mistake is sagging of the hips or hiking them up too high. Your ...
+     • Controlled Movement: Lower your chest towards the bench by bending your elbows. Keep your elbows clo...
+     ... and 1 more tips
+   Variations (4 available):
+     • The Close Grip Incline Push-Up is another variation where the hands are placed closer together, focu...
+     • The Single Leg Incline Push-Up adds a balance challenge to the exercise by lifting one leg off the g...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/gei9fP1/41n2hXXpvbykPY3q__Incline-Push-up_Chest.png
+   Video: https://cdn.exercisedb.dev/w/videos/nQSzfrK/41n2hXXpvbykPY3q__Incline-Push-up_Chest.mp4
+   Related Exercises: 10 available
+
+3. Dumbbell Bicep Curls
+   Sets: 3 | Reps: 12-15
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: direct
+   Matched to: Dumbbell Side Bend
+   Exercise ID: exr_41n2hTCBiQVsEfZ7
+   Body Parts: WAIST
+   Equipment: DUMBBELL
+   Exercise Type: STRENGTH
+   Overview: The Dumbbell Side Bend is a strength training exercise that primarily targets the obliques, helping to enhance core stability, improve posture, and reduce risk of back injuries. It's suitable for indi...
+   Instructions (4 steps):
+     1. Keep your back straight, your head up, and your other hand on your waist.
+     2. Bend only at your waist to the side as far as possible, but make sure to keep your back straight.
+     3. Hold for a moment at the furthest point, then return to the starting position.
+     ... and 1 more steps
+   Tips (4 available):
+     • Controlled Movements: Avoid fast, jerky movements. Instead, make sure to move slowly and deliberatel...
+     • Even Distribution: When doing the Dumbbell Side Bend, it's common for people to only perform the exe...
+     ... and 2 more tips
+   Variations (4 available):
+     • Seated Dumbbell Side Bend: Instead of standing, this exercise is performed while sitting on a bench,...
+     • Dumbbell Side Bend with Twist: This variation involves twisting your torso towards the side you're b...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/ySebtfZ/41n2hTCBiQVsEfZ7__Dumbbell-Side-Bend_Waist.png
+   Video: https://cdn.exercisedb.dev/w/videos/H6GDkvm/41n2hTCBiQVsEfZ7__Dumbbell-Side-Bend_Waist.mp4
+   Related Exercises: 10 available
+
+4. Overhead Dumbbell Triceps Extension
+   Sets: 3 | Reps: 12-15
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: direct
+   Matched to: Dumbbell Clean and Press
+   Exercise ID: exr_41n2hXfpvSshoXWG
+   Body Parts: SHOULDERS, BICEPS, BACK, THIGHS
+   Equipment: DUMBBELL
+   Exercise Type: WEIGHTLIFTING
+   Overview: The Dumbbell Clean and Press is a compound exercise that targets multiple muscle groups including the shoulders, back, hips, glutes, and legs, making it an excellent choice for full-body strength and ...
+   Instructions (4 steps):
+     1. Bend your knees slightly and using your whole body, lift the dumbbells up to your shoulders in a swift, clean motion, rotating your wrists so that your palms face forward.
+     2. Once the dumbbells are at shoulder height, press them upward until your arms are fully extended, keeping your core engaged and your back straight.
+     3. Hold the position for a second, then slowly lower the dumbbells back to your shoulders.
+     ... and 1 more steps
+   Tips (2 available):
+     • Avoid Using Momentum: Another common mistake is using momentum to lift the weights. This not only re...
+     • Right Weight Selection: Choosing the right weight is crucial. If the weight is too heavy, it can lea...
+   Variations (4 available):
+     • Dumbbell Squat Clean and Press: This variation incorporates a squat into the movement, working the l...
+     • Alternating Dumbbell Clean and Press: This variation involves alternating between arms for each repe...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/XwJ4aFB/41n2hXfpvSshoXWG__Dumbbell-Clean-and-Press_Weightlifting_720.png
+   Video: https://cdn.exercisedb.dev/w/videos/AiGDWtY/41n2hXfpvSshoXWG__Dumbbell-Clean-and-Press_Weightlifting_.mp4
+   Related Exercises: 10 available
+
+5. Dead Bug
+   Sets: 3 | Reps: 10-12 per side
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: direct
+   Matched to: Dumbbell Stiff Leg Deadlift
+   Exercise ID: exr_41n2hcw2FN534HcA
+   Body Parts: HIPS
+   Equipment: DUMBBELL
+   Exercise Type: STRENGTH
+   Overview: The Dumbbell Stiff Leg Deadlift is a strength training exercise that primarily targets the hamstrings, glutes, and lower back, promoting muscle growth and enhancing core stability. It is suitable for ...
+   Instructions (4 steps):
+     1. Keeping your back straight and your head up, lower your torso by bending at the hips until it's nearly parallel with the floor.
+     2. As you lower your torso, keep the dumbbells as close as possible to your body and allow them to lower towards your feet.
+     3. Pause for a moment at the bottom of the movement, then reverse the motion by extending through your hips until you're standing upright again.
+     ... and 1 more steps
+   Tips (4 available):
+     • Correct Foot Placement: Stand with your feet shoulder-width apart. Do not position your feet too wid...
+     • Controlled Movements: Lower the dumbbells slowly and controlled, hinging at the hips. Avoid the mist...
+     ... and 2 more tips
+   Variations (4 available):
+     • Dumbbell Stiff Leg Deadlift with Resistance Bands: Adding resistance bands to your dumbbell stiff le...
+     • Dumbbell Stiff Leg Sumo Deadlift: This variation involves positioning your feet wider apart, which c...
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/ep9ZHO7/41n2hcw2FN534HcA__Dumbbell-Stiff-Leg-Deadlift_Waist.png
+   Video: https://cdn.exercisedb.dev/w/videos/m1Fo8aC/41n2hcw2FN534HcA__Dumbbell-Stiff-Leg-Deadlift_Waist.mp4
+   Related Exercises: 10 available
+
+6. Stair Climber or Stepmill
+   Sets: 1 | Reps: 20-25 minutes
+   Data Source: exercisedb_api_detailed | Confidence: high | Strategy: word
+   Matched to: Stair Up 
+   Exercise ID: exr_41n2homrPqqs8coG
+   Body Parts: QUADRICEPS, THIGHS
+   Equipment: BODY WEIGHT
+   Exercise Type: STRENGTH
+   Overview: Stair Up is a versatile exercise that offers numerous health benefits including improved cardiovascular health, increased leg strength, and enhanced balance. It is suitable for individuals of all fitn...
+   Instructions (4 steps):
+     1. Step up onto the first stair with your right foot, making sure your entire foot is on the stair and not hanging off the edge.
+     2. Push off with your right foot, bringing your left foot up to join it on the same stair.
+     3. Repeat this process, moving steadily up the staircase, one stair at a time.
+     ... and 1 more steps
+   Tips (3 available):
+     • Use Your Entire Foot: Make sure to step on the entire stair with your whole foot, not just the balls...
+     • Engage Your Core: Just like any other exercise, engaging your core is essential when climbing stairs...
+     ... and 1 more tips
+   Variations (4 available):
+     • The Step Up is another variant of the Stair Up, which involves stepping onto a raised platform one f...
+     • The Ladder Climb is a more challenging version of the Stair Up, requiring both arm and leg strength.
+     ... and 2 more variations
+   Image: https://cdn.exercisedb.dev/w/images/3lhkHNQ/41n2homrPqqs8coG__Stair-Up-(female)_Thighs.png
+   Video: https://cdn.exercisedb.dev/w/videos/E9VKxEy/41n2homrPqqs8coG__Stair-Up-(female)_Thighs_.mp4
+   Related Exercises: 10 available
+
