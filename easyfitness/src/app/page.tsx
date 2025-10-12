@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="home-root">
       <Nav />
-      <div className="home-hero content-grow">
+      <main className="home-hero content-grow">
         <h1 className="home-title">EasyFitness</h1>
         <Button
           as={Link}
@@ -20,7 +20,7 @@ export default function Home() {
         >
           Sign Up
         </Button>
-      </div>
+      </main>
       <Footer />
     </div>
   );

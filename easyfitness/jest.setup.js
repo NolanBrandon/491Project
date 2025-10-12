@@ -2,7 +2,9 @@ import '@testing-library/jest-dom';
 import React from 'react';
 
 jest.mock('next/link', () => {
-  return ({ children, href }) => React.createElement('a', { href }, children);
+  const MockNextLink = ({ children, href }) => React.createElement('a', { href }, children);
+  MockNextLink.displayName = 'MockNextLink';
+  return MockNextLink;
 });
 
 jest.mock('next/navigation', () => ({
