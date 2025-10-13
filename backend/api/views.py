@@ -2,6 +2,9 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
+import logging
+
+logger = logging.getLogger(__name__)
 from .models import (
     User,
     UserMetrics,
@@ -57,6 +60,7 @@ from .serializers import (
     NutritionLogSerializer,
     MealPlanSerializer,
     MealPlanDaySerializer,
+    MealPlanDetailSerializer,
     RecipeSerializer,
     MealPlanEntrySerializer,
     IngredientSerializer,
@@ -346,33 +350,11 @@ class MealPlanViewSet(viewsets.ModelViewSet):
     
     @action(detail=True, methods=['get'])
     def with_details(self, request, pk=None):
-        """Get meal plan with all its days and entries."""
+        """Get meal plan with all its days, entries, recipes, and ingredients."""
         try:
             meal_plan = self.get_object()
-            plan_data = MealPlanSerializer(meal_plan).data
-            
-            # Get all meal plan days for this meal plan
-            meal_plan_days = MealPlanDay.objects.filter(meal_plan=meal_plan).order_by('day_number')
-            plan_data['days'] = []
-            
-            for day in meal_plan_days:
-                day_data = MealPlanDaySerializer(day).data
-                # Get all entries for this day
-                meal_entries = MealPlanEntry.objects.filter(meal_plan_day=day).order_by('meal_type')
-                day_data['entries'] = []
-                
-                for entry in meal_entries:
-                    entry_data = MealPlanEntrySerializer(entry).data
-                    # Include food or recipe details
-                    if entry.food:
-                        entry_data['food_details'] = FoodSerializer(entry.food).data
-                    if entry.recipe:
-                        entry_data['recipe_details'] = RecipeSerializer(entry.recipe).data
-                    day_data['entries'].append(entry_data)
-                
-                plan_data['days'].append(day_data)
-            
-            return Response(plan_data)
+            serializer = MealPlanDetailSerializer(meal_plan)
+            return Response(serializer.data)
         except MealPlan.DoesNotExist:
             return Response(
                 {"error": "Meal plan not found"}, 
@@ -468,3 +450,387 @@ def api_info(request):
             "/recipe-tags/"
         ]
     })
+
+
+# ===========================
+# AI-Powered Workout Plan Generation
+# ===========================
+
+@api_view(['POST'])
+def generate_enriched_workout_plan(request):
+    """
+    Generate an AI-powered workout plan enriched with ExerciseDB data.
+    
+    Expected request body:
+    {
+        "user_id": "uuid",
+        "user_goal": "build muscle",
+        "experience_level": "beginner",
+        "days_per_week": 4,
+        "save_plan": true  // optional, defaults to false
+    }
+    """
+    try:
+        # Validate request data
+        user_id = request.data.get('user_id')
+        user_goal = request.data.get('user_goal')
+        experience_level = request.data.get('experience_level')
+        days_per_week = request.data.get('days_per_week')
+        save_plan = request.data.get('save_plan', False)
+        
+        if not all([user_id, user_goal, experience_level, days_per_week]):
+            return Response({
+                'error': 'Missing required fields: user_id, user_goal, experience_level, days_per_week'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Validate user exists
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({
+                'error': 'User not found'
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        # Prepare user profile for AI
+        user_profile = {
+            'age': user.get_age() if hasattr(user, 'get_age') else None,
+            'gender': user.gender,
+            'username': user.username
+        }
+        
+        # Initialize AI service
+        from api.services.ai_service import GeminiAIService
+        ai_service = GeminiAIService()
+        
+        # Generate AI workout plan
+        ai_result = ai_service.generate_exercise_plan(
+            user_goal=user_goal,
+            experience_level=experience_level,
+            days_per_week=days_per_week,
+            user_profile=user_profile
+        )
+        
+        if not ai_result.get('success', False):
+            return Response({
+                'error': 'Failed to generate AI workout plan',
+                'details': ai_result.get('error', 'Unknown error')
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        # Initialize Exercise service for enrichment
+        from api.services.exercise_service import ExerciseDBService
+        exercise_service = ExerciseDBService()
+        
+        # Enrich the AI plan with ExerciseDB data
+        enriched_result = exercise_service.enrich_workout_plan(ai_result)
+        
+        if not enriched_result.get('success', False):
+            # Return AI plan even if enrichment fails
+            return Response({
+                'success': True,
+                'data': ai_result['data'],
+                'enrichment_failed': True,
+                'enrichment_error': enriched_result.get('error', 'Unknown enrichment error'),
+                'message': 'Workout plan generated but enrichment failed'
+            }, status=status.HTTP_200_OK)
+        
+        # Optionally save the plan to database
+        saved_plan_id = None
+        if save_plan:
+            try:
+                saved_plan_id = save_workout_plan_to_database(user, enriched_result['data'])
+            except Exception as e:
+                logger.error(f"Failed to save workout plan: {e}")
+                # Continue without saving, don't fail the entire request
+        
+        response_data = {
+            'success': True,
+            'data': enriched_result['data'],
+            'enrichment_stats': enriched_result.get('enrichment_stats', {}),
+            'message': 'Enriched workout plan generated successfully',
+            'user_id': user_id,
+            'generation_params': {
+                'user_goal': user_goal,
+                'experience_level': experience_level,
+                'days_per_week': days_per_week
+            }
+        }
+        
+        if saved_plan_id:
+            response_data['saved_plan_id'] = saved_plan_id
+            response_data['message'] += ' and saved to database'
+        
+        return Response(response_data, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        logger.error(f"Error generating enriched workout plan: {e}")
+        return Response({
+            'error': 'Internal server error',
+            'details': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def save_workout_plan_to_database(user, plan_data):
+    """
+    Save an enriched workout plan to the database.
+    
+    Args:
+        user: User instance
+        plan_data: Enriched workout plan data
+        
+    Returns:
+        str: ID of the saved workout plan
+    """
+    try:
+        # Create the main workout plan
+        workout_plan = WorkoutPlan.objects.create(
+            user=user,
+            name=plan_data.get('plan_name', 'AI Generated Plan'),
+            description=plan_data.get('plan_description', 'Generated by AI')
+        )
+        
+        # Create plan days and exercises
+        for day_data in plan_data.get('days', []):
+            plan_day = PlanDay.objects.create(
+                plan=workout_plan,
+                day_number=day_data.get('day_number', 1),
+                name=day_data.get('day_name', f"Day {day_data.get('day_number', 1)}")
+            )
+            
+            # Create exercises for this day
+            for exercise_data in day_data.get('exercises', []):
+                # Try to find existing exercise or create new one
+                exercise_name = exercise_data.get('exercise_name', '')
+                exercise_details = exercise_data.get('exercise_details')
+                
+                # Look for existing exercise by name first
+                exercise = None
+                if exercise_details and exercise_details.get('exerciseId'):
+                    # Try to find by ExerciseDB ID first
+                    try:
+                        exercise = Exercise.objects.get(exerciseDbId=exercise_details['exerciseId'])
+                    except Exercise.DoesNotExist:
+                        pass
+                
+                if not exercise:
+                    # Create new exercise
+                    exercise_db_id = exercise_details.get('exerciseId') if exercise_details else ''
+                    exercise = Exercise.objects.create(
+                        name=exercise_name,
+                        exerciseDbId=exercise_db_id or '',  # Use empty string if None
+                        image_url=exercise_details.get('imageUrl') if exercise_details else None,
+                        video_url=exercise_details.get('videoUrl') if exercise_details else None,
+                        overview=exercise_details.get('overview') if exercise_details else None,
+                        instructions=exercise_details.get('instructions', []) if exercise_details else [],
+                        exercise_type=exercise_details.get('exerciseType') if exercise_details else None
+                    )
+                
+                # Create plan exercise
+                PlanExercise.objects.create(
+                    plan_day=plan_day,
+                    exercise=exercise,
+                    display_order=len(day_data.get('exercises', [])),
+                    sets=exercise_data.get('sets', 1),
+                    reps=str(exercise_data.get('reps', '10')),
+                    rest_period_seconds=exercise_data.get('rest_period_seconds')
+                )
+        
+        logger.info(f"Successfully saved workout plan '{workout_plan.name}' for user {user.username}")
+        return str(workout_plan.id)
+        
+    except Exception as e:
+        logger.error(f"Error saving workout plan to database: {e}")
+        raise
+
+
+@api_view(['GET'])
+def test_ai_services(request):
+    """
+    Test endpoint to verify AI and Exercise services are working.
+    """
+    try:
+        # Test AI service
+        from api.services.ai_service import GeminiAIService
+        ai_service = GeminiAIService()
+        ai_test_success, ai_test_message = ai_service.test_connection()
+        
+        # Test Exercise service
+        from api.services.exercise_service import ExerciseDBService
+        exercise_service = ExerciseDBService()
+        exercise_test_success, exercise_test_message = exercise_service.test_connection()
+        
+        return Response({
+            'ai_service': {
+                'status': 'working' if ai_test_success else 'failed',
+                'message': ai_test_message
+            },
+            'exercise_service': {
+                'status': 'working' if exercise_test_success else 'failed',
+                'message': exercise_test_message
+            },
+            'overall_status': 'ready' if (ai_test_success and exercise_test_success) else 'issues_detected'
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response({
+            'error': 'Failed to test services',
+            'details': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+def generate_enriched_meal_plan(request):
+    """
+    Generate AI-powered meal plan with nutritional data and save to database.
+    """
+    try:
+        # Extract request data
+        data = request.data
+        user_id = data.get('user_id')
+        daily_calorie_target = data.get('daily_calorie_target', 2000)
+        dietary_preferences = data.get('dietary_preferences', [])
+        goal = data.get('goal', 'maintain weight')
+        meal_frequency = data.get('meal_frequency', 3)  # meals per day
+        days_count = data.get('days_count', 5)
+        gender = data.get('gender', 'other')
+        age = data.get('age', 30)
+        activity_level = data.get('activity_level', 'moderate')
+        
+        # Validate required fields
+        if not user_id:
+            return Response({
+                'success': False,
+                'error': 'user_id is required'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Validate user exists
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({
+                'success': False,
+                'error': 'User not found'
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        # Initialize AI service
+        from api.services.ai_service import GeminiAIService
+        ai_service = GeminiAIService()
+        
+        # Prepare user profile
+        user_profile = {
+            'age': age,
+            'gender': gender,
+            'activity_level': activity_level
+        }
+        
+        logger.info(f"Generating meal plan for user {user_id} with {daily_calorie_target} calories, preferences: {dietary_preferences}")
+        
+        # Generate AI meal plan
+        ai_result = ai_service.generate_meal_plan(
+            user_goal=goal,
+            daily_calorie_target=daily_calorie_target,
+            dietary_preferences=dietary_preferences,
+            user_profile=user_profile
+        )
+        
+        if not ai_result.get('success'):
+            return Response({
+                'success': False,
+                'error': 'AI meal plan generation failed',
+                'details': ai_result.get('error', 'Unknown error')
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        meal_plan_data = ai_result['data']
+        
+        # Save to database
+        saved_plan_id = _save_meal_plan_to_database(user, meal_plan_data)
+        
+        return Response({
+            'success': True,
+            'message': 'AI meal plan generated and saved successfully',
+            'saved_plan_id': str(saved_plan_id),
+            'plan_name': meal_plan_data.get('plan_name', 'Generated Meal Plan'),
+            'total_days': len(meal_plan_data.get('days', [])),
+            'daily_calorie_target': daily_calorie_target,
+            'ai_generation': {
+                'success': True,
+                'days_generated': len(meal_plan_data.get('days', [])),
+                'meals_per_day': len(meal_plan_data.get('days', [{}])[0].get('meals', {})) if meal_plan_data.get('days') else 0
+            }
+        }, status=status.HTTP_201_CREATED)
+        
+    except Exception as e:
+        logger.error(f"Error in generate_enriched_meal_plan: {e}")
+        return Response({
+            'success': False,
+            'error': 'Meal plan generation failed',
+            'details': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def _save_meal_plan_to_database(user, meal_plan_data):
+    """
+    Save AI-generated meal plan to database with recipes and ingredients.
+    """
+    try:
+        # Create main meal plan
+        meal_plan = MealPlan.objects.create(
+            user=user,
+            name=meal_plan_data.get('plan_name', 'AI Generated Meal Plan'),
+            description=meal_plan_data.get('plan_description', 'AI-generated personalized meal plan')
+        )
+        
+        # Process each day
+        for day_data in meal_plan_data.get('days', []):
+            day_number = day_data.get('day_number', 1)
+            
+            # Create meal plan day
+            meal_plan_day = MealPlanDay.objects.create(
+                meal_plan=meal_plan,
+                day_number=day_number
+            )
+            
+            # Process meals for this day
+            meals = day_data.get('meals', {})
+            for meal_type, meal_data in meals.items():
+                recipe_name = meal_data.get('recipe_name', f'{meal_type.capitalize()} Recipe')
+                
+                # Create or get recipe
+                recipe, created = Recipe.objects.get_or_create(
+                    name=recipe_name,
+                    defaults={
+                        'category': 'AI Generated',
+                        'instructions': meal_data.get('instructions', ''),
+                        'area': 'Various'
+                    }
+                )
+                
+                # Process ingredients for this recipe
+                for ingredient_data in meal_data.get('ingredients', []):
+                    ingredient_name = ingredient_data.get('ingredient_name', 'Unknown Ingredient')
+                    measure = ingredient_data.get('measure', '1 unit')
+                    
+                    # Create or get ingredient
+                    ingredient, created = Ingredient.objects.get_or_create(
+                        name=ingredient_name
+                    )
+                    
+                    # Create recipe-ingredient relationship
+                    RecipeIngredient.objects.get_or_create(
+                        recipe=recipe,
+                        ingredient=ingredient,
+                        defaults={'measure': measure}
+                    )
+                
+                # Create meal plan entry
+                MealPlanEntry.objects.create(
+                    meal_plan_day=meal_plan_day,
+                    recipe=recipe,
+                    meal_type=meal_type
+                )
+        
+        logger.info(f"Successfully saved meal plan {meal_plan.id} to database")
+        return meal_plan.id
+        
+    except Exception as e:
+        logger.error(f"Error saving meal plan to database: {e}")
+        raise

@@ -184,6 +184,27 @@ class RelatedExerciseSerializer(serializers.ModelSerializer):
         model = RelatedExercise
         fields = '__all__'
 
+class PlanExerciseDetailSerializer(serializers.ModelSerializer):
+    exercise = ExerciseSerializer(read_only=True)
+    
+    class Meta:
+        model = PlanExercise
+        fields = '__all__'
+
+class PlanDayDetailSerializer(serializers.ModelSerializer):
+    plan_exercises = PlanExerciseDetailSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = PlanDay
+        fields = '__all__'
+
+class WorkoutPlanDetailSerializer(serializers.ModelSerializer):
+    plan_days = PlanDayDetailSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = WorkoutPlan
+        fields = '__all__'
+
 class WorkoutPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkoutPlan
@@ -259,3 +280,52 @@ class RecipeTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeTag
         fields = '__all__'
+
+
+# -------------------------------
+# Enhanced Meal Plan Serializers for Detailed Views
+# -------------------------------
+class RecipeIngredientDetailSerializer(serializers.ModelSerializer):
+    """Detailed serializer for recipe ingredients including ingredient details."""
+    ingredient_name = serializers.CharField(source='ingredient.name', read_only=True)
+    
+    class Meta:
+        model = RecipeIngredient
+        fields = ['id', 'ingredient', 'ingredient_name', 'measure']
+
+
+class RecipeDetailSerializer(serializers.ModelSerializer):
+    """Detailed serializer for recipes including ingredients."""
+    recipe_ingredients = RecipeIngredientDetailSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Recipe
+        fields = ['id', 'name', 'category', 'area', 'instructions', 'image_url', 'youtube_url', 'source_url', 'recipe_ingredients']
+
+
+class MealPlanEntryDetailSerializer(serializers.ModelSerializer):
+    """Detailed serializer for meal plan entries including recipe and food details."""
+    recipe_details = RecipeDetailSerializer(source='recipe', read_only=True)
+    food_details = FoodSerializer(source='food', read_only=True)
+    
+    class Meta:
+        model = MealPlanEntry
+        fields = ['id', 'meal_type', 'food', 'food_details', 'recipe', 'recipe_details']
+
+
+class MealPlanDayDetailSerializer(serializers.ModelSerializer):
+    """Detailed serializer for meal plan days including all meal entries."""
+    meal_plan_entries = MealPlanEntryDetailSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = MealPlanDay
+        fields = ['id', 'day_number', 'meal_plan', 'meal_plan_entries']
+
+
+class MealPlanDetailSerializer(serializers.ModelSerializer):
+    """Complete detailed serializer for meal plans with all nested data."""
+    meal_plan_days = MealPlanDayDetailSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = MealPlan
+        fields = ['id', 'name', 'description', 'created_at', 'user', 'meal_plan_days']

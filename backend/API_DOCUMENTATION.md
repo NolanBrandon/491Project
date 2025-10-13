@@ -10,16 +10,17 @@ http://localhost:8000/api/
 ## Table of Contents
 1. [Health & System Endpoints](#health--system-endpoints)
 2. [User Management](#user-management)
-3. [User Metrics & Goals](#user-metrics--goals)
-4. [Exercise System](#exercise-system)
-5. [Workout Planning](#workout-planning)
-6. [Workout Logging](#workout-logging)
-7. [Nutrition System](#nutrition-system)
-8. [Meal Planning](#meal-planning)
-9. [Recipe Management](#recipe-management)
-10. [Relationship Tables](#relationship-tables)
-11. [Common Patterns](#common-patterns)
-12. [Error Handling](#error-handling)
+3. [AI-Powered Services](#ai-powered-services)
+4. [User Metrics & Goals](#user-metrics--goals)
+5. [Exercise System](#exercise-system)
+6. [Workout Planning](#workout-planning)
+7. [Workout Logging](#workout-logging)
+8. [Nutrition System](#nutrition-system)
+9. [Meal Planning](#meal-planning)
+10. [Recipe Management](#recipe-management)
+11. [Relationship Tables](#relationship-tables)
+12. [Common Patterns](#common-patterns)
+13. [Error Handling](#error-handling)
 
 ---
 
@@ -184,6 +185,107 @@ curl http://localhost:8000/api/users/6e37b248-445c-45a9-8121-a565668f5f26/dashbo
 
 ---
 
+## AI-Powered Services
+
+### Test AI Services Status
+**Endpoint:** `GET /api/test-ai-services/`
+
+**Purpose:** Check if AI and ExerciseDB services are operational
+
+**Example Request:**
+```bash
+curl http://localhost:8000/api/test-ai-services/
+```
+
+**Example Response:**
+```json
+{
+    "ai_service": "ready",
+    "exercise_service": "ready", 
+    "status": "All services operational"
+}
+```
+
+### Generate Enriched Workout Plan
+**Endpoint:** `POST /api/generate-workout-plan/`
+
+**Purpose:** Generate AI-powered workout plans with ExerciseDB enrichment
+
+**Example Request:**
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "6e37b248-445c-45a9-8121-a565668f5f26",
+    "fitness_level": "advanced",
+    "workout_type": "strength_hypertrophy", 
+    "days_per_week": 4,
+    "gender": "female",
+    "equipment_preference": "gym",
+    "training_experience": "2+ years",
+    "specific_goals": "Build muscle mass and increase strength"
+  }' \
+  http://localhost:8000/api/generate-workout-plan/
+```
+
+**Request Parameters:**
+- `user_id` (UUID, required): User ID
+- `fitness_level` (String, required): beginner, intermediate, advanced
+- `workout_type` (String, required): strength, cardio, strength_hypertrophy, functional
+- `days_per_week` (Integer, required): 3-6 days
+- `gender` (String, required): male, female, other
+- `equipment_preference` (String, optional): gym, home, bodyweight
+- `training_experience` (String, optional): Experience level description
+- `specific_goals` (String, optional): Detailed goals and preferences
+
+**Success Response:**
+```json
+{
+    "success": true,
+    "message": "Enriched workout plan generated and saved successfully",
+    "saved_plan_id": "7b276838-d32b-4be4-82b7-79e6fcf35637",
+    "plan_name": "Advanced 4-Day Strength & Hypertrophy Split",
+    "total_days": 4,
+    "total_exercises": 24,
+    "ai_generation": {
+        "success": true,
+        "exercises_generated": 24
+    },
+    "enrichment": {
+        "success": true,
+        "exercises_enriched": 24,
+        "exercises_with_images": 24,
+        "exercises_with_videos": 23,
+        "exercises_with_instructions": 24
+    }
+}
+```
+
+**Error Response:**
+```json
+{
+    "success": false,
+    "error": "AI service temporarily unavailable",
+    "details": "Gemini API quota exceeded"
+}
+```
+
+### AI Service Features
+
+#### Intelligent Exercise Matching
+- **ExerciseDB Integration**: 1300+ exercises with professional images and videos
+- **Smart Matching**: Multiple algorithms to find best exercise matches
+- **Fallback Strategies**: Graceful handling of unmatched exercises
+- **Equipment-Based Filtering**: Matches exercises to available equipment
+
+#### AI Workout Generation
+- **Google Gemini Integration**: Advanced AI for personalized workout creation
+- **Structured Output**: JSON-formatted workout plans with proper progression
+- **Experience-Based Programming**: Different approaches for beginner/intermediate/advanced
+- **Gender-Specific Considerations**: Tailored recommendations based on gender
+- **Goal-Oriented Programming**: Customized for strength, hypertrophy, conditioning
+
+---
+
 ## User Metrics & Goals
 
 ### User Metrics
@@ -257,7 +359,7 @@ curl -X POST -H "Content-Type: application/json" \
 **Endpoint:** `/api/exercises/`
 **Methods:** GET, POST, PUT, PATCH, DELETE
 
-**Purpose:** Manage exercise database
+**Purpose:** Manage exercise database with ExerciseDB integration
 
 #### Get All Exercises
 ```bash
@@ -269,23 +371,34 @@ curl http://localhost:8000/api/exercises/
 curl -X POST -H "Content-Type: application/json" \
   -d '{
     "name": "Push-ups",
-    "exercise_type": "strength",
-    "overview": "Upper body strength exercise",
-    "instructions": "Place hands on ground, lower body, push up",
+    "exerciseDbId": "exr_41n2hxnFMotsXTj3",
+    "exercise_type": "STRENGTH",
+    "overview": "Upper body strength exercise targeting chest, shoulders, and triceps",
+    "instructions": "[\"Place hands on ground shoulder-width apart\", \"Lower body until chest nearly touches ground\", \"Push up to starting position\"]",
+    "image_url": "https://cdn.exercisedb.dev/w/images/example.png",
+    "video_url": "https://cdn.exercisedb.dev/w/videos/example.mp4",
     "met_value": "4.0"
   }' \
   http://localhost:8000/api/exercises/
 ```
 
-**Fields:**
+**Enhanced Fields:**
 - `name` (String): Exercise name
-- `exerciseDbId` (String): External database ID
-- `exercise_type` (Choice): strength, cardio, plyometrics, stretching
-- `overview` (Text): Brief description
-- `instructions` (Text): Detailed instructions
-- `image_url` (Text): Image URL
-- `video_url` (Text): Video URL
-- `met_value` (Decimal): Metabolic equivalent value
+- `exerciseDbId` (String): ExerciseDB external ID for enrichment
+- `exercise_type` (Choice): STRENGTH, CARDIO, PLYOMETRICS, STRETCHING, WEIGHTLIFTING
+- `overview` (Text): Comprehensive exercise description and benefits
+- `instructions` (Text): JSON array of step-by-step instructions
+- `image_url` (Text): High-quality exercise demonstration image
+- `video_url` (Text): Instructional video URL
+- `met_value` (Decimal): Metabolic equivalent value for calorie calculation
+
+#### ExerciseDB Integration Features
+- **1300+ Professional Exercises**: Complete database from ExerciseDB
+- **28 Equipment Types**: From barbell to resistance bands
+- **18 Body Parts**: Comprehensive muscle group targeting
+- **High-Quality Media**: Professional images and demonstration videos
+- **Detailed Instructions**: Step-by-step exercise guidance
+- **Automatic Enrichment**: AI-generated workouts automatically enriched with ExerciseDB data
 
 ### Muscles
 **Endpoint:** `/api/muscles/`
@@ -355,11 +468,64 @@ curl http://localhost:8000/api/workout-plans/user/6e37b248-445c-45a9-8121-a56566
 #### Get Detailed Workout Plan
 **Endpoint:** `GET /api/workout-plans/{id}/with_details/`
 
+**Purpose:** Get complete workout plan with all days, exercises, and ExerciseDB enrichment
+
 ```bash
-curl http://localhost:8000/api/workout-plans/PLAN_ID/with_details/
+curl http://localhost:8000/api/workout-plans/7b276838-d32b-4be4-82b7-79e6fcf35637/with_details/
 ```
 
-**Returns:** Complete workout plan with all days and exercises
+**Example Response:**
+```json
+{
+  "id": "7b276838-d32b-4be4-82b7-79e6fcf35637",
+  "name": "Advanced 4-Day Strength & Hypertrophy Split",
+  "description": "A comprehensive 4-day program for advanced female lifters...",
+  "created_at": "2025-10-12T23:09:39.819563Z",
+  "user": "9b88c628-9a89-4fc7-aeac-a90cf3f16efe",
+  "days": [
+    {
+      "id": "17edabc3-1033-4696-91b5-a51e8af5f561",
+      "day_number": 1,
+      "name": "Upper Body - Strength Focus",
+      "plan": "7b276838-d32b-4be4-82b7-79e6fcf35637",
+      "exercises": [
+        {
+          "id": "ffe17f19-55fb-49f9-9272-c55f5b156e4a",
+          "display_order": 6,
+          "sets": 4,
+          "reps": "4-6",
+          "rest_period_seconds": null,
+          "plan_day": "17edabc3-1033-4696-91b5-a51e8af5f561",
+          "exercise": "84e74ed5-ecce-4acd-99aa-427566dd7aa6",
+          "exercise_details": {
+            "id": "84e74ed5-ecce-4acd-99aa-427566dd7aa6",
+            "exerciseDbId": "exr_41n2hxnFMotsXTj3",
+            "name": "Barbell Bench Press",
+            "image_url": "https://cdn.exercisedb.dev/w/images/boDyoVc/41n2hxnFMotsXTj3__Barbell-Bench-Press_Chest.png",
+            "video_url": "https://cdn.exercisedb.dev/w/videos/N75Uemp/41n2hxnFMotsXTj3__Barbell-Bench-Press_Chest2_.mp4",
+            "overview": "The Bench Press is a classic strength training exercise...",
+            "instructions": "['Grip the barbell with your hands slightly wider than shoulder-width apart...']",
+            "exercise_type": "STRENGTH",
+            "met_value": "1.00"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+**Returns:** Complete workout plan including:
+- Plan metadata (name, description, dates)
+- All plan days with day numbers and names  
+- All exercises for each day with sets/reps/rest
+- Complete ExerciseDB enrichment:
+  - Professional exercise images
+  - Instructional videos (where available)
+  - Step-by-step instructions
+  - Exercise overviews and benefits
+  - Exercise type classification
+  - MET values for calorie calculation
 
 ### Plan Days
 **Endpoint:** `/api/plan-days/`
@@ -816,7 +982,7 @@ curl "http://localhost:8000/api/exercises/?ordering=name"
 
 ## JavaScript Frontend Examples
 
-### Basic API Client Setup
+### Enhanced API Client with AI Features
 ```javascript
 const API_BASE_URL = 'http://localhost:8000/api';
 
@@ -845,6 +1011,22 @@ class EasyFitnessAPI {
         return response.json();
     }
 
+    // AI Service Methods
+    async testAIServices() {
+        return this.request('/test-ai-services/');
+    }
+
+    async generateWorkoutPlan(planRequest) {
+        return this.request('/generate-workout-plan/', {
+            method: 'POST',
+            body: JSON.stringify(planRequest),
+        });
+    }
+
+    async getDetailedWorkoutPlan(planId) {
+        return this.request(`/workout-plans/${planId}/with_details/`);
+    }
+
     // Authentication methods
     async register(userData) {
         const response = await this.request('/users/', {
@@ -869,11 +1051,26 @@ class EasyFitnessAPI {
         
         if (response.user) {
             this.currentUser = response.user;
-            // Store user info in localStorage for persistence
             localStorage.setItem('currentUser', JSON.stringify(response.user));
         }
         
         return response;
+    }
+
+    async logout() {
+        try {
+            const response = await this.request('/users/logout/', {
+                method: 'POST',
+            });
+            this.currentUser = null;
+            localStorage.removeItem('currentUser');
+            return response;
+        } catch (error) {
+            // Even if logout fails on server, clear local data
+            this.currentUser = null;
+            localStorage.removeItem('currentUser');
+            throw error;
+        }
     }
 
     async changePassword(userId, oldPassword, newPassword) {
@@ -891,13 +1088,6 @@ class EasyFitnessAPI {
         return this.request('/users/');
     }
 
-    async createUser(userData) {
-        return this.request('/users/', {
-            method: 'POST',
-            body: JSON.stringify(userData),
-        });
-    }
-
     async getUserDashboard(userId) {
         return this.request(`/users/${userId}/dashboard/`);
     }
@@ -907,11 +1097,8 @@ class EasyFitnessAPI {
         return this.request('/exercises/');
     }
 
-    async createWorkoutPlan(planData) {
-        return this.request('/workout-plans/', {
-            method: 'POST',
-            body: JSON.stringify(planData),
-        });
+    async getWorkoutPlans(userId) {
+        return this.request(`/workout-plans/user/${userId}/`);
     }
 
     // Nutrition methods
@@ -923,47 +1110,306 @@ class EasyFitnessAPI {
     }
 }
 
-// Usage Examples
+// Advanced Usage Examples
 const api = new EasyFitnessAPI();
 
-// Register a new user
-try {
-    const newUser = await api.register({
-        username: 'fitnessfan',
-        email: 'fitness@example.com',
-        password: 'securepass123',
-        passwordConfirm: 'securepass123',
-        gender: 'female',
-        dateOfBirth: '1995-05-15'
-    });
-    console.log('User registered:', newUser);
-} catch (error) {
-    console.error('Registration failed:', error.message);
+// Complete AI Workout Generation Flow
+async function generatePersonalizedWorkout() {
+    try {
+        // First, check if AI services are ready
+        const serviceStatus = await api.testAIServices();
+        console.log('AI Services Status:', serviceStatus);
+        
+        if (serviceStatus.ai_service !== 'ready' || serviceStatus.exercise_service !== 'ready') {
+            throw new Error('AI services are not available');
+        }
+
+        // Generate AI-powered workout plan
+        const workoutRequest = {
+            user_id: api.currentUser.id,
+            fitness_level: 'intermediate',
+            workout_type: 'strength_hypertrophy',
+            days_per_week: 4,
+            gender: 'female',
+            equipment_preference: 'gym',
+            training_experience: '1-2 years of consistent training',
+            specific_goals: 'Build lean muscle mass, improve strength in compound movements, and enhance overall physique'
+        };
+
+        console.log('Generating workout plan...');
+        const generationResult = await api.generateWorkoutPlan(workoutRequest);
+        
+        if (!generationResult.success) {
+            throw new Error(generationResult.error);
+        }
+
+        console.log('Workout Plan Generated Successfully!');
+        console.log(`Plan ID: ${generationResult.saved_plan_id}`);
+        console.log(`Plan Name: ${generationResult.plan_name}`);
+        console.log(`Total Days: ${generationResult.total_days}`);
+        console.log(`Total Exercises: ${generationResult.total_exercises}`);
+
+        // Get detailed workout plan with ExerciseDB enrichment
+        const detailedPlan = await api.getDetailedWorkoutPlan(generationResult.saved_plan_id);
+        
+        console.log('Detailed Plan Retrieved:');
+        console.log(`Description: ${detailedPlan.description}`);
+        
+        // Display workout structure
+        detailedPlan.days.forEach((day, index) => {
+            console.log(`\nDay ${day.day_number}: ${day.name}`);
+            console.log(`Exercises (${day.exercises.length}):`);
+            
+            day.exercises.forEach((exercise, exerciseIndex) => {
+                const details = exercise.exercise_details;
+                console.log(`  ${exerciseIndex + 1}. ${details.name}`);
+                console.log(`     Sets: ${exercise.sets}, Reps: ${exercise.reps}`);
+                console.log(`     Type: ${details.exercise_type}`);
+                console.log(`     Image: ${details.image_url ? 'Available' : 'None'}`);
+                console.log(`     Video: ${details.video_url ? 'Available' : 'None'}`);
+            });
+        });
+
+        return detailedPlan;
+
+    } catch (error) {
+        console.error('Error generating workout:', error.message);
+        throw error;
+    }
 }
 
-// Login
-try {
-    const loginResponse = await api.login('fitnessfan', 'securepass123');
-    console.log('Login successful:', loginResponse);
-    
-    // Get user dashboard
-    const dashboard = await api.getUserDashboard(loginResponse.user.id);
-    console.log('Dashboard data:', dashboard);
-} catch (error) {
-    console.error('Login failed:', error.message);
+// User Registration and Authentication Flow
+async function registerAndLogin() {
+    try {
+        // Register new user
+        const newUser = await api.register({
+            username: 'fitnessenthusiast',
+            email: 'fitness@example.com',
+            password: 'SecurePass123!',
+            passwordConfirm: 'SecurePass123!',
+            gender: 'female',
+            dateOfBirth: '1995-08-20'
+        });
+        console.log('User registered successfully:', newUser);
+
+        // Login with new credentials
+        const loginResponse = await api.login('fitnessenthusiast', 'SecurePass123!');
+        console.log('Login successful:', loginResponse.message);
+        
+        // Get user dashboard
+        const dashboard = await api.getUserDashboard(loginResponse.user.id);
+        console.log('Dashboard loaded:', dashboard);
+
+        return loginResponse.user;
+
+    } catch (error) {
+        console.error('Registration/Login failed:', error.message);
+        throw error;
+    }
 }
 
-// Change password
-try {
-    await api.changePassword(api.currentUser.id, 'securepass123', 'newsecurepass456');
-    console.log('Password changed successfully');
-} catch (error) {
-    console.error('Password change failed:', error.message);
+// Workout Plan Management
+async function manageWorkoutPlans(userId) {
+    try {
+        // Get user's existing workout plans
+        const existingPlans = await api.getWorkoutPlans(userId);
+        console.log(`Found ${existingPlans.length} existing workout plans`);
+
+        // Display existing plans
+        existingPlans.forEach((plan, index) => {
+            console.log(`${index + 1}. ${plan.name} (Created: ${plan.created_at})`);
+        });
+
+        return existingPlans;
+
+    } catch (error) {
+        console.error('Error managing workout plans:', error.message);
+        throw error;
+    }
 }
+
+// Complete Application Flow Example
+async function fullApplicationDemo() {
+    try {
+        console.log('=== EasyFitness API Demo ===\n');
+
+        // Step 1: Register and login
+        console.log('1. User Registration and Login...');
+        const user = await registerAndLogin();
+        
+        // Step 2: Generate AI workout plan
+        console.log('\n2. Generating AI-Powered Workout Plan...');
+        const workoutPlan = await generatePersonalizedWorkout();
+        
+        // Step 3: Manage existing plans
+        console.log('\n3. Managing Workout Plans...');
+        const allPlans = await manageWorkoutPlans(user.id);
+        
+        // Step 4: Change password
+        console.log('\n4. Updating Password...');
+        await api.changePassword(user.id, 'SecurePass123!', 'NewSecurePass456!');
+        console.log('Password updated successfully');
+        
+        // Step 5: Logout
+        console.log('\n5. Logging Out...');
+        await api.logout();
+        console.log('Logout successful');
+
+        console.log('\n=== Demo Complete ===');
+        return {
+            user,
+            workoutPlan,
+            allPlans
+        };
+
+    } catch (error) {
+        console.error('Demo failed:', error.message);
+        throw error;
+    }
+}
+
+// Error Handling Examples
+api.generateWorkoutPlan({
+    user_id: 'invalid-id',
+    fitness_level: 'beginner',
+    workout_type: 'strength',
+    days_per_week: 3,
+    gender: 'male'
+}).catch(error => {
+    if (error.message.includes('Invalid pk')) {
+        console.error('Invalid user ID provided');
+    } else if (error.message.includes('AI service')) {
+        console.error('AI service is temporarily unavailable');
+    } else {
+        console.error('Unexpected error:', error.message);
+    }
+});
+
+// Frontend Integration with React/Next.js
+const WorkoutPlanGenerator = () => {
+    const [loading, setLoading] = useState(false);
+    const [workoutPlan, setWorkoutPlan] = useState(null);
+    const [error, setError] = useState(null);
+
+    const generateWorkout = async (formData) => {
+        setLoading(true);
+        setError(null);
+        
+        try {
+            const result = await api.generateWorkoutPlan({
+                user_id: formData.userId,
+                fitness_level: formData.fitnessLevel,
+                workout_type: formData.workoutType,
+                days_per_week: parseInt(formData.daysPerWeek),
+                gender: formData.gender,
+                equipment_preference: formData.equipment,
+                specific_goals: formData.goals
+            });
+
+            if (result.success) {
+                const detailedPlan = await api.getDetailedWorkoutPlan(result.saved_plan_id);
+                setWorkoutPlan(detailedPlan);
+            }
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div>
+            {loading && <p>Generating your personalized workout plan...</p>}
+            {error && <p className="error">Error: {error}</p>}
+            {workoutPlan && (
+                <div>
+                    <h2>{workoutPlan.name}</h2>
+                    <p>{workoutPlan.description}</p>
+                    {/* Render workout days and exercises */}
+                </div>
+            )}
+        </div>
+    );
+};
 ```
 
 ---
 
-This documentation covers all available endpoints in the EasyFitness API. Each endpoint supports standard RESTful operations, and the API provides comprehensive functionality for fitness tracking, workout planning, and nutrition management.
+## System Architecture & Integration
+
+### AI-Powered Workout Generation Pipeline
+
+```
+Frontend Request → Django API → AI Service → ExerciseDB API → Database → Enriched Response
+```
+
+#### 1. AI Generation (Google Gemini)
+- **Input**: User preferences, fitness level, goals, equipment
+- **Processing**: Advanced AI analysis and workout programming
+- **Output**: Structured JSON workout plan with exercise names
+
+#### 2. ExerciseDB Enrichment
+- **Input**: Exercise names from AI generation
+- **Processing**: Intelligent matching algorithms with fallback strategies
+- **Output**: Professional images, videos, instructions, and metadata
+
+#### 3. Database Persistence
+- **Input**: Enriched workout plan data
+- **Processing**: Relational database storage with foreign keys
+- **Output**: Saved workout plan with generated UUID
+
+#### 4. Frontend Integration
+- **Input**: Generated plan ID
+- **Processing**: REST API calls with CORS support
+- **Output**: Complete workout plan ready for UI rendering
+
+### Service Dependencies
+
+#### Required Environment Variables
+```bash
+# Google Gemini AI
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# ExerciseDB API
+EXERCISEDB_API_KEY=your_exercisedb_api_key_here
+
+# Database (Supabase/PostgreSQL)
+DB_NAME=your_database_name
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+DB_HOST=your_database_host
+DB_PORT=5432
+```
+
+#### CORS Configuration
+```python
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",    # Next.js development
+    "http://127.0.0.1:3000",    # Alternative localhost
+    "https://your-production-domain.com"  # Production frontend
+]
+```
+
+#### API Rate Limits
+- **Gemini AI**: Based on Google API quotas
+- **ExerciseDB**: 100 requests per minute (free tier)
+- **Django**: No built-in limits (configure as needed)
+
+### Error Handling & Resilience
+
+#### AI Service Fallbacks
+1. **Gemini API Unavailable**: Return cached workout templates
+2. **ExerciseDB API Down**: Use basic exercise data without enrichment
+3. **Database Issues**: Return error with retry suggestions
+4. **Network Timeouts**: Implement request timeouts and retries
+
+#### Monitoring & Health Checks
+- **GET /api/health/**: Basic API health status
+- **GET /api/test-ai-services/**: AI and ExerciseDB service status
+- **Database Connection**: Automatic connection pooling and retry
+
+---
+
+This documentation covers all available endpoints in the EasyFitness API. The system provides comprehensive functionality for fitness tracking, AI-powered workout planning, and nutrition management with professional exercise enrichment through ExerciseDB integration.
 
 For additional help or questions, refer to the main README.md file or contact the development team.

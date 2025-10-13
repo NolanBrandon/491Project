@@ -29,7 +29,10 @@ from .views import (
     TagViewSet,
     RecipeTagViewSet,
     health_check,
-    api_info
+    api_info,
+    generate_enriched_workout_plan,
+    generate_enriched_meal_plan,
+    test_ai_services
 )
 
 router = DefaultRouter()
@@ -64,5 +67,8 @@ router.register(r'recipe-tags', RecipeTagViewSet)
 urlpatterns = [
     path('health/', health_check, name='health_check'),
     path('info/', api_info, name='api_info'),
+    path('generate-workout-plan/', generate_enriched_workout_plan, name='generate_enriched_workout_plan'),
+    path('generate-meal-plan/', generate_enriched_meal_plan, name='generate_enriched_meal_plan'),
+    path('test-ai-services/', test_ai_services, name='test_ai_services'),
     path('', include(router.urls)),
 ]
