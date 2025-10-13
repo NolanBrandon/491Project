@@ -53,11 +53,11 @@ class Migration(migrations.Migration):
             name='Goal',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('goal_type', models.CharField(choices=[('weight_loss', 'Weight Loss'), ('weight_gain', 'Weight Gain'), ('muscle_building', 'Muscle Building'), ('endurance', 'Endurance'), ('strength', 'Strength'), ('general_fitness', 'General Fitness')], max_length=50)),
+                ('goal_type', models.CharField(default='', max_length=50)),
                 ('target_weight_kg', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True)),
-                ('target_date', models.DateField(blank=True, null=True)),
+                ('start_date', models.DateField(blank=True, null=True)),
+                ('end_date', models.DateField(blank=True, null=True)),
                 ('is_active', models.BooleanField(default=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.user')),
             ],
             options={
