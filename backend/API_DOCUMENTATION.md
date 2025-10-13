@@ -284,6 +284,71 @@ curl -X POST -H "Content-Type: application/json" \
 - **Gender-Specific Considerations**: Tailored recommendations based on gender
 - **Goal-Oriented Programming**: Customized for strength, hypertrophy, conditioning
 
+### Generate AI Meal Plan
+**Endpoint:** `POST /api/generate-meal-plan/`
+
+**Purpose:** Generate AI-powered personalized meal plans with complete nutritional data
+
+**Example Request:**
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "9b88c628-9a89-4fc7-aeac-a90cf3f16efe",
+    "daily_calorie_target": 2000,
+    "dietary_preferences": ["balanced"],
+    "goal": "maintain weight",
+    "days_count": 3,
+    "gender": "female",
+    "age": 25,
+    "activity_level": "moderate"
+  }' \
+  http://localhost:8000/api/generate-meal-plan/
+```
+
+**Request Parameters:**
+- `user_id` (UUID, required): User ID
+- `daily_calorie_target` (Integer, required): Target calories per day (1200-4000)
+- `dietary_preferences` (Array, required): ["balanced", "low_carb", "high_protein", "vegetarian", "vegan", "keto", "mediterranean"]
+- `goal` (String, required): "lose weight", "gain weight", "maintain weight", "build muscle"
+- `days_count` (Integer, required): Number of days to plan (1-7)
+- `gender` (String, required): "male", "female", "other"
+- `age` (Integer, required): User's age (16-100)
+- `activity_level` (String, required): "sedentary", "light", "moderate", "active", "very_active"
+
+**Success Response:**
+```json
+{
+    "success": true,
+    "message": "AI meal plan generated and saved successfully",
+    "saved_plan_id": "f1790f75-1ea1-429e-852c-f650e16c5262",
+    "plan_name": "5-Day Balanced Weight Maintenance Meal Plan",
+    "total_days": 5,
+    "daily_calorie_target": 2000,
+    "ai_generation": {
+        "success": true,
+        "days_generated": 5,
+        "meals_per_day": 3
+    }
+}
+```
+
+**Error Response:**
+```json
+{
+    "success": false,
+    "error": "Invalid calorie target",
+    "details": "Daily calorie target must be between 1200 and 4000"
+}
+```
+
+#### AI Meal Plan Features
+- **Nutritional Precision**: Complete macro and micronutrient breakdowns per ingredient
+- **Detailed Recipes**: Ingredient measurements, prep times, and cooking instructions
+- **Goal-Oriented**: Customized for weight loss, gain, maintenance, or muscle building
+- **Dietary Compatibility**: Supports various dietary preferences and restrictions
+- **JSON Storage**: Complete meal plan data preserved in simplified database schema
+- **Flexible Duration**: Generate 1-7 day meal plans based on user needs
+
 ---
 
 ## User Metrics & Goals
@@ -655,13 +720,20 @@ curl -X POST -H "Content-Type: application/json" \
 **Endpoint:** `/api/meal-plans/`
 **Methods:** GET, POST, PUT, PATCH, DELETE
 
-#### Create Meal Plan
+**Note:** The meal plan system uses a simplified JSON-based schema for storing complete AI-generated meal plans with full nutritional data.
+
+#### Create Meal Plan (Manual)
 ```bash
 curl -X POST -H "Content-Type: application/json" \
   -d '{
     "user": "6e37b248-445c-45a9-8121-a565668f5f26",
     "name": "Weekly Meal Plan",
-    "description": "Balanced nutrition for the week"
+    "description": "Balanced nutrition for the week",
+    "meal_plan_data": {},
+    "daily_calorie_target": 2000,
+    "days_count": 7,
+    "dietary_preferences": ["balanced"],
+    "goal": "maintain weight"
   }' \
   http://localhost:8000/api/meal-plans/
 ```
@@ -673,54 +745,65 @@ curl -X POST -H "Content-Type: application/json" \
 curl http://localhost:8000/api/meal-plans/user/6e37b248-445c-45a9-8121-a565668f5f26/
 ```
 
-#### Get Detailed Meal Plan
-**Endpoint:** `GET /api/meal-plans/{id}/with_details/`
+#### Get Detailed Meal Plan with Full Data
+**Endpoint:** `GET /api/meal-plans/{id}/`
 
 ```bash
-curl http://localhost:8000/api/meal-plans/PLAN_ID/with_details/
+curl http://localhost:8000/api/meal-plans/f1790f75-1ea1-429e-852c-f650e16c5262/
 ```
 
-### Meal Plan Days
-**Endpoint:** `/api/meal-plan-days/`
-**Methods:** GET, POST, PUT, PATCH, DELETE
-
-#### Create Meal Plan Day
-```bash
-curl -X POST -H "Content-Type: application/json" \
-  -d '{
-    "meal_plan": "MEAL_PLAN_ID",
-    "day_number": 1
-  }' \
-  http://localhost:8000/api/meal-plan-days/
+**Response includes complete meal plan data:**
+```json
+{
+  "id": "f1790f75-1ea1-429e-852c-f650e16c5262",
+  "name": "5-Day Balanced Weight Maintenance Meal Plan",
+  "description": "A 5-day meal plan tailored for weight maintenance...",
+  "meal_plan_data": {
+    "days": [
+      {
+        "meals": {
+          "breakfast": {
+            "recipe_name": "Protein Oatmeal Bowl",
+            "ingredients": [
+              {
+                "ingredient_name": "Rolled Oats",
+                "measure": "1/2 cup",
+                "calories": 150,
+                "protein": 5,
+                "carbs": 27,
+                "fat": 3,
+                "fiber": 4
+              }
+            ],
+            "prep_time": 10,
+            "total_calories": 450,
+            "total_protein": 20,
+            "cooking_instructions": "..."
+          }
+        }
+      }
+    ]
+  },
+  "daily_calorie_target": 2000,
+  "days_count": 5,
+  "dietary_preferences": ["balanced"],
+  "goal": "maintain weight"
+}
 ```
 
-### Meal Plan Entries
-**Endpoint:** `/api/meal-plan-entries/`
-**Methods:** GET, POST, PUT, PATCH, DELETE
+### Meal Plan Schema (Simplified)
 
-#### Add Food to Meal Plan
-```bash
-curl -X POST -H "Content-Type: application/json" \
-  -d '{
-    "meal_plan_day": "MEAL_PLAN_DAY_ID",
-    "food": "FOOD_ID",
-    "meal_type": "breakfast"
-  }' \
-  http://localhost:8000/api/meal-plan-entries/
-```
+The meal plan system now uses a **simplified JSON-based approach** instead of complex relational tables:
 
-#### Add Recipe to Meal Plan
-```bash
-curl -X POST -H "Content-Type: application/json" \
-  -d '{
-    "meal_plan_day": "MEAL_PLAN_DAY_ID",
-    "recipe": "RECIPE_ID",
-    "meal_type": "dinner"
-  }' \
-  http://localhost:8000/api/meal-plan-entries/
-```
+- **Before**: `MealPlan` → `MealPlanDay` → `MealPlanEntry` → `Food`/`Recipe`
+- **After**: `MealPlan` with `meal_plan_data` JSONField containing complete data
 
-**Note:** Each entry must have either `food` OR `recipe`, but not both.
+**Benefits:**
+- ✅ Preserves complete AI-generated nutritional data
+- ✅ No data loss during complex joins
+- ✅ Faster queries and simpler data management
+- ✅ Full ingredient-level nutritional breakdowns
+- ✅ Recipe instructions and prep times preserved
 
 ---
 
