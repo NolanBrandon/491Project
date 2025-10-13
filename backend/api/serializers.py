@@ -24,9 +24,7 @@ from .models import (
     Food,
     NutritionLog,
     MealPlan,
-    MealPlanDay,
     Recipe,
-    MealPlanEntry,
     Tag,
     RecipeTag
 )
@@ -246,19 +244,9 @@ class MealPlanSerializer(serializers.ModelSerializer):
         model = MealPlan
         fields = '__all__'
 
-class MealPlanDaySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MealPlanDay
-        fields = '__all__'
-
 class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
-        fields = '__all__'
-
-class MealPlanEntrySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MealPlanEntry
         fields = '__all__'
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -303,29 +291,9 @@ class RecipeDetailSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'category', 'area', 'instructions', 'image_url', 'youtube_url', 'source_url', 'recipe_ingredients']
 
 
-class MealPlanEntryDetailSerializer(serializers.ModelSerializer):
-    """Detailed serializer for meal plan entries including recipe and food details."""
-    recipe_details = RecipeDetailSerializer(source='recipe', read_only=True)
-    food_details = FoodSerializer(source='food', read_only=True)
-    
-    class Meta:
-        model = MealPlanEntry
-        fields = ['id', 'meal_type', 'food', 'food_details', 'recipe', 'recipe_details']
-
-
-class MealPlanDayDetailSerializer(serializers.ModelSerializer):
-    """Detailed serializer for meal plan days including all meal entries."""
-    meal_plan_entries = MealPlanEntryDetailSerializer(many=True, read_only=True)
-    
-    class Meta:
-        model = MealPlanDay
-        fields = ['id', 'day_number', 'meal_plan', 'meal_plan_entries']
-
-
 class MealPlanDetailSerializer(serializers.ModelSerializer):
     """Complete detailed serializer for meal plans with all nested data."""
-    meal_plan_days = MealPlanDayDetailSerializer(many=True, read_only=True)
     
     class Meta:
         model = MealPlan
-        fields = ['id', 'name', 'description', 'created_at', 'user', 'meal_plan_days']
+        fields = ['id', 'name', 'description', 'created_at', 'user', 'meal_plan_data', 'daily_calorie_target', 'days_count', 'dietary_preferences', 'goal']

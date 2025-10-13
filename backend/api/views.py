@@ -26,9 +26,7 @@ from .models import (
     Food,
     NutritionLog,
     MealPlan,
-    MealPlanDay,
     Recipe,
-    MealPlanEntry,
     Ingredient,
     RecipeIngredient,
     Tag,
@@ -59,10 +57,8 @@ from .serializers import (
     FoodSerializer,
     NutritionLogSerializer,
     MealPlanSerializer,
-    MealPlanDaySerializer,
     MealPlanDetailSerializer,
     RecipeSerializer,
-    MealPlanEntrySerializer,
     IngredientSerializer,
     RecipeIngredientSerializer,
     TagSerializer,
@@ -361,19 +357,9 @@ class MealPlanViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-class MealPlanDayViewSet(viewsets.ModelViewSet):
-    queryset = MealPlanDay.objects.all()
-    serializer_class = MealPlanDaySerializer
-    permission_classes = [AllowAny]
-
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
-    permission_classes = [AllowAny]
-
-class MealPlanEntryViewSet(viewsets.ModelViewSet):
-    queryset = MealPlanEntry.objects.all()
-    serializer_class = MealPlanEntrySerializer
     permission_classes = [AllowAny]
 
 class IngredientViewSet(viewsets.ModelViewSet):

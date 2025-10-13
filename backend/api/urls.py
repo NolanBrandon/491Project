@@ -21,9 +21,7 @@ from .views import (
     PlanExerciseViewSet,
     WorkoutLogViewSet,
     MealPlanViewSet,
-    MealPlanDayViewSet,
     RecipeViewSet,
-    MealPlanEntryViewSet,
     IngredientViewSet,
     RecipeIngredientViewSet,
     TagViewSet,
@@ -56,9 +54,7 @@ router.register(r'plan-days', PlanDayViewSet)
 router.register(r'plan-exercises', PlanExerciseViewSet)
 router.register(r'workout-logs', WorkoutLogViewSet)
 router.register(r'meal-plans', MealPlanViewSet)
-router.register(r'meal-plan-days', MealPlanDayViewSet)
 router.register(r'recipes', RecipeViewSet)
-router.register(r'meal-plan-entries', MealPlanEntryViewSet)
 router.register(r'ingredients', IngredientViewSet)
 router.register(r'recipe-ingredients', RecipeIngredientViewSet)
 router.register(r'tags', TagViewSet)
