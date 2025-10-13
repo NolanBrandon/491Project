@@ -722,15 +722,30 @@ def generate_enriched_meal_plan(request):
             'activity_level': activity_level
         }
         
-        logger.info(f"Generating meal plan for user {user_id} with {daily_calorie_target} calories, preferences: {dietary_preferences}")
+        logger.info(f"🍽️ Starting meal plan generation for user {user_id}")
+        logger.info(f"📊 Parameters: {daily_calorie_target} calories, {days_count} days, preferences: {dietary_preferences}")
+        logger.info(f"👤 User profile: {user_profile}")
         
-        # Generate AI meal plan
-        ai_result = ai_service.generate_meal_plan(
-            user_goal=goal,
-            daily_calorie_target=daily_calorie_target,
-            dietary_preferences=dietary_preferences,
-            user_profile=user_profile
-        )
+        # Generate AI meal plan with detailed logging
+        logger.info("🤖 Calling Gemini AI service for meal plan generation...")
+        logger.info("⏱️ This may take 30-60 seconds for complex meal plans...")
+        
+        try:
+            ai_result = ai_service.generate_meal_plan(
+                user_goal=goal,
+                daily_calorie_target=daily_calorie_target,
+                dietary_preferences=dietary_preferences,
+                user_profile=user_profile
+            )
+            logger.info("✅ AI meal plan generation completed")
+        except Exception as ai_error:
+            logger.error(f"❌ AI meal plan generation failed: {ai_error}")
+            return Response({
+                'success': False,
+                'error': 'AI meal plan generation failed',
+                'details': str(ai_error),
+                'suggestion': 'Please try again with simpler preferences or contact support if the issue persists'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         if not ai_result.get('success'):
             return Response({
@@ -740,9 +755,33 @@ def generate_enriched_meal_plan(request):
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         meal_plan_data = ai_result['data']
+        logger.info(f"📝 Generated meal plan: '{meal_plan_data.get('plan_name', 'Unknown Plan')}'")
+        logger.info(f"📅 Days generated: {len(meal_plan_data.get('days', []))}")
+        
+        # Log meal structure
+        for i, day in enumerate(meal_plan_data.get('days', [])[:2], 1):  # Log first 2 days
+            meals = day.get('meals', {})
+            logger.info(f"🗓️ Day {day.get('day_number', i)}: {len(meals)} meals - {list(meals.keys())}")
         
         # Save to database
-        saved_plan_id = _save_meal_plan_to_database(user, meal_plan_data)
+        logger.info("💾 Saving meal plan to database...")
+        try:
+            saved_plan_id = _save_meal_plan_to_database(
+                user, 
+                meal_plan_data, 
+                daily_calorie_target, 
+                dietary_preferences, 
+                goal
+            )
+            logger.info(f"✅ Meal plan saved successfully with ID: {saved_plan_id}")
+        except Exception as db_error:
+            logger.error(f"❌ Database save failed: {db_error}")
+            return Response({
+                'success': False,
+                'error': 'Meal plan generated but failed to save to database',
+                'details': str(db_error),
+                'ai_data': meal_plan_data  # Include the generated data for debugging
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         return Response({
             'success': True,
@@ -767,66 +806,34 @@ def generate_enriched_meal_plan(request):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-def _save_meal_plan_to_database(user, meal_plan_data):
+def _save_meal_plan_to_database(user, meal_plan_data, daily_calorie_target, dietary_preferences, goal):
     """
-    Save AI-generated meal plan to database with recipes and ingredients.
+    Save AI-generated meal plan to database with complete nutritional data.
     """
     try:
-        # Create main meal plan
+        # Extract metadata for easy filtering
+        days_count = len(meal_plan_data.get('days', []))
+        
+        # Try to extract calorie target from the plan description if not provided
+        if not daily_calorie_target:
+            description = meal_plan_data.get('plan_description', '')
+            if 'kcal' in description or 'calories' in description:
+                import re
+                calorie_match = re.search(r'(\d+)\s*(?:kcal|calories)', description)
+                if calorie_match:
+                    daily_calorie_target = int(calorie_match.group(1))
+        
+        # Create simplified meal plan with all data stored as JSON
         meal_plan = MealPlan.objects.create(
             user=user,
             name=meal_plan_data.get('plan_name', 'AI Generated Meal Plan'),
-            description=meal_plan_data.get('plan_description', 'AI-generated personalized meal plan')
+            description=meal_plan_data.get('plan_description', 'AI-generated personalized meal plan'),
+            meal_plan_data=meal_plan_data,  # Store complete AI response
+            daily_calorie_target=daily_calorie_target,
+            days_count=days_count,
+            dietary_preferences=dietary_preferences or [],
+            goal=goal or ''
         )
-        
-        # Process each day
-        for day_data in meal_plan_data.get('days', []):
-            day_number = day_data.get('day_number', 1)
-            
-            # Create meal plan day
-            meal_plan_day = MealPlanDay.objects.create(
-                meal_plan=meal_plan,
-                day_number=day_number
-            )
-            
-            # Process meals for this day
-            meals = day_data.get('meals', {})
-            for meal_type, meal_data in meals.items():
-                recipe_name = meal_data.get('recipe_name', f'{meal_type.capitalize()} Recipe')
-                
-                # Create or get recipe
-                recipe, created = Recipe.objects.get_or_create(
-                    name=recipe_name,
-                    defaults={
-                        'category': 'AI Generated',
-                        'instructions': meal_data.get('instructions', ''),
-                        'area': 'Various'
-                    }
-                )
-                
-                # Process ingredients for this recipe
-                for ingredient_data in meal_data.get('ingredients', []):
-                    ingredient_name = ingredient_data.get('ingredient_name', 'Unknown Ingredient')
-                    measure = ingredient_data.get('measure', '1 unit')
-                    
-                    # Create or get ingredient
-                    ingredient, created = Ingredient.objects.get_or_create(
-                        name=ingredient_name
-                    )
-                    
-                    # Create recipe-ingredient relationship
-                    RecipeIngredient.objects.get_or_create(
-                        recipe=recipe,
-                        ingredient=ingredient,
-                        defaults={'measure': measure}
-                    )
-                
-                # Create meal plan entry
-                MealPlanEntry.objects.create(
-                    meal_plan_day=meal_plan_day,
-                    recipe=recipe,
-                    meal_type=meal_type
-                )
         
         logger.info(f"Successfully saved meal plan {meal_plan.id} to database")
         return meal_plan.id

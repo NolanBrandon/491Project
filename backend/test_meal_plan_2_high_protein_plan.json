@@ -1,0 +1,1339 @@
+{
+  "plan_name": "5-Day High-Protein Muscle Build Meal Plan",
+  "plan_description": "A 5-day meal plan tailored for muscle building, emphasizing high protein intake and balanced macronutrients, targeting approximately 2500 kcal daily.",
+  "days": [
+    {
+      "day_number": 1,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "High-Protein Scramble with Avocado & Whole-Wheat Toast",
+          "ingredients": [
+            {
+              "ingredient_name": "Eggs",
+              "measure": "4 large",
+              "calories": 280,
+              "protein": 24,
+              "carbs": 2,
+              "fat": 20,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Spinach",
+              "measure": "1 cup",
+              "calories": 7,
+              "protein": 1,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Feta Cheese",
+              "measure": "2 oz",
+              "calories": 150,
+              "protein": 8,
+              "carbs": 2,
+              "fat": 12,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Avocado",
+              "measure": "1/2 medium",
+              "calories": 160,
+              "protein": 2,
+              "carbs": 9,
+              "fat": 15,
+              "trans_fat": 0,
+              "fiber": 7,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Whole-Wheat Toast",
+              "measure": "2 slices",
+              "calories": 160,
+              "protein": 8,
+              "carbs": 30,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Olive Oil (for cooking)",
+              "measure": "1 tbsp",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 877,
+            "protein": 43,
+            "carbs": 44,
+            "fat": 63,
+            "trans_fat": 0,
+            "fiber": 12,
+            "sugar": 7
+          },
+          "prep_time": 15,
+          "instructions": "Heat olive oil in a pan. Saut\u00e9 spinach until wilted. Add eggs and scramble. Stir in crumbled feta. Serve with sliced avocado and whole-wheat toast."
+        },
+        "lunch": {
+          "recipe_name": "Chicken & Quinoa Power Bowl",
+          "ingredients": [
+            {
+              "ingredient_name": "Chicken Breast",
+              "measure": "8 oz",
+              "calories": 370,
+              "protein": 70,
+              "carbs": 0,
+              "fat": 8,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Cooked Quinoa",
+              "measure": "1 cup",
+              "calories": 222,
+              "protein": 8,
+              "carbs": 40,
+              "fat": 4,
+              "trans_fat": 0,
+              "fiber": 5,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Black Beans",
+              "measure": "1/2 cup (cooked)",
+              "calories": 115,
+              "protein": 8,
+              "carbs": 20,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 7,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Corn",
+              "measure": "1/2 cup (frozen/canned)",
+              "calories": 60,
+              "protein": 2,
+              "carbs": 14,
+              "fat": 1,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Mixed Bell Peppers",
+              "measure": "1 cup (chopped)",
+              "calories": 30,
+              "protein": 1,
+              "carbs": 7,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 3
+            },
+            {
+              "ingredient_name": "Olive Oil (for dressing)",
+              "measure": "1 tbsp",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Lime Juice",
+              "measure": "1 tbsp",
+              "calories": 4,
+              "protein": 0,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 921,
+            "protein": 89,
+            "carbs": 82,
+            "fat": 27,
+            "trans_fat": 0,
+            "fiber": 16,
+            "sugar": 5
+          },
+          "prep_time": 20,
+          "instructions": "Grill or pan-fry chicken breast. Cook quinoa according to package. Combine quinoa, black beans, corn, and bell peppers in a bowl. Top with sliced chicken. Dress with olive oil and lime juice."
+        },
+        "dinner": {
+          "recipe_name": "Baked Salmon with Sweet Potato & Asparagus",
+          "ingredients": [
+            {
+              "ingredient_name": "Salmon Fillet",
+              "measure": "6 oz",
+              "calories": 420,
+              "protein": 48,
+              "carbs": 0,
+              "fat": 24,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Sweet Potato",
+              "measure": "1 large (200g)",
+              "calories": 180,
+              "protein": 4,
+              "carbs": 41,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 6,
+              "sugar": 13
+            },
+            {
+              "ingredient_name": "Asparagus",
+              "measure": "1 cup",
+              "calories": 27,
+              "protein": 3,
+              "carbs": 5,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Olive Oil (for cooking)",
+              "measure": "1 tbsp",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Garlic",
+              "measure": "2 cloves",
+              "calories": 8,
+              "protein": 0,
+              "carbs": 2,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 755,
+            "protein": 55,
+            "carbs": 48,
+            "fat": 38,
+            "trans_fat": 0,
+            "fiber": 9,
+            "sugar": 15
+          },
+          "prep_time": 30,
+          "instructions": "Preheat oven to 400\u00b0F (200\u00b0C). Season salmon with salt, pepper, and garlic. Toss sweet potato and asparagus with olive oil, salt, and pepper. Bake salmon and vegetables for 15-20 minutes, or until salmon is cooked through and vegetables are tender."
+        }
+      },
+      "daily_totals": {
+        "calories": 2553,
+        "protein": 187,
+        "carbs": 174,
+        "fat": 128,
+        "trans_fat": 0,
+        "fiber": 37,
+        "sugar": 27
+      }
+    },
+    {
+      "day_number": 2,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Greek Yogurt Parfait with Berries, Granola & Protein Powder",
+          "ingredients": [
+            {
+              "ingredient_name": "Greek Yogurt (plain, 0% fat)",
+              "measure": "1.5 cups",
+              "calories": 210,
+              "protein": 39,
+              "carbs": 15,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 12
+            },
+            {
+              "ingredient_name": "Whey Protein Powder",
+              "measure": "1 scoop (30g)",
+              "calories": 120,
+              "protein": 25,
+              "carbs": 3,
+              "fat": 1,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Mixed Berries (fresh/frozen)",
+              "measure": "1 cup",
+              "calories": 80,
+              "protein": 1,
+              "carbs": 20,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 6,
+              "sugar": 12
+            },
+            {
+              "ingredient_name": "Granola (low sugar)",
+              "measure": "1/2 cup",
+              "calories": 200,
+              "protein": 5,
+              "carbs": 35,
+              "fat": 7,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 8
+            },
+            {
+              "ingredient_name": "Almonds",
+              "measure": "1/4 cup",
+              "calories": 160,
+              "protein": 6,
+              "carbs": 6,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 1
+            }
+          ],
+          "meal_totals": {
+            "calories": 770,
+            "protein": 76,
+            "carbs": 79,
+            "fat": 22,
+            "trans_fat": 0,
+            "fiber": 14,
+            "sugar": 34
+          },
+          "prep_time": 5,
+          "instructions": "In a bowl or glass, layer Greek yogurt, protein powder (mixed with a splash of water or milk first, then stirred into yogurt), berries, granola, and almonds. Repeat layers if desired."
+        },
+        "lunch": {
+          "recipe_name": "Turkey & Hummus Whole Wheat Wrap with Veggies & Apple",
+          "ingredients": [
+            {
+              "ingredient_name": "Whole Wheat Tortilla (large)",
+              "measure": "1",
+              "calories": 200,
+              "protein": 6,
+              "carbs": 35,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Sliced Turkey Breast (deli meat, low sodium)",
+              "measure": "6 oz",
+              "calories": 250,
+              "protein": 45,
+              "carbs": 0,
+              "fat": 6,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Hummus",
+              "measure": "1/4 cup",
+              "calories": 100,
+              "protein": 4,
+              "carbs": 10,
+              "fat": 6,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Mixed Greens",
+              "measure": "1 cup",
+              "calories": 7,
+              "protein": 1,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Cucumber",
+              "measure": "1/2 cup (sliced)",
+              "calories": 8,
+              "protein": 0,
+              "carbs": 2,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Bell Pepper",
+              "measure": "1/2 cup (sliced)",
+              "calories": 15,
+              "protein": 0,
+              "carbs": 3,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Apple",
+              "measure": "1 medium",
+              "calories": 95,
+              "protein": 0,
+              "carbs": 25,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 19
+            }
+          ],
+          "meal_totals": {
+            "calories": 675,
+            "protein": 56,
+            "carbs": 76,
+            "fat": 17,
+            "trans_fat": 0,
+            "fiber": 14,
+            "sugar": 24
+          },
+          "prep_time": 10,
+          "instructions": "Spread hummus evenly on the whole wheat tortilla. Layer with turkey breast, mixed greens, cucumber, and bell pepper. Roll up tightly. Serve with a medium apple on the side."
+        },
+        "dinner": {
+          "recipe_name": "Lean Ground Beef Stir-fry with Brown Rice",
+          "ingredients": [
+            {
+              "ingredient_name": "Lean Ground Beef (93% lean)",
+              "measure": "6 oz",
+              "calories": 300,
+              "protein": 40,
+              "carbs": 0,
+              "fat": 15,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Cooked Brown Rice",
+              "measure": "1.5 cups",
+              "calories": 320,
+              "protein": 7,
+              "carbs": 68,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 5,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Broccoli Florets",
+              "measure": "1.5 cups",
+              "calories": 45,
+              "protein": 3,
+              "carbs": 9,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 3
+            },
+            {
+              "ingredient_name": "Carrots",
+              "measure": "1 cup (sliced)",
+              "calories": 50,
+              "protein": 1,
+              "carbs": 12,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 6
+            },
+            {
+              "ingredient_name": "Soy Sauce (low sodium)",
+              "measure": "2 tbsp",
+              "calories": 20,
+              "protein": 2,
+              "carbs": 2,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Ginger (fresh, grated)",
+              "measure": "1 tsp",
+              "calories": 5,
+              "protein": 0,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Garlic (minced)",
+              "measure": "1 tsp",
+              "calories": 5,
+              "protein": 0,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Sesame Oil",
+              "measure": "1 tsp",
+              "calories": 40,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 885,
+            "protein": 53,
+            "carbs": 93,
+            "fat": 22,
+            "trans_fat": 0,
+            "fiber": 13,
+            "sugar": 10
+          },
+          "prep_time": 25,
+          "instructions": "Brown ground beef in a large skillet, drain fat. Add broccoli, carrots, ginger, and garlic; stir-fry until vegetables are tender-crisp. Stir in soy sauce and sesame oil. Serve over cooked brown rice."
+        }
+      },
+      "daily_totals": {
+        "calories": 2330,
+        "protein": 185,
+        "carbs": 248,
+        "fat": 61,
+        "trans_fat": 0,
+        "fiber": 41,
+        "sugar": 68
+      }
+    },
+    {
+      "day_number": 3,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Protein Oatmeal with Nuts and Banana",
+          "ingredients": [
+            {
+              "ingredient_name": "Rolled Oats",
+              "measure": "1/2 cup (dry)",
+              "calories": 150,
+              "protein": 5,
+              "carbs": 27,
+              "fat": 3,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Whey Protein Powder",
+              "measure": "1.5 scoops (45g)",
+              "calories": 180,
+              "protein": 38,
+              "carbs": 5,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Almond Milk (unsweetened)",
+              "measure": "1 cup",
+              "calories": 30,
+              "protein": 1,
+              "carbs": 1,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Banana",
+              "measure": "1 medium",
+              "calories": 105,
+              "protein": 1,
+              "carbs": 27,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 14
+            },
+            {
+              "ingredient_name": "Walnuts",
+              "measure": "1/4 cup (chopped)",
+              "calories": 185,
+              "protein": 4,
+              "carbs": 4,
+              "fat": 18,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Chia Seeds",
+              "measure": "1 tbsp",
+              "calories": 60,
+              "protein": 2,
+              "carbs": 5,
+              "fat": 4,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 710,
+            "protein": 51,
+            "carbs": 69,
+            "fat": 29,
+            "trans_fat": 0,
+            "fiber": 13,
+            "sugar": 17
+          },
+          "prep_time": 10,
+          "instructions": "Cook oats with almond milk according to package directions. Stir in protein powder until well combined. Top with sliced banana, walnuts, and chia seeds."
+        },
+        "lunch": {
+          "recipe_name": "Hearty Lentil Soup with Whole Grain Bread",
+          "ingredients": [
+            {
+              "ingredient_name": "Cooked Lentils",
+              "measure": "1.5 cups",
+              "calories": 345,
+              "protein": 27,
+              "carbs": 60,
+              "fat": 1,
+              "trans_fat": 0,
+              "fiber": 24,
+              "sugar": 3
+            },
+            {
+              "ingredient_name": "Vegetable Broth",
+              "measure": "1 cup",
+              "calories": 15,
+              "protein": 1,
+              "carbs": 3,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Carrots",
+              "measure": "1/2 cup (chopped)",
+              "calories": 25,
+              "protein": 0,
+              "carbs": 6,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 3
+            },
+            {
+              "ingredient_name": "Celery",
+              "measure": "1/2 cup (chopped)",
+              "calories": 8,
+              "protein": 0,
+              "carbs": 2,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Onion",
+              "measure": "1/4 cup (chopped)",
+              "calories": 10,
+              "protein": 0,
+              "carbs": 2,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Diced Tomatoes",
+              "measure": "1/2 cup",
+              "calories": 20,
+              "protein": 1,
+              "carbs": 4,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Whole Grain Bread",
+              "measure": "2 slices",
+              "calories": 180,
+              "protein": 8,
+              "carbs": 32,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 3
+            },
+            {
+              "ingredient_name": "Olive Oil (for cooking)",
+              "measure": "1 tbsp",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 723,
+            "protein": 37,
+            "carbs": 109,
+            "fat": 17,
+            "trans_fat": 0,
+            "fiber": 32,
+            "sugar": 14
+          },
+          "prep_time": 30,
+          "instructions": "Saut\u00e9 onion, carrots, and celery in olive oil until softened. Add lentils, vegetable broth, and diced tomatoes. Simmer for 20 minutes. Serve hot with whole grain bread."
+        },
+        "dinner": {
+          "recipe_name": "Chicken Thighs with Roasted Sweet Potatoes & Green Beans",
+          "ingredients": [
+            {
+              "ingredient_name": "Boneless, Skinless Chicken Thighs",
+              "measure": "8 oz",
+              "calories": 400,
+              "protein": 48,
+              "carbs": 0,
+              "fat": 24,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Sweet Potatoes",
+              "measure": "1.5 medium (300g)",
+              "calories": 270,
+              "protein": 6,
+              "carbs": 62,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 9,
+              "sugar": 20
+            },
+            {
+              "ingredient_name": "Green Beans",
+              "measure": "1.5 cups",
+              "calories": 50,
+              "protein": 3,
+              "carbs": 11,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 5,
+              "sugar": 5
+            },
+            {
+              "ingredient_name": "Olive Oil",
+              "measure": "1.5 tbsp",
+              "calories": 180,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 21,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Garlic Powder",
+              "measure": "1 tsp",
+              "calories": 5,
+              "protein": 0,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Paprika",
+              "measure": "1 tsp",
+              "calories": 5,
+              "protein": 0,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 910,
+            "protein": 57,
+            "carbs": 75,
+            "fat": 45,
+            "trans_fat": 0,
+            "fiber": 14,
+            "sugar": 25
+          },
+          "prep_time": 35,
+          "instructions": "Preheat oven to 400\u00b0F (200\u00b0C). Toss chicken thighs with 1 tbsp olive oil, garlic powder, and paprika. Toss diced sweet potatoes and green beans with 0.5 tbsp olive oil, salt, and pepper. Roast chicken and vegetables on separate baking sheets for 25-30 minutes, flipping halfway, until chicken is cooked through and vegetables are tender."
+        }
+      },
+      "daily_totals": {
+        "calories": 2343,
+        "protein": 145,
+        "carbs": 253,
+        "fat": 91,
+        "trans_fat": 0,
+        "fiber": 59,
+        "sugar": 56
+      }
+    },
+    {
+      "day_number": 4,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Cottage Cheese with Pineapple & Almond Butter",
+          "ingredients": [
+            {
+              "ingredient_name": "Cottage Cheese (low fat)",
+              "measure": "1.5 cups",
+              "calories": 240,
+              "protein": 39,
+              "carbs": 9,
+              "fat": 4,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 9
+            },
+            {
+              "ingredient_name": "Pineapple Chunks (fresh/canned in juice, drained)",
+              "measure": "1 cup",
+              "calories": 80,
+              "protein": 1,
+              "carbs": 22,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 16
+            },
+            {
+              "ingredient_name": "Almond Butter",
+              "measure": "2 tbsp",
+              "calories": 190,
+              "protein": 7,
+              "carbs": 6,
+              "fat": 16,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Whole-Wheat English Muffin",
+              "measure": "1",
+              "calories": 140,
+              "protein": 6,
+              "carbs": 28,
+              "fat": 1,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 2
+            }
+          ],
+          "meal_totals": {
+            "calories": 650,
+            "protein": 53,
+            "carbs": 65,
+            "fat": 21,
+            "trans_fat": 0,
+            "fiber": 9,
+            "sugar": 28
+          },
+          "prep_time": 5,
+          "instructions": "Combine cottage cheese and pineapple in a bowl. Top with almond butter. Serve with a toasted whole-wheat English muffin."
+        },
+        "lunch": {
+          "recipe_name": "Large Tuna Salad Sandwich with Avocado & Side Salad",
+          "ingredients": [
+            {
+              "ingredient_name": "Canned Tuna (in water, drained)",
+              "measure": "6 oz",
+              "calories": 180,
+              "protein": 39,
+              "carbs": 0,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Mayonnaise (light)",
+              "measure": "2 tbsp",
+              "calories": 70,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 7,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Whole Wheat Bread",
+              "measure": "3 slices",
+              "calories": 270,
+              "protein": 12,
+              "carbs": 48,
+              "fat": 3,
+              "trans_fat": 0,
+              "fiber": 6,
+              "sugar": 4
+            },
+            {
+              "ingredient_name": "Avocado",
+              "measure": "1/2 medium",
+              "calories": 160,
+              "protein": 2,
+              "carbs": 9,
+              "fat": 15,
+              "trans_fat": 0,
+              "fiber": 7,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Mixed Greens",
+              "measure": "2 cups",
+              "calories": 14,
+              "protein": 1,
+              "carbs": 2,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Cherry Tomatoes",
+              "measure": "1/2 cup",
+              "calories": 15,
+              "protein": 1,
+              "carbs": 3,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Olive Oil (for dressing)",
+              "measure": "1 tbsp",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Vinegar",
+              "measure": "1 tbsp",
+              "calories": 3,
+              "protein": 0,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 832,
+            "protein": 55,
+            "carbs": 63,
+            "fat": 41,
+            "trans_fat": 0,
+            "fiber": 16,
+            "sugar": 8
+          },
+          "prep_time": 15,
+          "instructions": "Mix drained tuna with light mayonnaise. Spread tuna salad on three slices of whole wheat bread, stacking them to make a triple-decker sandwich. Top with sliced avocado. Serve with a side salad of mixed greens and cherry tomatoes, dressed with olive oil and vinegar."
+        },
+        "dinner": {
+          "recipe_name": "Lean Steak with Baked Potato & Steamed Broccoli",
+          "ingredients": [
+            {
+              "ingredient_name": "Lean Steak (e.g., Sirloin, Flank)",
+              "measure": "7 oz",
+              "calories": 400,
+              "protein": 50,
+              "carbs": 0,
+              "fat": 20,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Large Baking Potato",
+              "measure": "1 (300g)",
+              "calories": 260,
+              "protein": 7,
+              "carbs": 60,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 6,
+              "sugar": 3
+            },
+            {
+              "ingredient_name": "Broccoli Florets",
+              "measure": "2 cups",
+              "calories": 60,
+              "protein": 4,
+              "carbs": 12,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 5,
+              "sugar": 4
+            },
+            {
+              "ingredient_name": "Olive Oil (for cooking steak)",
+              "measure": "1 tbsp",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Plain Greek Yogurt (for potato topping)",
+              "measure": "2 tbsp",
+              "calories": 30,
+              "protein": 5,
+              "carbs": 2,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 2
+            }
+          ],
+          "meal_totals": {
+            "calories": 870,
+            "protein": 66,
+            "carbs": 74,
+            "fat": 34,
+            "trans_fat": 0,
+            "fiber": 11,
+            "sugar": 9
+          },
+          "prep_time": 40,
+          "instructions": "Preheat oven to 400\u00b0F (200\u00b0C). Pierce potato several times with a fork and bake for 35-45 minutes until tender. Season steak with salt and pepper, cook in olive oil in a hot pan to desired doneness. Steam broccoli until tender-crisp. Serve steak with baked potato (topped with Greek yogurt) and broccoli."
+        }
+      },
+      "daily_totals": {
+        "calories": 2352,
+        "protein": 174,
+        "carbs": 202,
+        "fat": 96,
+        "trans_fat": 0,
+        "fiber": 36,
+        "sugar": 45
+      }
+    },
+    {
+      "day_number": 5,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Protein-Packed Breakfast Burrito",
+          "ingredients": [
+            {
+              "ingredient_name": "Whole Wheat Tortilla (large)",
+              "measure": "1",
+              "calories": 200,
+              "protein": 6,
+              "carbs": 35,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Eggs",
+              "measure": "3 large",
+              "calories": 210,
+              "protein": 18,
+              "carbs": 1,
+              "fat": 15,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Black Beans",
+              "measure": "1/3 cup (cooked)",
+              "calories": 77,
+              "protein": 5,
+              "carbs": 13,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 5,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Salsa",
+              "measure": "1/4 cup",
+              "calories": 20,
+              "protein": 1,
+              "carbs": 4,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Cheddar Cheese (shredded)",
+              "measure": "1 oz",
+              "calories": 110,
+              "protein": 7,
+              "carbs": 1,
+              "fat": 9,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Avocado",
+              "measure": "1/4 medium",
+              "calories": 80,
+              "protein": 1,
+              "carbs": 4,
+              "fat": 7,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 697,
+            "protein": 38,
+            "carbs": 58,
+            "fat": 36,
+            "trans_fat": 0,
+            "fiber": 13,
+            "sugar": 5
+          },
+          "prep_time": 15,
+          "instructions": "Scramble eggs in a pan. Warm tortilla. Layer scrambled eggs, black beans, salsa, shredded cheese, and sliced avocado onto the tortilla. Roll up tightly and enjoy."
+        },
+        "lunch": {
+          "recipe_name": "Large Chicken Caesar Salad",
+          "ingredients": [
+            {
+              "ingredient_name": "Chicken Breast",
+              "measure": "7 oz",
+              "calories": 320,
+              "protein": 60,
+              "carbs": 0,
+              "fat": 7,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Romaine Lettuce",
+              "measure": "4 cups",
+              "calories": 30,
+              "protein": 2,
+              "carbs": 6,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Parmesan Cheese (shredded)",
+              "measure": "1/4 cup",
+              "calories": 110,
+              "protein": 10,
+              "carbs": 1,
+              "fat": 8,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Croutons",
+              "measure": "1 cup",
+              "calories": 130,
+              "protein": 3,
+              "carbs": 20,
+              "fat": 4,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Caesar Dressing (light)",
+              "measure": "3 tbsp",
+              "calories": 100,
+              "protein": 1,
+              "carbs": 5,
+              "fat": 8,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 3
+            }
+          ],
+          "meal_totals": {
+            "calories": 690,
+            "protein": 76,
+            "carbs": 32,
+            "fat": 27,
+            "trans_fat": 0,
+            "fiber": 5,
+            "sugar": 7
+          },
+          "prep_time": 15,
+          "instructions": "Grill or pan-fry chicken breast and slice. In a large bowl, combine romaine lettuce, chicken, parmesan cheese, and croutons. Toss with Caesar dressing until evenly coated."
+        },
+        "dinner": {
+          "recipe_name": "Turkey Meatloaf with Mashed Cauliflower & Roasted Carrots",
+          "ingredients": [
+            {
+              "ingredient_name": "Ground Turkey (93% lean)",
+              "measure": "7 oz",
+              "calories": 350,
+              "protein": 45,
+              "carbs": 0,
+              "fat": 18,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Oats (rolled, as binder)",
+              "measure": "1/4 cup (dry)",
+              "calories": 75,
+              "protein": 2,
+              "carbs": 13,
+              "fat": 1,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Egg (for binder)",
+              "measure": "1 large",
+              "calories": 70,
+              "protein": 6,
+              "carbs": 0,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Cauliflower",
+              "measure": "3 cups (chopped)",
+              "calories": 75,
+              "protein": 6,
+              "carbs": 15,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 6,
+              "sugar": 6
+            },
+            {
+              "ingredient_name": "Greek Yogurt (plain, for mash)",
+              "measure": "1/4 cup",
+              "calories": 35,
+              "protein": 9,
+              "carbs": 2,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Carrots",
+              "measure": "1.5 cups (sliced)",
+              "calories": 75,
+              "protein": 2,
+              "carbs": 18,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 6,
+              "sugar": 9
+            },
+            {
+              "ingredient_name": "Olive Oil (for roasting)",
+              "measure": "1.5 tbsp",
+              "calories": 180,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 21,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 860,
+            "protein": 70,
+            "carbs": 48,
+            "fat": 45,
+            "trans_fat": 0,
+            "fiber": 14,
+            "sugar": 17
+          },
+          "prep_time": 45,
+          "instructions": "Preheat oven to 375\u00b0F (190\u00b0C). Mix ground turkey with oats and egg, season well. Form into a small loaf and bake for 30-35 minutes. Steam cauliflower until very tender, then mash with Greek yogurt, salt, and pepper. Toss carrots with olive oil, salt, and pepper, then roast alongside meatloaf for 20-25 minutes. Serve meatloaf with mashed cauliflower and roasted carrots."
+        }
+      },
+      "daily_totals": {
+        "calories": 2447,
+        "protein": 184,
+        "carbs": 138,
+        "fat": 108,
+        "trans_fat": 0,
+        "fiber": 32,
+        "sugar": 29
+      }
+    }
+  ]
+}

@@ -369,6 +369,16 @@ class MealPlan(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, default='')
     description = models.TextField(null=True, blank=True)
+    
+    # Store complete AI-generated meal plan data as JSON
+    meal_plan_data = models.JSONField(default=dict, help_text="Complete meal plan with days, meals, recipes, ingredients, and nutritional data")
+    
+    # Metadata fields for easy filtering and searching
+    daily_calorie_target = models.IntegerField(null=True, blank=True)
+    days_count = models.IntegerField(null=True, blank=True)
+    dietary_preferences = models.JSONField(default=list, help_text="List of dietary preferences")
+    goal = models.CharField(max_length=100, blank=True, help_text="User's fitness/nutrition goal")
+    
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
     class Meta:

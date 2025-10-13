@@ -1,4 +1,5 @@
 import google.generativeai as genai
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from decouple import config
 import logging
 import json
@@ -18,7 +19,19 @@ class GeminiAIService:
             self.api_key = config('GEMINI_API_KEY')
             genai.configure(api_key=self.api_key)
             self.model_id = "gemini-2.5-flash"
-            self.model = genai.GenerativeModel(self.model_id)
+            
+            # Configure safety settings to be less restrictive for food content
+            safety_settings = {
+                HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+            }
+            
+            self.model = genai.GenerativeModel(
+                self.model_id,
+                safety_settings=safety_settings
+            )
             logger.info("Gemini AI service initialized successfully")
         except Exception as e:
             logger.error(f"Failed to initialize Gemini AI service: {e}")
@@ -49,11 +62,17 @@ class GeminiAIService:
         try:
             prompt = self._create_workout_plan_prompt(user_goal, experience_level, days_per_week, user_profile)
             
+            # Configure generation with extended timeout
+            generation_config = genai.GenerationConfig(
+                response_mime_type="application/json",
+                max_output_tokens=16384,  # Increased token limit for detailed workout plans
+                temperature=0.7
+            )
+            
             response = self.model.generate_content(
                 prompt,
-                generation_config=genai.GenerationConfig(
-                    response_mime_type="application/json"
-                )
+                generation_config=generation_config,
+                request_options={'timeout': 180}  # 3 minutes timeout
             )
             
             logger.info("Exercise plan generated successfully")
@@ -79,14 +98,37 @@ class GeminiAIService:
         try:
             prompt = self._create_meal_plan_prompt(user_goal, daily_calorie_target, dietary_preferences, user_profile)
             
+            # Configure generation with extended timeout and higher token limit
+            generation_config = genai.GenerationConfig(
+                response_mime_type="application/json",
+                max_output_tokens=32768,  # Significantly increased for very detailed meal plans
+                temperature=0.7
+            )
+            
+            # Use streaming or configure client timeout
             response = self.model.generate_content(
                 prompt,
-                generation_config=genai.GenerationConfig(
-                    response_mime_type="application/json"
-                )
+                generation_config=generation_config,
+                request_options={'timeout': 180}  # 3 minutes timeout
             )
             
             logger.info("Meal plan generated successfully")
+            
+            # Check if response was blocked by safety filters
+            if not response.candidates:
+                logger.error("No candidates returned - response may have been blocked")
+                return {"success": False, "error": "Response was blocked by safety filters"}
+            
+            candidate = response.candidates[0]
+            if candidate.finish_reason.name == "SAFETY":
+                safety_ratings = {rating.category.name: rating.probability.name for rating in candidate.safety_ratings}
+                logger.error(f"Response blocked by safety filters: {safety_ratings}")
+                return {"success": False, "error": f"Response blocked by safety filters: {safety_ratings}"}
+            
+            if not response.text:
+                logger.error("Empty response text")
+                return {"success": False, "error": "Empty response from AI service"}
+            
             return self._parse_json_response(response.text, "meal_plan")
             
         except Exception as e:
@@ -335,50 +377,53 @@ class GeminiAIService:
         
         return prompt.strip()
 
-    def _parse_json_response(self, response_text: str, plan_type: str):
-        """Parse and validate JSON response from AI."""
+    def _parse_json_response(self, response_text, expected_type):
+        """Parse JSON response from AI and handle errors gracefully."""
         try:
-            # The response should be a clean JSON string when using response_mime_type
+            # Clean up the response text
+            response_text = response_text.strip()
+            
+            # If response is truncated, try to fix common JSON issues
+            if not response_text.endswith('}'):
+                logger.warning("Response appears truncated, attempting to fix JSON")
+                # Count open braces vs close braces
+                open_braces = response_text.count('{')
+                close_braces = response_text.count('}')
+                missing_braces = open_braces - close_braces
+                
+                # Add missing closing braces
+                if missing_braces > 0:
+                    response_text += '}' * missing_braces
+                    logger.info(f"Added {missing_braces} closing braces to fix JSON")
+            
             parsed_data = json.loads(response_text)
-            
-            # Validate required fields based on plan type
-            if plan_type == "exercise_plan":
-                required_fields = ['plan_name', 'plan_description', 'days']
-            elif plan_type == "meal_plan":
-                required_fields = ['plan_name', 'plan_description', 'days']
-            else:
-                required_fields = ['plan_name']
-            
-            if all(field in parsed_data for field in required_fields):
-                logger.info(f"{plan_type} parsed successfully")
-                return {
-                    "success": True,
-                    "data": parsed_data,
-                    "message": f"{plan_type.replace('_', ' ').title()} generated successfully"
-                }
-            
-            # Fallback for missing fields
-            logger.warning(f"JSON response for {plan_type} is missing required fields.")
-            return {
-                "success": False,
-                "error": "AI response is missing required fields",
-                "raw_response": response_text,
-                "message": f"AI response was not in expected format for {plan_type}"
-            }
+            logger.info(f"Successfully parsed {expected_type} response")
+            return {"success": True, "data": parsed_data}
             
         except json.JSONDecodeError as e:
-            logger.error(f"JSON decode error for {plan_type}: {e}. Raw response: {response_text}")
-            return {
-                "success": False,
-                "error": "Failed to parse AI response as JSON",
-                "raw_response": response_text,
-                "message": "AI response was not valid JSON"
-            }
+            logger.error(f"JSON decode error for {expected_type}: {e}. Raw response: {response_text[:1000]}...")
+            
+            # Try to extract partial data if possible
+            try:
+                # Find the first complete object
+                start_idx = response_text.find('{')
+                if start_idx != -1:
+                    # Try to find a reasonable cutoff point
+                    for end_idx in range(len(response_text) - 1, start_idx, -1):
+                        if response_text[end_idx] == '}':
+                            try:
+                                partial_response = response_text[start_idx:end_idx + 1]
+                                parsed_data = json.loads(partial_response)
+                                logger.warning(f"Successfully parsed partial {expected_type} response")
+                                return {"success": True, "data": parsed_data, "partial": True}
+                            except json.JSONDecodeError:
+                                continue
+                                
+            except Exception as fallback_error:
+                logger.error(f"Fallback parsing also failed: {fallback_error}")
+            
+            return {"success": False, "error": f"Failed to parse AI response as JSON: {str(e)}"}
+            
         except Exception as e:
-            logger.error(f"Unexpected error parsing {plan_type} response: {e}")
-            return {
-                "success": False,
-                "error": str(e),
-                "raw_response": response_text,
-                "message": f"Unexpected error occurred while parsing {plan_type} response"
-            }
+            logger.error(f"Unexpected error parsing {expected_type}: {e}")
+            return {"success": False, "error": f"Unexpected error: {str(e)}"}
