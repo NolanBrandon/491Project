@@ -21,11 +21,6 @@ from .views import (
     PlanExerciseViewSet,
     WorkoutLogViewSet,
     MealPlanViewSet,
-    RecipeViewSet,
-    IngredientViewSet,
-    RecipeIngredientViewSet,
-    TagViewSet,
-    RecipeTagViewSet,
     health_check,
     api_info,
     generate_enriched_workout_plan,
@@ -54,11 +49,6 @@ router.register(r'plan-days', PlanDayViewSet)
 router.register(r'plan-exercises', PlanExerciseViewSet)
 router.register(r'workout-logs', WorkoutLogViewSet)
 router.register(r'meal-plans', MealPlanViewSet)
-router.register(r'recipes', RecipeViewSet)
-router.register(r'ingredients', IngredientViewSet)
-router.register(r'recipe-ingredients', RecipeIngredientViewSet)
-router.register(r'tags', TagViewSet)
-router.register(r'recipe-tags', RecipeTagViewSet)
 
 urlpatterns = [
     path('health/', health_check, name='health_check'),

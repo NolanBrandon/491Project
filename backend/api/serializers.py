@@ -19,14 +19,9 @@ from .models import (
     PlanDay,
     PlanExercise,
     WorkoutLog,
-    Ingredient,
-    RecipeIngredient,
     Food,
     NutritionLog,
     MealPlan,
-    Recipe,
-    Tag,
-    RecipeTag
 )
 
 def hash_password(password):
@@ -237,58 +232,12 @@ class NutritionLogSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 # -------------------------------
-# Meal Plan & Recipe Serializers
+# Meal Plan Serializers
 # -------------------------------
 class MealPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = MealPlan
         fields = '__all__'
-
-class RecipeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Recipe
-        fields = '__all__'
-
-class IngredientSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Ingredient
-        fields = '__all__'
-
-class RecipeIngredientSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RecipeIngredient
-        fields = '__all__'
-
-class TagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = '__all__'
-
-class RecipeTagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RecipeTag
-        fields = '__all__'
-
-
-# -------------------------------
-# Enhanced Meal Plan Serializers for Detailed Views
-# -------------------------------
-class RecipeIngredientDetailSerializer(serializers.ModelSerializer):
-    """Detailed serializer for recipe ingredients including ingredient details."""
-    ingredient_name = serializers.CharField(source='ingredient.name', read_only=True)
-    
-    class Meta:
-        model = RecipeIngredient
-        fields = ['id', 'ingredient', 'ingredient_name', 'measure']
-
-
-class RecipeDetailSerializer(serializers.ModelSerializer):
-    """Detailed serializer for recipes including ingredients."""
-    recipe_ingredients = RecipeIngredientDetailSerializer(many=True, read_only=True)
-    
-    class Meta:
-        model = Recipe
-        fields = ['id', 'name', 'category', 'area', 'instructions', 'image_url', 'youtube_url', 'source_url', 'recipe_ingredients']
 
 
 class MealPlanDetailSerializer(serializers.ModelSerializer):

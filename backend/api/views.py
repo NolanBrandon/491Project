@@ -26,11 +26,6 @@ from .models import (
     Food,
     NutritionLog,
     MealPlan,
-    Recipe,
-    Ingredient,
-    RecipeIngredient,
-    Tag,
-    RecipeTag
 )
 from .serializers import (
     UserSerializer,
@@ -58,11 +53,6 @@ from .serializers import (
     NutritionLogSerializer,
     MealPlanSerializer,
     MealPlanDetailSerializer,
-    RecipeSerializer,
-    IngredientSerializer,
-    RecipeIngredientSerializer,
-    TagSerializer,
-    RecipeTagSerializer
 )
 
 # -------------------------------
@@ -357,31 +347,6 @@ class MealPlanViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-class RecipeViewSet(viewsets.ModelViewSet):
-    queryset = Recipe.objects.all()
-    serializer_class = RecipeSerializer
-    permission_classes = [AllowAny]
-
-class IngredientViewSet(viewsets.ModelViewSet):
-    queryset = Ingredient.objects.all()
-    serializer_class = IngredientSerializer
-    permission_classes = [AllowAny]
-
-class RecipeIngredientViewSet(viewsets.ModelViewSet):
-    queryset = RecipeIngredient.objects.all()
-    serializer_class = RecipeIngredientSerializer
-    permission_classes = [AllowAny]
-
-class TagViewSet(viewsets.ModelViewSet):
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
-    permission_classes = [AllowAny]
-
-class RecipeTagViewSet(viewsets.ModelViewSet):
-    queryset = RecipeTag.objects.all()
-    serializer_class = RecipeTagSerializer
-    permission_classes = [AllowAny]
-
 # -------------------------------
 # Health Check & API Info Views
 # -------------------------------
@@ -426,14 +391,8 @@ def api_info(request):
             "/nutrition-logs/",
             "/meal-plans/",
             "/meal-plans/user/{user_id}/",
-            "/meal-plans/{id}/with_details/",
-            "/meal-plan-days/",
-            "/recipes/",
-            "/meal-plan-entries/",
-            "/ingredients/",
-            "/recipe-ingredients/",
-            "/tags/",
-            "/recipe-tags/"
+            "/generate-meal-plan/",
+            "/generate-workout-plan/"
         ]
     })
 
