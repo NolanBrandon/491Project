@@ -130,15 +130,20 @@ class WorkoutLogSerializer(serializers.ModelSerializer):
         model = WorkoutLog
         fields = '__all__'
 
-# -------------------------------
-# Nutrition Serializers
+
 # -------------------------------
 # Nutrition Serializers
 # -------------------------------
 class NutritionLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = NutritionLog
-        fields = '__all__'
+        fields = ['id', 'user', 'food_name', 'food_data', 'date_eaten', 'quantity', 'meal_type']
+        
+    def create(self, validated_data):
+        # Ensure food_data is a dictionary if not provided
+        if 'food_data' not in validated_data:
+            validated_data['food_data'] = {}
+        return super().create(validated_data)
 
 # -------------------------------
 # Meal Plan Serializers
