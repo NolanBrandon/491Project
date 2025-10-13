@@ -98,22 +98,6 @@ class WorkoutLog(models.Model):
 # Nutrition & Meal Planning Module
 # -------------------------------
 
-class Food(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255, default='')
-    serving_size_g = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    calories = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    protein_g = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    carbohydrates_g = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    fat_g = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    
-    class Meta:
-        db_table = 'foods'
-
-    def __str__(self):
-        return self.name
-
-
 class NutritionLog(models.Model):
     MEAL_TYPE_CHOICES = [
         ('breakfast', 'Breakfast'),
@@ -124,7 +108,8 @@ class NutritionLog(models.Model):
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    food_name = models.CharField(max_length=255, default='')  # Store food name as text
+    food_data = models.JSONField(default=dict, blank=True)  # Store nutritional data as JSON
     date_eaten = models.DateTimeField()
     quantity = models.DecimalField(max_digits=5, decimal_places=2, default=1.0)  # Multiplier of serving size
     meal_type = models.CharField(max_length=50, choices=MEAL_TYPE_CHOICES, null=True, blank=True)
@@ -133,7 +118,7 @@ class NutritionLog(models.Model):
         db_table = 'nutrition_log'
 
     def __str__(self):
-        return f"{self.user.username} - {self.food.name} on {self.date_eaten.date()}"
+        return f"{self.user.username} - {self.food_name} on {self.date_eaten.date()}"
 
 
 class MealPlan(models.Model):

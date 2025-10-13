@@ -7,7 +7,6 @@ from .models import (
     Goal,
     WorkoutPlan,
     WorkoutLog,
-    Food,
     NutritionLog,
     MealPlan,
 )
@@ -134,11 +133,8 @@ class WorkoutLogSerializer(serializers.ModelSerializer):
 # -------------------------------
 # Nutrition Serializers
 # -------------------------------
-class FoodSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Food
-        fields = '__all__'
-
+# Nutrition Serializers
+# -------------------------------
 class NutritionLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = NutritionLog

@@ -11,7 +11,6 @@ from .models import (
     Goal,
     WorkoutPlan,
     WorkoutLog,
-    Food,
     NutritionLog,
     MealPlan,
 )
@@ -26,7 +25,6 @@ from .serializers import (
     WorkoutPlanSerializer,
     WorkoutPlanDetailSerializer,
     WorkoutLogSerializer,
-    FoodSerializer,
     NutritionLogSerializer,
     MealPlanSerializer,
     MealPlanDetailSerializer,
@@ -160,11 +158,8 @@ class GoalViewSet(viewsets.ModelViewSet):
 # -------------------------------
 # Nutrition Views
 # -------------------------------
-class FoodViewSet(viewsets.ModelViewSet):
-    queryset = Food.objects.all()
-    serializer_class = FoodSerializer
-    permission_classes = [AllowAny]
-
+# Nutrition Views
+# -------------------------------
 class NutritionLogViewSet(viewsets.ModelViewSet):
     queryset = NutritionLog.objects.all()
     serializer_class = NutritionLogSerializer
@@ -274,7 +269,6 @@ def api_info(request):
             "/workout-plans/",
             "/workout-plans/user/{user_id}/",
             "/workout-logs/",
-            "/foods/",
             "/nutrition-logs/",
             "/meal-plans/",
             "/meal-plans/user/{user_id}/",

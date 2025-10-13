@@ -4,7 +4,6 @@ from .views import (
     UserViewSet,
     UserMetricViewSet,
     GoalViewSet,
-    FoodViewSet,
     NutritionLogViewSet,
     WorkoutPlanViewSet,
     WorkoutLogViewSet,
@@ -20,7 +19,6 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'user-metrics', UserMetricViewSet)
 router.register(r'goals', GoalViewSet)
-router.register(r'foods', FoodViewSet)
 router.register(r'nutrition-logs', NutritionLogViewSet)
 router.register(r'workout-plans', WorkoutPlanViewSet)
 router.register(r'workout-logs', WorkoutLogViewSet)
