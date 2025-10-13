@@ -32,7 +32,13 @@ class TestGeminiAIService(TestCase):
         
         self.ai_service = GeminiAIService()
         mock_configure.assert_called_once()
-        mock_generative_model.assert_called_once_with("gemini-2.5-flash")
+        
+        # Check that GenerativeModel was called with model name and safety settings
+        mock_generative_model.assert_called_once()
+        call_args, call_kwargs = mock_generative_model.call_args
+        self.assertEqual(call_args[0], "gemini-2.5-flash")  # First positional arg should be model name
+        self.assertIn('safety_settings', call_kwargs)  # Should have safety_settings as keyword arg
+        
         self.assertIsNotNone(self.ai_service.model)
         self.assertIsNotNone(self.ai_service.api_key)
         self.assertEqual(self.ai_service.model_id, "gemini-2.5-flash")
