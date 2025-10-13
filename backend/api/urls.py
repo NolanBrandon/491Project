@@ -6,19 +6,7 @@ from .views import (
     GoalViewSet,
     FoodViewSet,
     NutritionLogViewSet,
-    ExerciseViewSet,
-    MuscleViewSet,
-    ExerciseMuscleViewSet,
-    EquipmentViewSet,
-    ExerciseEquipmentViewSet,
-    BodyPartViewSet,
-    ExerciseBodyPartViewSet,
-    KeywordViewSet,
-    ExerciseKeywordViewSet,
-    RelatedExerciseViewSet,
     WorkoutPlanViewSet,
-    PlanDayViewSet,
-    PlanExerciseViewSet,
     WorkoutLogViewSet,
     MealPlanViewSet,
     health_check,
@@ -34,19 +22,7 @@ router.register(r'user-metrics', UserMetricViewSet)
 router.register(r'goals', GoalViewSet)
 router.register(r'foods', FoodViewSet)
 router.register(r'nutrition-logs', NutritionLogViewSet)
-router.register(r'exercises', ExerciseViewSet)
-router.register(r'muscles', MuscleViewSet)
-router.register(r'exercise-muscles', ExerciseMuscleViewSet)
-router.register(r'equipment', EquipmentViewSet)
-router.register(r'exercise-equipment', ExerciseEquipmentViewSet)
-router.register(r'body-parts', BodyPartViewSet)
-router.register(r'exercise-body-parts', ExerciseBodyPartViewSet)
-router.register(r'keywords', KeywordViewSet)
-router.register(r'exercise-keywords', ExerciseKeywordViewSet)
-router.register(r'related-exercises', RelatedExerciseViewSet)
 router.register(r'workout-plans', WorkoutPlanViewSet)
-router.register(r'plan-days', PlanDayViewSet)
-router.register(r'plan-exercises', PlanExerciseViewSet)
 router.register(r'workout-logs', WorkoutLogViewSet)
 router.register(r'meal-plans', MealPlanViewSet)
 

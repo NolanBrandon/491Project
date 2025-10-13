@@ -5,19 +5,7 @@ from .models import (
     User,
     UserMetrics,
     Goal,
-    Exercise,
-    Muscle,
-    ExerciseMuscle,
-    Equipment,
-    ExerciseEquipment,
-    BodyPart,
-    ExerciseBodyPart,
-    Keyword,
-    ExerciseKeyword,
-    RelatedExercise,
     WorkoutPlan,
-    PlanDay,
-    PlanExercise,
     WorkoutLog,
     Food,
     NutritionLog,
@@ -127,73 +115,8 @@ class GoalSerializer(serializers.ModelSerializer):
 # -------------------------------
 # Exercise & Workout Serializers
 # -------------------------------
-class ExerciseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Exercise
-        fields = '__all__'
-
-class MuscleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Muscle
-        fields = '__all__'
-
-class ExerciseMuscleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ExerciseMuscle
-        fields = '__all__'
-
-class EquipmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Equipment
-        fields = '__all__'
-
-class ExerciseEquipmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ExerciseEquipment
-        fields = '__all__'
-
-class BodyPartSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BodyPart
-        fields = '__all__'
-
-class ExerciseBodyPartSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ExerciseBodyPart
-        fields = '__all__'
-
-class KeywordSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Keyword
-        fields = '__all__'
-
-class ExerciseKeywordSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ExerciseKeyword
-        fields = '__all__'
-
-class RelatedExerciseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RelatedExercise
-        fields = '__all__'
-
-class PlanExerciseDetailSerializer(serializers.ModelSerializer):
-    exercise = ExerciseSerializer(read_only=True)
-    
-    class Meta:
-        model = PlanExercise
-        fields = '__all__'
-
-class PlanDayDetailSerializer(serializers.ModelSerializer):
-    plan_exercises = PlanExerciseDetailSerializer(many=True, read_only=True)
-    
-    class Meta:
-        model = PlanDay
-        fields = '__all__'
 
 class WorkoutPlanDetailSerializer(serializers.ModelSerializer):
-    plan_days = PlanDayDetailSerializer(many=True, read_only=True)
-    
     class Meta:
         model = WorkoutPlan
         fields = '__all__'
@@ -201,16 +124,6 @@ class WorkoutPlanDetailSerializer(serializers.ModelSerializer):
 class WorkoutPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkoutPlan
-        fields = '__all__'
-
-class PlanDaySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PlanDay
-        fields = '__all__'
-
-class PlanExerciseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PlanExercise
         fields = '__all__'
 
 class WorkoutLogSerializer(serializers.ModelSerializer):

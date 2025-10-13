@@ -1,19 +1,9 @@
 from django.contrib import admin
-from .models import Exercise, WorkoutPlan, PlanDay, PlanExercise
-
-@admin.register(Exercise)
-class ExerciseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+from .models import WorkoutPlan
 
 @admin.register(WorkoutPlan)
 class WorkoutPlanAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-
-@admin.register(PlanDay)
-class PlanDayAdmin(admin.ModelAdmin):
-    list_display = ('id', 'plan', 'day_number')
-
-@admin.register(PlanExercise)
-class PlanExerciseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'plan_day', 'exercise', 'sets', 'reps')
+    list_display = ('id', 'name', 'user')
+    list_filter = ('created_at',)
+    search_fields = ('name', 'user__username')
 

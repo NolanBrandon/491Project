@@ -9,19 +9,7 @@ from .models import (
     User,
     UserMetrics,
     Goal,
-    Exercise,
-    Muscle,
-    ExerciseMuscle,
-    Equipment,
-    ExerciseEquipment,
-    BodyPart,
-    ExerciseBodyPart,
-    Keyword,
-    ExerciseKeyword,
-    RelatedExercise,
     WorkoutPlan,
-    PlanDay,
-    PlanExercise,
     WorkoutLog,
     Food,
     NutritionLog,
@@ -35,19 +23,8 @@ from .serializers import (
     ChangePasswordSerializer,
     UserMetricsSerializer,
     GoalSerializer,
-    ExerciseSerializer,
-    MuscleSerializer,
-    ExerciseMuscleSerializer,
-    EquipmentSerializer,
-    ExerciseEquipmentSerializer,
-    BodyPartSerializer,
-    ExerciseBodyPartSerializer,
-    KeywordSerializer,
-    ExerciseKeywordSerializer,
-    RelatedExerciseSerializer,
     WorkoutPlanSerializer,
-    PlanDaySerializer,
-    PlanExerciseSerializer,
+    WorkoutPlanDetailSerializer,
     WorkoutLogSerializer,
     FoodSerializer,
     NutritionLogSerializer,
@@ -196,55 +173,6 @@ class NutritionLogViewSet(viewsets.ModelViewSet):
 # -------------------------------
 # Exercise & Workout Views
 # -------------------------------
-class ExerciseViewSet(viewsets.ModelViewSet):
-    queryset = Exercise.objects.all()
-    serializer_class = ExerciseSerializer
-    permission_classes = [AllowAny]
-
-class MuscleViewSet(viewsets.ModelViewSet):
-    queryset = Muscle.objects.all()
-    serializer_class = MuscleSerializer
-    permission_classes = [AllowAny]
-
-class ExerciseMuscleViewSet(viewsets.ModelViewSet):
-    queryset = ExerciseMuscle.objects.all()
-    serializer_class = ExerciseMuscleSerializer
-    permission_classes = [AllowAny]
-
-class EquipmentViewSet(viewsets.ModelViewSet):
-    queryset = Equipment.objects.all()
-    serializer_class = EquipmentSerializer
-    permission_classes = [AllowAny]
-
-class ExerciseEquipmentViewSet(viewsets.ModelViewSet):
-    queryset = ExerciseEquipment.objects.all()
-    serializer_class = ExerciseEquipmentSerializer
-    permission_classes = [AllowAny]
-
-class BodyPartViewSet(viewsets.ModelViewSet):
-    queryset = BodyPart.objects.all()
-    serializer_class = BodyPartSerializer
-    permission_classes = [AllowAny]
-
-class ExerciseBodyPartViewSet(viewsets.ModelViewSet):
-    queryset = ExerciseBodyPart.objects.all()
-    serializer_class = ExerciseBodyPartSerializer
-    permission_classes = [AllowAny]
-
-class KeywordViewSet(viewsets.ModelViewSet):
-    queryset = Keyword.objects.all()
-    serializer_class = KeywordSerializer
-    permission_classes = [AllowAny]
-
-class ExerciseKeywordViewSet(viewsets.ModelViewSet):
-    queryset = ExerciseKeyword.objects.all()
-    serializer_class = ExerciseKeywordSerializer
-    permission_classes = [AllowAny]
-
-class RelatedExerciseViewSet(viewsets.ModelViewSet):
-    queryset = RelatedExercise.objects.all()
-    serializer_class = RelatedExerciseSerializer
-    permission_classes = [AllowAny]
 
 class WorkoutPlanViewSet(viewsets.ModelViewSet):
     queryset = WorkoutPlan.objects.all()
@@ -267,45 +195,17 @@ class WorkoutPlanViewSet(viewsets.ModelViewSet):
     
     @action(detail=True, methods=['get'])
     def with_details(self, request, pk=None):
-        """Get workout plan with all its days and exercises."""
+        """Get workout plan with all its workout data from JSON field."""
         try:
             workout_plan = self.get_object()
-            plan_data = WorkoutPlanSerializer(workout_plan).data
-            
-            # Get all plan days for this workout plan
-            plan_days = PlanDay.objects.filter(plan=workout_plan).order_by('day_number')
-            plan_data['days'] = []
-            
-            for day in plan_days:
-                day_data = PlanDaySerializer(day).data
-                # Get all exercises for this day
-                plan_exercises = PlanExercise.objects.filter(plan_day=day).order_by('display_order')
-                day_data['exercises'] = []
-                
-                for plan_exercise in plan_exercises:
-                    exercise_data = PlanExerciseSerializer(plan_exercise).data
-                    # Include exercise details
-                    exercise_data['exercise_details'] = ExerciseSerializer(plan_exercise.exercise).data
-                    day_data['exercises'].append(exercise_data)
-                
-                plan_data['days'].append(day_data)
-            
-            return Response(plan_data)
+            serializer = WorkoutPlanDetailSerializer(workout_plan)
+            return Response(serializer.data)
         except WorkoutPlan.DoesNotExist:
             return Response(
                 {"error": "Workout plan not found"}, 
                 status=status.HTTP_404_NOT_FOUND
             )
 
-class PlanDayViewSet(viewsets.ModelViewSet):
-    queryset = PlanDay.objects.all()
-    serializer_class = PlanDaySerializer
-    permission_classes = [AllowAny]
-
-class PlanExerciseViewSet(viewsets.ModelViewSet):
-    queryset = PlanExercise.objects.all()
-    serializer_class = PlanExerciseSerializer
-    permission_classes = [AllowAny]
 
 class WorkoutLogViewSet(viewsets.ModelViewSet):
     queryset = WorkoutLog.objects.all()
@@ -371,21 +271,8 @@ def api_info(request):
             "/users/{id}/dashboard/",
             "/user-metrics/",
             "/goals/",
-            "/exercises/",
-            "/muscles/",
-            "/exercise-muscles/",
-            "/equipment/",
-            "/exercise-equipment/",
-            "/body-parts/",
-            "/exercise-body-parts/",
-            "/keywords/",
-            "/exercise-keywords/",
-            "/related-exercises/",
             "/workout-plans/",
             "/workout-plans/user/{user_id}/",
-            "/workout-plans/{id}/with_details/",
-            "/plan-days/",
-            "/plan-exercises/",
             "/workout-logs/",
             "/foods/",
             "/nutrition-logs/",
@@ -530,54 +417,9 @@ def save_workout_plan_to_database(user, plan_data):
         workout_plan = WorkoutPlan.objects.create(
             user=user,
             name=plan_data.get('plan_name', 'AI Generated Plan'),
-            description=plan_data.get('plan_description', 'Generated by AI')
+            description=plan_data.get('plan_description', 'Generated by AI'),
+            workout_plan_data=plan_data  # Store entire workout plan as JSON
         )
-        
-        # Create plan days and exercises
-        for day_data in plan_data.get('days', []):
-            plan_day = PlanDay.objects.create(
-                plan=workout_plan,
-                day_number=day_data.get('day_number', 1),
-                name=day_data.get('day_name', f"Day {day_data.get('day_number', 1)}")
-            )
-            
-            # Create exercises for this day
-            for exercise_data in day_data.get('exercises', []):
-                # Try to find existing exercise or create new one
-                exercise_name = exercise_data.get('exercise_name', '')
-                exercise_details = exercise_data.get('exercise_details')
-                
-                # Look for existing exercise by name first
-                exercise = None
-                if exercise_details and exercise_details.get('exerciseId'):
-                    # Try to find by ExerciseDB ID first
-                    try:
-                        exercise = Exercise.objects.get(exerciseDbId=exercise_details['exerciseId'])
-                    except Exercise.DoesNotExist:
-                        pass
-                
-                if not exercise:
-                    # Create new exercise
-                    exercise_db_id = exercise_details.get('exerciseId') if exercise_details else ''
-                    exercise = Exercise.objects.create(
-                        name=exercise_name,
-                        exerciseDbId=exercise_db_id or '',  # Use empty string if None
-                        image_url=exercise_details.get('imageUrl') if exercise_details else None,
-                        video_url=exercise_details.get('videoUrl') if exercise_details else None,
-                        overview=exercise_details.get('overview') if exercise_details else None,
-                        instructions=exercise_details.get('instructions', []) if exercise_details else [],
-                        exercise_type=exercise_details.get('exerciseType') if exercise_details else None
-                    )
-                
-                # Create plan exercise
-                PlanExercise.objects.create(
-                    plan_day=plan_day,
-                    exercise=exercise,
-                    display_order=len(day_data.get('exercises', [])),
-                    sets=exercise_data.get('sets', 1),
-                    reps=str(exercise_data.get('reps', '10')),
-                    rest_period_seconds=exercise_data.get('rest_period_seconds')
-                )
         
         logger.info(f"Successfully saved workout plan '{workout_plan.name}' for user {user.username}")
         return str(workout_plan.id)
