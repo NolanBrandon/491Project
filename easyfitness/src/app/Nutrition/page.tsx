@@ -9,7 +9,7 @@ export default function NutritionPageContent() {
   const [dateEaten, setDateEaten] = useState('');
   const [mealType, setMealType] = useState('Breakfast');
   const [foodName, setFoodName] = useState('');
-  const [quantity, setQuantity] = useState('');
+  const [protein, setProtein] = useState(''); // protein in grams
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -18,7 +18,7 @@ export default function NutritionPageContent() {
     setIsLoading(true);
     setMessage('');
 
-    // Correct v2 syntax to get current user
+    // Get current user
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       setMessage('You must be logged in to add meals.');
@@ -26,13 +26,14 @@ export default function NutritionPageContent() {
       return;
     }
 
+    // Insert into nutrition_log
     const { error } = await supabase.from('nutrition_log').insert({
       date_eaten: dateEaten,
       meal_type: mealType,
       food_name: foodName,
-      quantity: parseFloat(quantity),
-      user_id: user.id, // use current authenticated user
-      food_id: null, // allow manual entry
+      quantity: parseFloat(protein), // store protein in quantity
+      user_id: user.id,
+      food_data: { protein: parseFloat(protein) }, // optional: store extra info
     });
 
     if (error) {
@@ -42,8 +43,9 @@ export default function NutritionPageContent() {
       setDateEaten('');
       setMealType('Breakfast');
       setFoodName('');
-      setQuantity('');
+      setProtein('');
     }
+
     setIsLoading(false);
   };
 
@@ -89,11 +91,11 @@ export default function NutritionPageContent() {
         </label>
 
         <label>
-          Quantity:
+          Protein (grams):
           <input
             type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
+            value={protein}
+            onChange={(e) => setProtein(e.target.value)}
             required
             className="auth-input w-full"
             step="any"

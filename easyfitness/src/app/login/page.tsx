@@ -1,18 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '../../lib/supabaseClient';
 import Nav from '../components/navbar';
 import Footer from '../components/footer';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isSigningUp, setIsSigningUp] = useState(false);
-  const [message, setMessage] = useState('');
   const router = useRouter();
+  const [message, setMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,28 +18,20 @@ export default function LoginPage() {
     setMessage('');
 
     try {
-      if (isSigningUp) {
-        // Sign up
-        const { data, error } = await supabase.auth.signUp({ email, password });
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/login/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
 
-        if (error) {
-          setMessage('Sign up failed: ' + error.message);
-        } else {
-          setMessage('Sign up successful! Please check your email.');
-          setIsSigningUp(false);
-        }
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMessage('Login failed: ' + (data.error || JSON.stringify(data)));
       } else {
-        // Log in
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-        if (error) {
-          setMessage('Login failed: ' + error.message);
-        } else if (!data.session) {
-          setMessage('Login failed: no session returned.');
-        } else {
-          setMessage('Login successful!');
-          router.push('/mylog'); // redirect after login
-        }
+        setMessage('Login successful!');
+        // Redirect to dashboard or main page
+        router.push(`/users/${data.user.id}/dashboard/`);
       }
     } catch (err) {
       setMessage('Unexpected error: ' + (err as Error).message);
@@ -56,20 +46,17 @@ export default function LoginPage() {
       <div className="content-grow flex items-center justify-center px-4 py-12 flex-1">
         <div className="auth-card space-y-8">
           <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold tracking-wide">
-  {isSigningUp ? 'Create your account' : 'Sign in to your account'}
-</h2>
-
+            <h2 className="text-2xl font-bold tracking-wide">Sign in to your account</h2>
             <p className="auth-muted">Welcome back to EasyFitness</p>
           </div>
 
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <input
-                type="email"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
                 className="auth-input w-full px-3 py-2 rounded-md text-sm"
               />
@@ -88,44 +75,10 @@ export default function LoginPage() {
               disabled={isLoading}
               className="auth-btn w-full py-2.5 rounded-md text-sm text-white transition disabled:cursor-not-allowed"
             >
-              {isLoading
-                ? isSigningUp
-                  ? 'Signing up…'
-                  : 'Signing in…'
-                : isSigningUp
-                ? 'Sign Up'
-                : 'Sign In'}
+              {isLoading ? 'Signing in…' : 'Sign In'}
             </button>
 
-            {message && (
-              <p className="text-center text-sm auth-muted mt-2">{message}</p>
-            )}
-
-            <div className="text-center text-xs auth-muted">
-              {isSigningUp ? (
-                <>
-                  Already have an account?{' '}
-                  <button
-                    type="button"
-                    className="auth-link"
-                    onClick={() => setIsSigningUp(false)}
-                  >
-                    Sign in
-                  </button>
-                </>
-              ) : (
-                <>
-                  Don&apos;t have an account?{' '}
-                  <button
-                    type="button"
-                    className="auth-link"
-                    onClick={() => setIsSigningUp(true)}
-                  >
-                    Sign up
-                  </button>
-                </>
-              )}
-            </div>
+            {message && <p className="text-center text-sm auth-muted mt-2">{message}</p>}
           </form>
         </div>
       </div>

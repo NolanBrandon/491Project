@@ -1,65 +1,64 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabaseClient';
+import { useState } from 'react';
 import Nav from '../components/navbar';
 import Footer from '../components/footer';
 import { useRouter } from 'next/navigation';
+import { supabase } from '../../lib/supabaseClient';
 
-export default function LoginPage() {
+export default function SignupPage() {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [gender, setGender] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isSigningUp, setIsSigningUp] = useState(false);
-
+  const [isSigningUp, setIsSigningUp] = useState(true); // toggle between signup/login
+  const [message, setMessage] = useState('');
   const router = useRouter();
-
-  // Check backend health once on mount
-  useEffect(() => {
-    const checkBackend = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/health/`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        console.log('Backend health check:', data);
-      } catch (err) {
-        console.error('Backend connection failed:', err);
-      }
-    };
-
-    checkBackend();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setMessage('');
 
-    if (isSigningUp) {
-      // Sign up
-      const { data, error } = await supabase.auth.signUp({ email, password });
+    try {
+      if (isSigningUp) {
+        if (password !== passwordConfirm) {
+          setMessage('Passwords do not match');
+          setIsLoading(false);
+          return;
+        }
 
-      setIsLoading(false);
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+        });
 
-      if (error) {
-        alert('Sign up failed: ' + error.message);
+        if (error) {
+          setMessage('Sign up failed: ' + error.message);
+        } else {
+          setMessage('Sign up successful! Please log in.');
+          setIsSigningUp(false);
+        }
       } else {
-        alert('Sign up successful! Please check your email to confirm.');
-        setIsSigningUp(false);
-      }
-    } else {
-      // Log in
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
+        if (error) {
+          setMessage('Login failed: ' + error.message);
+        } else {
+          setMessage('Login successful!');
+          router.push('/mylog');
+        }
+      }
+    } catch (err) {
+      setMessage('Unexpected error: ' + (err as Error).message);
+    } finally {
       setIsLoading(false);
-
-      if (error) {
-        alert('Login failed: ' + error.message);
-      } else if (!data.session) {
-        alert('Login failed: no session returned.');
-      } else {
-        alert('Login successful!');
-        router.push('/mylog'); // redirect after login
-      }
     }
   };
 
@@ -73,63 +72,100 @@ export default function LoginPage() {
               {isSigningUp ? 'Sign up' : 'Sign in'}
             </h2>
             <p className="auth-muted">
-              {isSigningUp
-                ? 'Create a new account'
-                : 'Welcome back to EasyFitness'}
+              {isSigningUp ? 'Create a new account' : 'Welcome back'}
             </p>
           </div>
 
           <form className="space-y-5" onSubmit={handleSubmit}>
-            <div className="space-y-4">
-              <div className="space-y-1">
-                <label htmlFor="email" className="sr-only">
-                  Email
-                </label>
+            {isSigningUp && (
+              <>
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   required
                   className="auth-input w-full px-3 py-2 rounded-md text-sm"
-                  placeholder="Email address"
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
                   required
                   className="auth-input w-full px-3 py-2 rounded-md text-sm"
+                />
+                <input
+                  type="password"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="auth-input w-full px-3 py-2 rounded-md text-sm"
                 />
-              </div>
-            </div>
+                <input
+                  type="password"
+                  placeholder="Confirm Password"
+                  value={passwordConfirm}
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
+                  required
+                  className="auth-input w-full px-3 py-2 rounded-md text-sm"
+                />
+                <input
+                  type="text"
+                  placeholder="Gender"
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  required
+                  className="auth-input w-full px-3 py-2 rounded-md text-sm"
+                />
+                <input
+                  type="date"
+                  placeholder="Date of Birth"
+                  value={dateOfBirth}
+                  onChange={(e) => setDateOfBirth(e.target.value)}
+                  required
+                  className="auth-input w-full px-3 py-2 rounded-md text-sm"
+                />
+              </>
+            )}
 
-            <div className="flex items-center justify-between text-xs">
-              <label className="inline-flex items-center gap-2 cursor-pointer select-none">
-                <input type="checkbox" className="accent-indigo-500" />
-                <span className="auth-muted">Remember me</span>
-              </label>
-            </div>
+            {!isSigningUp && (
+              <>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="auth-input w-full px-3 py-2 rounded-md text-sm"
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="auth-input w-full px-3 py-2 rounded-md text-sm"
+                />
+              </>
+            )}
 
             <button
               type="submit"
               disabled={isLoading}
               className="auth-btn w-full py-2.5 rounded-md text-sm text-white transition disabled:cursor-not-allowed"
             >
-              {isLoading ? (isSigningUp ? 'Signing up…' : 'Signing in…') : (isSigningUp ? 'Sign Up' : 'Sign In')}
+              {isLoading
+                ? isSigningUp
+                  ? 'Signing up…'
+                  : 'Signing in…'
+                : isSigningUp
+                ? 'Sign Up'
+                : 'Sign In'}
             </button>
+
+            {message && <p className="text-center text-sm auth-muted mt-2">{message}</p>}
 
             <div className="text-center text-xs auth-muted">
               {isSigningUp ? (

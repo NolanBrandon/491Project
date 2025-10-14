@@ -67,28 +67,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'easyfitness_backend.wsgi.application'
 
 # ------------------------
-# Database configuration
+# Database configuration (Supabase-compatible)
 # ------------------------
-if config("DATABASE_URL", default=None):
-    # Use DATABASE_URL (for CI/local dev containers)
-    DATABASES = {
-        "default": dj_database_url.parse(config("DATABASE_URL"))
-    }
-else:
-    # Default to Supabase
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": config("DB_NAME"),
-            "USER": config("DB_USER"),
-            "PASSWORD": config("DB_PASSWORD"),
-            "HOST": config("DB_HOST"),
-            "PORT": config("DB_PORT"),
-            "OPTIONS": {"sslmode": "require"},
-        }
-    }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config("DATABASE_URL", default=""),
+        conn_max_age=600,
+        ssl_require=True,
+    )
+}
 
-# Close connections quickly (avoid Supabase connection limits)
+# ------------------------
+# Connection age
+# ------------------------
+# Close idle DB connections quickly (helpful for Supabase connection limits)
 CONN_MAX_AGE = 0
 
 # ------------------------
@@ -135,8 +127,9 @@ REST_FRAMEWORK = {
 # ------------------------
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
 ]
 CORS_ALLOW_CREDENTIALS = True
+
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
