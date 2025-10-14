@@ -1,16 +1,31 @@
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link} from "@heroui/react";
+'use client';
+
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@heroui/react";
+import { supabase } from '../../lib/supabaseClient';
+import { useRouter } from 'next/navigation';
 
 export default function Nav() {
+  const router = useRouter();
+
+  // Logout handler
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      alert('Logout failed: ' + error.message);
+    } else {
+      router.push('/login'); // redirect to login after logout
+    }
+  };
+
   return (
-    <Navbar 
-      className="nav-root">
+    <Navbar className="nav-root">
       {/* Left: Brand/Logo centered in left section */}
       <NavbarContent justify="center" className="nav-left">
         <NavbarBrand>
           <Link href="/" className="nav-brand">Home</Link>
         </NavbarBrand>
       </NavbarContent>
-        
+
       {/* Center: Navigation Headers */}
       <NavbarContent className="nav-center" justify="center">
         <NavbarItem>
@@ -33,9 +48,17 @@ export default function Nav() {
             Progress
           </Link>
         </NavbarItem>
+        {/* Logout Button */}
+        <NavbarItem>
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </NavbarItem>
       </NavbarContent>
-
-  
     </Navbar>
   );
 }
