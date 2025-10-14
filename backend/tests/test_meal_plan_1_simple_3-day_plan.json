@@ -1,0 +1,1185 @@
+{
+  "plan_name": "5-Day Balanced Weight Maintenance Plan",
+  "plan_description": "A 5-day meal plan designed for a 25-year-old female to maintain weight, focusing on balanced nutrition with a variety of healthy, whole foods, targeting approximately 2000 kcal daily.",
+  "days": [
+    {
+      "day_number": 1,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Greek Yogurt with Berries, Granola, and Almonds",
+          "ingredients": [
+            {
+              "ingredient_name": "Plain Greek Yogurt (2% fat)",
+              "measure": "1 cup (227g)",
+              "calories": 180,
+              "protein": 20,
+              "carbs": 8,
+              "fat": 8,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 8
+            },
+            {
+              "ingredient_name": "Mixed Berries (fresh/frozen)",
+              "measure": "1 cup (144g)",
+              "calories": 80,
+              "protein": 1,
+              "carbs": 20,
+              "fat": 1,
+              "trans_fat": 0,
+              "fiber": 8,
+              "sugar": 12
+            },
+            {
+              "ingredient_name": "Low Sugar Granola",
+              "measure": "1/2 cup (50g)",
+              "calories": 200,
+              "protein": 5,
+              "carbs": 30,
+              "fat": 8,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 10
+            },
+            {
+              "ingredient_name": "Almonds",
+              "measure": "1/4 cup (35g)",
+              "calories": 200,
+              "protein": 7,
+              "carbs": 7,
+              "fat": 17,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 1
+            }
+          ],
+          "meal_totals": {
+            "calories": 660,
+            "protein": 33,
+            "carbs": 65,
+            "fat": 34,
+            "trans_fat": 0,
+            "fiber": 16,
+            "sugar": 31
+          },
+          "prep_time": 5,
+          "instructions": "Combine yogurt, berries, granola, and almonds in a bowl."
+        },
+        "lunch": {
+          "recipe_name": "Quinoa Salad with Chickpeas, Feta, and Fresh Veggies",
+          "ingredients": [
+            {
+              "ingredient_name": "Cooked Quinoa",
+              "measure": "1 cup (185g)",
+              "calories": 220,
+              "protein": 8,
+              "carbs": 39,
+              "fat": 3.5,
+              "trans_fat": 0,
+              "fiber": 5,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Chickpeas (canned, rinsed)",
+              "measure": "1/2 cup (80g)",
+              "calories": 130,
+              "protein": 7,
+              "carbs": 22,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 6,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Feta Cheese, crumbled",
+              "measure": "2 oz (56g)",
+              "calories": 150,
+              "protein": 8,
+              "carbs": 2,
+              "fat": 12,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Cucumber, diced",
+              "measure": "1/2 cup (50g)",
+              "calories": 8,
+              "protein": 0,
+              "carbs": 2,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0.5,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Cherry Tomatoes, halved",
+              "measure": "1/2 cup (75g)",
+              "calories": 15,
+              "protein": 1,
+              "carbs": 3,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Bell Pepper, diced",
+              "measure": "1/2 cup (75g)",
+              "calories": 15,
+              "protein": 1,
+              "carbs": 3,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Olive Oil",
+              "measure": "1.5 tbsp (21g)",
+              "calories": 180,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 21,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 718,
+            "protein": 25,
+            "carbs": 71,
+            "fat": 38.5,
+            "trans_fat": 0,
+            "fiber": 13.5,
+            "sugar": 7
+          },
+          "prep_time": 10,
+          "instructions": "Combine all ingredients in a large bowl. Dress with olive oil, lemon juice, salt, and pepper."
+        },
+        "dinner": {
+          "recipe_name": "Baked Salmon with Brown Rice and Roasted Asparagus",
+          "ingredients": [
+            {
+              "ingredient_name": "Salmon Fillet",
+              "measure": "5 oz (140g)",
+              "calories": 350,
+              "protein": 40,
+              "carbs": 0,
+              "fat": 20,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Cooked Brown Rice",
+              "measure": "1 cup (195g)",
+              "calories": 220,
+              "protein": 5,
+              "carbs": 45,
+              "fat": 1.5,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Asparagus",
+              "measure": "1 cup (180g)",
+              "calories": 40,
+              "protein": 4,
+              "carbs": 8,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Olive Oil",
+              "measure": "1 tbsp (14g)",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 730,
+            "protein": 49,
+            "carbs": 53,
+            "fat": 35.5,
+            "trans_fat": 0,
+            "fiber": 7,
+            "sugar": 2
+          },
+          "prep_time": 20,
+          "instructions": "Season salmon with salt and pepper, bake at 400\u00b0F (200\u00b0C) for 12-15 minutes. Toss asparagus with olive oil, salt, and pepper, roast alongside salmon for 10-12 minutes. Serve with cooked brown rice."
+        }
+      },
+      "daily_totals": {
+        "calories": 2108,
+        "protein": 107,
+        "carbs": 189,
+        "fat": 102.5,
+        "trans_fat": 0,
+        "fiber": 36.5,
+        "sugar": 40
+      }
+    },
+    {
+      "day_number": 2,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Scrambled Eggs with Avocado, Whole Wheat Toast, and Orange",
+          "ingredients": [
+            {
+              "ingredient_name": "Large Eggs",
+              "measure": "3",
+              "calories": 210,
+              "protein": 18,
+              "carbs": 1,
+              "fat": 15,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Avocado",
+              "measure": "1/2 medium (70g)",
+              "calories": 110,
+              "protein": 1,
+              "carbs": 6,
+              "fat": 10,
+              "trans_fat": 0,
+              "fiber": 5,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Whole Wheat Toast",
+              "measure": "2 slices (60g)",
+              "calories": 160,
+              "protein": 8,
+              "carbs": 28,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Olive Oil (for eggs)",
+              "measure": "1 tsp (5g)",
+              "calories": 40,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Orange",
+              "measure": "1 medium (130g)",
+              "calories": 60,
+              "protein": 1,
+              "carbs": 15,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 12
+            }
+          ],
+          "meal_totals": {
+            "calories": 580,
+            "protein": 28,
+            "carbs": 50,
+            "fat": 32,
+            "trans_fat": 0,
+            "fiber": 12,
+            "sugar": 15
+          },
+          "prep_time": 10,
+          "instructions": "Scramble eggs with a splash of olive oil. Serve with sliced avocado, whole wheat toast, and a side orange."
+        },
+        "lunch": {
+          "recipe_name": "Hearty Lentil Soup with Whole Grain Bread and Cheese",
+          "ingredients": [
+            {
+              "ingredient_name": "Lentil Soup (homemade)",
+              "measure": "2.5 cups (600g)",
+              "calories": 500,
+              "protein": 25,
+              "carbs": 75,
+              "fat": 12,
+              "trans_fat": 0,
+              "fiber": 25,
+              "sugar": 6
+            },
+            {
+              "ingredient_name": "Whole Grain Bread",
+              "measure": "2 slices (60g)",
+              "calories": 160,
+              "protein": 8,
+              "carbs": 28,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Cheddar Cheese",
+              "measure": "1 oz (28g)",
+              "calories": 110,
+              "protein": 7,
+              "carbs": 1,
+              "fat": 9,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 770,
+            "protein": 40,
+            "carbs": 104,
+            "fat": 23,
+            "trans_fat": 0,
+            "fiber": 29,
+            "sugar": 8
+          },
+          "prep_time": 5,
+          "instructions": "Heat lentil soup. Serve with whole grain bread topped with cheddar cheese."
+        },
+        "dinner": {
+          "recipe_name": "Turkey Meatballs with Zucchini Noodles, Tomato Sauce, and Parmesan",
+          "ingredients": [
+            {
+              "ingredient_name": "Ground Turkey (93% lean)",
+              "measure": "6 oz (170g)",
+              "calories": 280,
+              "protein": 36,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Zucchini (spiralized into noodles)",
+              "measure": "2 medium (300g)",
+              "calories": 50,
+              "protein": 4,
+              "carbs": 10,
+              "fat": 1,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 6
+            },
+            {
+              "ingredient_name": "Tomato Sauce (low sugar)",
+              "measure": "1 cup (250g)",
+              "calories": 80,
+              "protein": 3,
+              "carbs": 15,
+              "fat": 1,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 8
+            },
+            {
+              "ingredient_name": "Olive Oil (for cooking)",
+              "measure": "1 tbsp (14g)",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Parmesan Cheese, grated",
+              "measure": "2 tbsp (20g)",
+              "calories": 80,
+              "protein": 7,
+              "carbs": 1,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 610,
+            "protein": 50,
+            "carbs": 26,
+            "fat": 35,
+            "trans_fat": 0,
+            "fiber": 7,
+            "sugar": 14
+          },
+          "prep_time": 25,
+          "instructions": "Form ground turkey into meatballs and cook in a pan with olive oil until browned. Add tomato sauce and simmer. Spiralize zucchini into noodles and lightly saut\u00e9 or steam. Serve meatballs and sauce over zucchini noodles, topped with Parmesan."
+        }
+      },
+      "daily_totals": {
+        "calories": 1960,
+        "protein": 118,
+        "carbs": 180,
+        "fat": 90,
+        "trans_fat": 0,
+        "fiber": 48,
+        "sugar": 37
+      }
+    },
+    {
+      "day_number": 3,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Oatmeal with Chia Seeds, Walnuts, and Berries",
+          "ingredients": [
+            {
+              "ingredient_name": "Rolled Oats (dry)",
+              "measure": "1/2 cup (40g)",
+              "calories": 150,
+              "protein": 5,
+              "carbs": 27,
+              "fat": 3,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "2% Milk",
+              "measure": "1 cup (240ml)",
+              "calories": 120,
+              "protein": 8,
+              "carbs": 12,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 12
+            },
+            {
+              "ingredient_name": "Chia Seeds",
+              "measure": "1 tbsp (15g)",
+              "calories": 70,
+              "protein": 3,
+              "carbs": 6,
+              "fat": 4,
+              "trans_fat": 0,
+              "fiber": 5,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Walnuts, chopped",
+              "measure": "1/4 cup (25g)",
+              "calories": 170,
+              "protein": 4,
+              "carbs": 4,
+              "fat": 17,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Mixed Berries (fresh/frozen)",
+              "measure": "1/2 cup (72g)",
+              "calories": 40,
+              "protein": 0.5,
+              "carbs": 10,
+              "fat": 0.5,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 6
+            }
+          ],
+          "meal_totals": {
+            "calories": 550,
+            "protein": 20.5,
+            "carbs": 59,
+            "fat": 29.5,
+            "trans_fat": 0,
+            "fiber": 15,
+            "sugar": 19
+          },
+          "prep_time": 10,
+          "instructions": "Cook oats with milk until creamy. Stir in chia seeds. Top with walnuts and mixed berries."
+        },
+        "lunch": {
+          "recipe_name": "Large Tuna Salad Sandwich on Whole Wheat with Avocado and Banana",
+          "ingredients": [
+            {
+              "ingredient_name": "Canned Tuna (in water, drained)",
+              "measure": "5 oz (140g)",
+              "calories": 160,
+              "protein": 35,
+              "carbs": 0,
+              "fat": 1,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Whole Wheat Bread",
+              "measure": "2 slices (60g)",
+              "calories": 160,
+              "protein": 8,
+              "carbs": 28,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 4,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Mayonnaise (regular)",
+              "measure": "1.5 tbsp (21g)",
+              "calories": 135,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 15,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Avocado",
+              "measure": "1/4 medium (35g)",
+              "calories": 55,
+              "protein": 0.5,
+              "carbs": 3,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 2.5,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Celery, diced",
+              "measure": "1/4 cup (25g)",
+              "calories": 5,
+              "protein": 0,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0.5,
+              "sugar": 0.5
+            },
+            {
+              "ingredient_name": "Red Onion, diced",
+              "measure": "1 tbsp (10g)",
+              "calories": 4,
+              "protein": 0,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0.5
+            },
+            {
+              "ingredient_name": "Lettuce leaves",
+              "measure": "2 large",
+              "calories": 5,
+              "protein": 0,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0.5,
+              "sugar": 0.5
+            },
+            {
+              "ingredient_name": "Banana",
+              "measure": "1 medium (118g)",
+              "calories": 105,
+              "protein": 1,
+              "carbs": 27,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 14
+            }
+          ],
+          "meal_totals": {
+            "calories": 629,
+            "protein": 44.5,
+            "carbs": 61,
+            "fat": 23,
+            "trans_fat": 0,
+            "fiber": 10.5,
+            "sugar": 17
+          },
+          "prep_time": 10,
+          "instructions": "Mix drained tuna with mayonnaise, celery, and red onion. Spread avocado on toast, top with tuna salad and lettuce. Serve with a banana."
+        },
+        "dinner": {
+          "recipe_name": "Chicken Stir-fry with Brown Rice",
+          "ingredients": [
+            {
+              "ingredient_name": "Chicken Breast, diced",
+              "measure": "5 oz (140g)",
+              "calories": 230,
+              "protein": 43,
+              "carbs": 0,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Cooked Brown Rice",
+              "measure": "1.25 cups (245g)",
+              "calories": 275,
+              "protein": 6,
+              "carbs": 56,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 3.75,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Mixed Stir-fry Vegetables",
+              "measure": "2 cups (200g)",
+              "calories": 70,
+              "protein": 4,
+              "carbs": 14,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 6,
+              "sugar": 6
+            },
+            {
+              "ingredient_name": "Low Sodium Soy Sauce",
+              "measure": "2 tbsp (30ml)",
+              "calories": 20,
+              "protein": 2,
+              "carbs": 2,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Sesame Oil",
+              "measure": "1.5 tbsp (21g)",
+              "calories": 180,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 21,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 775,
+            "protein": 55,
+            "carbs": 72,
+            "fat": 28,
+            "trans_fat": 0,
+            "fiber": 9.75,
+            "sugar": 7
+          },
+          "prep_time": 25,
+          "instructions": "Heat sesame oil in a wok or large pan. Stir-fry chicken until cooked through. Add vegetables and stir-fry until tender-crisp. Add soy sauce and toss. Serve over brown rice."
+        }
+      },
+      "daily_totals": {
+        "calories": 1954,
+        "protein": 119.5,
+        "carbs": 192,
+        "fat": 80.5,
+        "trans_fat": 0,
+        "fiber": 35.25,
+        "sugar": 43
+      }
+    },
+    {
+      "day_number": 4,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Protein Smoothie with Banana, Spinach, and Almond Butter",
+          "ingredients": [
+            {
+              "ingredient_name": "Whey Protein Powder",
+              "measure": "1 scoop (30g)",
+              "calories": 120,
+              "protein": 25,
+              "carbs": 3,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "2% Milk",
+              "measure": "1 cup (240ml)",
+              "calories": 120,
+              "protein": 8,
+              "carbs": 12,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 12
+            },
+            {
+              "ingredient_name": "Banana",
+              "measure": "1 medium (118g)",
+              "calories": 105,
+              "protein": 1,
+              "carbs": 27,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 14
+            },
+            {
+              "ingredient_name": "Fresh Spinach",
+              "measure": "1 cup (30g)",
+              "calories": 7,
+              "protein": 1,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Almond Butter",
+              "measure": "2 tbsp (32g)",
+              "calories": 190,
+              "protein": 7,
+              "carbs": 6,
+              "fat": 16,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 1
+            }
+          ],
+          "meal_totals": {
+            "calories": 542,
+            "protein": 42,
+            "carbs": 49,
+            "fat": 23,
+            "trans_fat": 0,
+            "fiber": 8,
+            "sugar": 28
+          },
+          "prep_time": 5,
+          "instructions": "Blend all ingredients until smooth."
+        },
+        "lunch": {
+          "recipe_name": "Leftover Chicken Stir-fry with Brown Rice",
+          "ingredients": [
+            {
+              "ingredient_name": "Chicken Breast, diced",
+              "measure": "4 oz (112g)",
+              "calories": 185,
+              "protein": 35,
+              "carbs": 0,
+              "fat": 4,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Cooked Brown Rice",
+              "measure": "1 cup (195g)",
+              "calories": 220,
+              "protein": 5,
+              "carbs": 45,
+              "fat": 1.5,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Mixed Stir-fry Vegetables",
+              "measure": "1.5 cups (150g)",
+              "calories": 50,
+              "protein": 3,
+              "carbs": 10,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 4.5,
+              "sugar": 4.5
+            },
+            {
+              "ingredient_name": "Low Sodium Soy Sauce",
+              "measure": "1.5 tbsp (22ml)",
+              "calories": 15,
+              "protein": 1.5,
+              "carbs": 1.5,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0.75
+            },
+            {
+              "ingredient_name": "Sesame Oil",
+              "measure": "1 tbsp (14g)",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 590,
+            "protein": 44.5,
+            "carbs": 56.5,
+            "fat": 19.5,
+            "trans_fat": 0,
+            "fiber": 7.5,
+            "sugar": 5.25
+          },
+          "prep_time": 5,
+          "instructions": "Reheat leftover chicken stir-fry and brown rice."
+        },
+        "dinner": {
+          "recipe_name": "Beef and Bean Chili with Cornbread",
+          "ingredients": [
+            {
+              "ingredient_name": "Lean Ground Beef (90%)",
+              "measure": "5 oz (140g)",
+              "calories": 300,
+              "protein": 35,
+              "carbs": 0,
+              "fat": 18,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Canned Kidney Beans, rinsed",
+              "measure": "1 cup (180g)",
+              "calories": 220,
+              "protein": 15,
+              "carbs": 40,
+              "fat": 1,
+              "trans_fat": 0,
+              "fiber": 15,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Diced Tomatoes (canned)",
+              "measure": "1 cup (240g)",
+              "calories": 40,
+              "protein": 2,
+              "carbs": 8,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 4
+            },
+            {
+              "ingredient_name": "Onion, diced",
+              "measure": "1/2 medium (80g)",
+              "calories": 30,
+              "protein": 1,
+              "carbs": 7,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 3
+            },
+            {
+              "ingredient_name": "Olive Oil (for browning beef)",
+              "measure": "1 tsp (5g)",
+              "calories": 40,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Cornbread (homemade)",
+              "measure": "1 piece (80g)",
+              "calories": 250,
+              "protein": 4,
+              "carbs": 35,
+              "fat": 10,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 5
+            }
+          ],
+          "meal_totals": {
+            "calories": 880,
+            "protein": 57,
+            "carbs": 90,
+            "fat": 34,
+            "trans_fat": 0,
+            "fiber": 20,
+            "sugar": 12
+          },
+          "prep_time": 30,
+          "instructions": "Brown ground beef with onion and olive oil. Drain fat. Add kidney beans, diced tomatoes, chili powder, cumin, and garlic. Simmer for 20-25 minutes. Serve hot with a piece of cornbread."
+        }
+      },
+      "daily_totals": {
+        "calories": 2012,
+        "protein": 143.5,
+        "carbs": 195.5,
+        "fat": 76.5,
+        "trans_fat": 0,
+        "fiber": 35.5,
+        "sugar": 45.25
+      }
+    },
+    {
+      "day_number": 5,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Cottage Cheese with Pineapple, Toasted Pecans, and Honey",
+          "ingredients": [
+            {
+              "ingredient_name": "Cottage Cheese (2% fat)",
+              "measure": "1.25 cups (280g)",
+              "calories": 225,
+              "protein": 35,
+              "carbs": 12,
+              "fat": 6,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 10
+            },
+            {
+              "ingredient_name": "Fresh Pineapple, diced",
+              "measure": "1 cup (165g)",
+              "calories": 80,
+              "protein": 1,
+              "carbs": 22,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 16
+            },
+            {
+              "ingredient_name": "Pecans, toasted",
+              "measure": "1/4 cup (25g)",
+              "calories": 170,
+              "protein": 2,
+              "carbs": 4,
+              "fat": 17,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Honey",
+              "measure": "1 tbsp (21g)",
+              "calories": 60,
+              "protein": 0,
+              "carbs": 17,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 16
+            }
+          ],
+          "meal_totals": {
+            "calories": 535,
+            "protein": 38,
+            "carbs": 55,
+            "fat": 23,
+            "trans_fat": 0,
+            "fiber": 5,
+            "sugar": 43
+          },
+          "prep_time": 5,
+          "instructions": "Combine cottage cheese, pineapple, toasted pecans, and drizzle with honey."
+        },
+        "lunch": {
+          "recipe_name": "Large Salad with Grilled Shrimp, Avocado, and Balsamic Vinaigrette",
+          "ingredients": [
+            {
+              "ingredient_name": "Shrimp, grilled",
+              "measure": "6 oz (170g)",
+              "calories": 180,
+              "protein": 38,
+              "carbs": 1,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Mixed Greens",
+              "measure": "4 cups (120g)",
+              "calories": 30,
+              "protein": 2,
+              "carbs": 6,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Cucumber, sliced",
+              "measure": "1 cup (100g)",
+              "calories": 15,
+              "protein": 1,
+              "carbs": 3,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Cherry Tomatoes",
+              "measure": "1 cup (150g)",
+              "calories": 30,
+              "protein": 1,
+              "carbs": 6,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 4
+            },
+            {
+              "ingredient_name": "Red Onion, thinly sliced",
+              "measure": "1/4 cup (40g)",
+              "calories": 15,
+              "protein": 0,
+              "carbs": 3,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Avocado",
+              "measure": "1/2 medium (70g)",
+              "calories": 110,
+              "protein": 1,
+              "carbs": 6,
+              "fat": 10,
+              "trans_fat": 0,
+              "fiber": 5,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Balsamic Vinaigrette (homemade with Olive Oil)",
+              "measure": "2 tbsp (30ml)",
+              "calories": 240,
+              "protein": 0,
+              "carbs": 2,
+              "fat": 28,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            }
+          ],
+          "meal_totals": {
+            "calories": 620,
+            "protein": 43,
+            "carbs": 27,
+            "fat": 40,
+            "trans_fat": 0,
+            "fiber": 11,
+            "sugar": 11
+          },
+          "prep_time": 15,
+          "instructions": "Grill shrimp. Combine mixed greens, cucumber, tomatoes, red onion, and avocado. Top with grilled shrimp and dress with balsamic vinaigrette."
+        },
+        "dinner": {
+          "recipe_name": "Black Bean Burgers on Whole Wheat Buns with Sweet Potato Fries and Coleslaw",
+          "ingredients": [
+            {
+              "ingredient_name": "Black Bean Burger Patty",
+              "measure": "1 (120g)",
+              "calories": 250,
+              "protein": 15,
+              "carbs": 30,
+              "fat": 10,
+              "trans_fat": 0,
+              "fiber": 8,
+              "sugar": 3
+            },
+            {
+              "ingredient_name": "Whole Wheat Bun",
+              "measure": "1 (70g)",
+              "calories": 180,
+              "protein": 8,
+              "carbs": 35,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 5,
+              "sugar": 4
+            },
+            {
+              "ingredient_name": "Sweet Potato (for fries)",
+              "measure": "250g",
+              "calories": 250,
+              "protein": 4,
+              "carbs": 50,
+              "fat": 6,
+              "trans_fat": 0,
+              "fiber": 8,
+              "sugar": 13
+            },
+            {
+              "ingredient_name": "Olive Oil (for fries)",
+              "measure": "1.5 tsp (7.5g)",
+              "calories": 60,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 7.5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Coleslaw (homemade)",
+              "measure": "1 cup",
+              "calories": 150,
+              "protein": 1,
+              "carbs": 15,
+              "fat": 10,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 8
+            },
+            {
+              "ingredient_name": "Ketchup",
+              "measure": "1 tbsp (15g)",
+              "calories": 15,
+              "protein": 0,
+              "carbs": 4,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 3
+            }
+          ],
+          "meal_totals": {
+            "calories": 905,
+            "protein": 28,
+            "carbs": 134,
+            "fat": 35.5,
+            "trans_fat": 0,
+            "fiber": 24,
+            "sugar": 31
+          },
+          "prep_time": 30,
+          "instructions": "Slice sweet potatoes into fries, toss with olive oil, salt, and pepper, bake at 400\u00b0F (200\u00b0C) for 20-25 minutes. Cook black bean burger according to package instructions. Serve burger on a whole wheat bun with lettuce, tomato, and ketchup. Serve with sweet potato fries and a side of coleslaw."
+        }
+      },
+      "daily_totals": {
+        "calories": 2060,
+        "protein": 109,
+        "carbs": 216,
+        "fat": 98.5,
+        "trans_fat": 0,
+        "fiber": 40,
+        "sugar": 85
+      }
+    }
+  ]
+}

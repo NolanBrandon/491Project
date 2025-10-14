@@ -1,0 +1,1141 @@
+{
+  "plan_name": "5-Day Low-Carb Weight Loss Plan (1800 kcal)",
+  "plan_description": "A personalized 5-day low-carb meal plan designed for weight loss, targeting approximately 1800 calories per day for a 30-year-old female. Focuses on lean proteins, healthy fats, and non-starchy vegetables.",
+  "days": [
+    {
+      "day_number": 1,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Scrambled Eggs with Avocado and Spinach",
+          "ingredients": [
+            {
+              "ingredient_name": "Large Eggs",
+              "measure": "3",
+              "calories": 210,
+              "protein": 18,
+              "carbs": 1,
+              "fat": 15,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Medium Avocado",
+              "measure": "1/2",
+              "calories": 160,
+              "protein": 2,
+              "carbs": 8.5,
+              "fat": 14.7,
+              "trans_fat": 0,
+              "fiber": 6.7,
+              "sugar": 0.5
+            },
+            {
+              "ingredient_name": "Fresh Spinach",
+              "measure": "1 cup",
+              "calories": 7,
+              "protein": 1,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Olive Oil",
+              "measure": "1 tbsp",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 497,
+            "protein": 21,
+            "carbs": 10.5,
+            "fat": 43.7,
+            "trans_fat": 0,
+            "fiber": 7.7,
+            "sugar": 1.5
+          },
+          "prep_time": 10,
+          "instructions": "Heat olive oil in a non-stick pan over medium heat. Add spinach and cook until wilted. Whisk eggs and pour into the pan. Scramble until cooked through. Serve with sliced avocado."
+        },
+        "lunch": {
+          "recipe_name": "Large Cobb Salad with Grilled Chicken",
+          "ingredients": [
+            {
+              "ingredient_name": "Grilled Chicken Breast",
+              "measure": "5 oz",
+              "calories": 205,
+              "protein": 38,
+              "carbs": 0,
+              "fat": 4.5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Mixed Greens",
+              "measure": "3 cups",
+              "calories": 20,
+              "protein": 2,
+              "carbs": 4,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Cucumber, sliced",
+              "measure": "1/2 cup",
+              "calories": 8,
+              "protein": 0.3,
+              "carbs": 1.9,
+              "fat": 0.1,
+              "trans_fat": 0,
+              "fiber": 0.6,
+              "sugar": 0.9
+            },
+            {
+              "ingredient_name": "Cherry Tomatoes",
+              "measure": "1/2 cup",
+              "calories": 14,
+              "protein": 0.7,
+              "carbs": 3,
+              "fat": 0.2,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Hard-boiled Egg",
+              "measure": "1 large",
+              "calories": 70,
+              "protein": 6,
+              "carbs": 0.5,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0.5
+            },
+            {
+              "ingredient_name": "Cooked Bacon",
+              "measure": "2 slices",
+              "calories": 86,
+              "protein": 6,
+              "carbs": 0,
+              "fat": 6,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Blue Cheese Crumbles",
+              "measure": "1 oz",
+              "calories": 100,
+              "protein": 6,
+              "carbs": 0.5,
+              "fat": 8,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Olive Oil Vinaigrette",
+              "measure": "2 tbsp",
+              "calories": 240,
+              "protein": 0,
+              "carbs": 2,
+              "fat": 26,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 2
+            }
+          ],
+          "meal_totals": {
+            "calories": 743,
+            "protein": 58,
+            "carbs": 11.9,
+            "fat": 50.8,
+            "trans_fat": 0,
+            "fiber": 3.6,
+            "sugar": 7.4
+          },
+          "prep_time": 15,
+          "instructions": "Arrange mixed greens on a plate. Top with sliced chicken, cucumber, cherry tomatoes, quartered hard-boiled egg, crumbled bacon, and blue cheese. Drizzle with vinaigrette."
+        },
+        "dinner": {
+          "recipe_name": "Baked Salmon with Asparagus and Cauliflower Rice",
+          "ingredients": [
+            {
+              "ingredient_name": "Salmon Fillet",
+              "measure": "6 oz",
+              "calories": 390,
+              "protein": 45,
+              "carbs": 0,
+              "fat": 22,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Asparagus Spears",
+              "measure": "1 cup",
+              "calories": 27,
+              "protein": 3,
+              "carbs": 5,
+              "fat": 0.3,
+              "trans_fat": 0,
+              "fiber": 2.8,
+              "sugar": 2.5
+            },
+            {
+              "ingredient_name": "Cauliflower Rice",
+              "measure": "1 cup",
+              "calories": 25,
+              "protein": 2,
+              "carbs": 5,
+              "fat": 0.3,
+              "trans_fat": 0,
+              "fiber": 2.1,
+              "sugar": 2
+            },
+            {
+              "ingredient_name": "Olive Oil",
+              "measure": "1 tbsp",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 562,
+            "protein": 50,
+            "carbs": 10,
+            "fat": 36.6,
+            "trans_fat": 0,
+            "fiber": 4.9,
+            "sugar": 4.5
+          },
+          "prep_time": 20,
+          "instructions": "Preheat oven to 400\u00b0F (200\u00b0C). Toss asparagus with half of the olive oil, salt, and pepper. Place salmon on a baking sheet, drizzle with remaining olive oil, season with salt and pepper. Roast salmon and asparagus for 12-15 minutes or until salmon is cooked through and asparagus is tender-crisp. Saut\u00e9 cauliflower rice in a pan until tender. Serve together."
+        }
+      },
+      "daily_totals": {
+        "calories": 1802,
+        "protein": 129,
+        "carbs": 32.4,
+        "fat": 131.1,
+        "trans_fat": 0,
+        "fiber": 16.2,
+        "sugar": 13.4
+      }
+    },
+    {
+      "day_number": 2,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Cottage Cheese with Berries and Almonds",
+          "ingredients": [
+            {
+              "ingredient_name": "Cottage Cheese (4% fat)",
+              "measure": "1 cup",
+              "calories": 220,
+              "protein": 28,
+              "carbs": 8,
+              "fat": 10,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 8
+            },
+            {
+              "ingredient_name": "Mixed Berries (fresh or frozen)",
+              "measure": "1/2 cup",
+              "calories": 40,
+              "protein": 0.5,
+              "carbs": 9,
+              "fat": 0.2,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 5
+            },
+            {
+              "ingredient_name": "Almonds",
+              "measure": "1 oz",
+              "calories": 160,
+              "protein": 6,
+              "carbs": 6,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 3.5,
+              "sugar": 1
+            }
+          ],
+          "meal_totals": {
+            "calories": 420,
+            "protein": 34.5,
+            "carbs": 23,
+            "fat": 24.2,
+            "trans_fat": 0,
+            "fiber": 6.5,
+            "sugar": 14
+          },
+          "prep_time": 5,
+          "instructions": "Combine cottage cheese, mixed berries, and almonds in a bowl. Serve immediately."
+        },
+        "lunch": {
+          "recipe_name": "Tuna Salad Lettuce Wraps with Side Salad",
+          "ingredients": [
+            {
+              "ingredient_name": "Canned Tuna in Olive Oil, drained",
+              "measure": "5 oz",
+              "calories": 280,
+              "protein": 35,
+              "carbs": 0,
+              "fat": 15,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Mayonnaise (avocado oil based)",
+              "measure": "2 tbsp",
+              "calories": 200,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 22,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Celery, diced",
+              "measure": "1/4 cup",
+              "calories": 4,
+              "protein": 0.2,
+              "carbs": 0.8,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0.4,
+              "sugar": 0.4
+            },
+            {
+              "ingredient_name": "Red Onion, diced",
+              "measure": "1/4 cup",
+              "calories": 16,
+              "protein": 0.4,
+              "carbs": 3.8,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0.7,
+              "sugar": 2.5
+            },
+            {
+              "ingredient_name": "Large Lettuce Leaves (for wraps)",
+              "measure": "4",
+              "calories": 5,
+              "protein": 0.3,
+              "carbs": 0.8,
+              "fat": 0.1,
+              "trans_fat": 0,
+              "fiber": 0.4,
+              "sugar": 0.5
+            },
+            {
+              "ingredient_name": "Mixed Greens (for side salad)",
+              "measure": "2 cups",
+              "calories": 14,
+              "protein": 1.4,
+              "carbs": 2.8,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1.4,
+              "sugar": 1.4
+            },
+            {
+              "ingredient_name": "Olive Oil (for side salad dressing)",
+              "measure": "1 tbsp",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Apple Cider Vinegar (for side salad dressing)",
+              "measure": "1 tbsp",
+              "calories": 3,
+              "protein": 0,
+              "carbs": 0.9,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0.5
+            }
+          ],
+          "meal_totals": {
+            "calories": 642,
+            "protein": 37,
+            "carbs": 9.1,
+            "fat": 51.1,
+            "trans_fat": 0,
+            "fiber": 2.9,
+            "sugar": 5.3
+          },
+          "prep_time": 10,
+          "instructions": "In a bowl, combine drained tuna, mayonnaise, diced celery, and red onion. Mix well. Spoon tuna salad into lettuce cups. Serve with a side salad of mixed greens dressed with olive oil and apple cider vinegar."
+        },
+        "dinner": {
+          "recipe_name": "Beef Stir-fry with Broccoli and Bell Peppers",
+          "ingredients": [
+            {
+              "ingredient_name": "Sirloin Steak, lean",
+              "measure": "7 oz",
+              "calories": 408,
+              "protein": 56,
+              "carbs": 0,
+              "fat": 21,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Broccoli Florets",
+              "measure": "1.5 cups",
+              "calories": 82.5,
+              "protein": 5.5,
+              "carbs": 16.8,
+              "fat": 0.9,
+              "trans_fat": 0,
+              "fiber": 7.6,
+              "sugar": 3.3
+            },
+            {
+              "ingredient_name": "Medium Bell Peppers, sliced",
+              "measure": "1.5",
+              "calories": 45,
+              "protein": 1.5,
+              "carbs": 10.5,
+              "fat": 0.45,
+              "trans_fat": 0,
+              "fiber": 3.75,
+              "sugar": 7.35
+            },
+            {
+              "ingredient_name": "Low-Sodium Soy Sauce",
+              "measure": "1.5 tbsp",
+              "calories": 15,
+              "protein": 2.25,
+              "carbs": 1.5,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0.75
+            },
+            {
+              "ingredient_name": "Olive Oil",
+              "measure": "1.5 tbsp",
+              "calories": 180,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 21,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 730.5,
+            "protein": 65.25,
+            "carbs": 28.8,
+            "fat": 43.35,
+            "trans_fat": 0,
+            "fiber": 11.35,
+            "sugar": 11.4
+          },
+          "prep_time": 25,
+          "instructions": "Slice steak into thin strips. Heat olive oil in a large skillet or wok over high heat. Add beef and stir-fry until browned. Remove beef and set aside. Add broccoli and bell peppers to the skillet, stir-fry until tender-crisp. Return beef to the skillet, add soy sauce, and toss to combine. Serve hot."
+        }
+      },
+      "daily_totals": {
+        "calories": 1792.5,
+        "protein": 136.75,
+        "carbs": 60.9,
+        "fat": 118.65,
+        "trans_fat": 0,
+        "fiber": 20.75,
+        "sugar": 30.7
+      }
+    },
+    {
+      "day_number": 3,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Smoked Salmon and Cream Cheese on Cucumber Slices",
+          "ingredients": [
+            {
+              "ingredient_name": "Smoked Salmon",
+              "measure": "4 oz",
+              "calories": 147,
+              "protein": 23,
+              "carbs": 0,
+              "fat": 5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Full-Fat Cream Cheese",
+              "measure": "2.5 oz",
+              "calories": 245,
+              "protein": 5,
+              "carbs": 3.75,
+              "fat": 25,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 2.5
+            },
+            {
+              "ingredient_name": "Large Cucumber, sliced",
+              "measure": "3/4",
+              "calories": 30,
+              "protein": 1.2,
+              "carbs": 6.9,
+              "fat": 0.3,
+              "trans_fat": 0,
+              "fiber": 2.25,
+              "sugar": 3.6
+            }
+          ],
+          "meal_totals": {
+            "calories": 422,
+            "protein": 29.2,
+            "carbs": 10.65,
+            "fat": 30.3,
+            "trans_fat": 0,
+            "fiber": 2.25,
+            "sugar": 6.1
+          },
+          "prep_time": 5,
+          "instructions": "Spread cream cheese onto cucumber slices. Top with smoked salmon. Serve immediately."
+        },
+        "lunch": {
+          "recipe_name": "Large Chicken Caesar Salad (no croutons)",
+          "ingredients": [
+            {
+              "ingredient_name": "Grilled Chicken Breast",
+              "measure": "5 oz",
+              "calories": 205,
+              "protein": 38,
+              "carbs": 0,
+              "fat": 4.5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Romaine Lettuce, chopped",
+              "measure": "4 cups",
+              "calories": 28,
+              "protein": 2,
+              "carbs": 5.6,
+              "fat": 0.4,
+              "trans_fat": 0,
+              "fiber": 2.4,
+              "sugar": 2.4
+            },
+            {
+              "ingredient_name": "Grated Parmesan Cheese",
+              "measure": "1/4 cup",
+              "calories": 110,
+              "protein": 10,
+              "carbs": 1,
+              "fat": 7,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Caesar Dressing (full-fat)",
+              "measure": "3 tbsp",
+              "calories": 210,
+              "protein": 1,
+              "carbs": 3,
+              "fat": 22,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 2
+            }
+          ],
+          "meal_totals": {
+            "calories": 553,
+            "protein": 51,
+            "carbs": 9.6,
+            "fat": 33.9,
+            "trans_fat": 0,
+            "fiber": 2.4,
+            "sugar": 4.4
+          },
+          "prep_time": 15,
+          "instructions": "Chop romaine lettuce and place in a large bowl. Add grilled chicken, parmesan cheese, and Caesar dressing. Toss gently to combine."
+        },
+        "dinner": {
+          "recipe_name": "Pork Chops with Roasted Brussels Sprouts and Saut\u00e9ed Mushrooms",
+          "ingredients": [
+            {
+              "ingredient_name": "Boneless Pork Chop, lean",
+              "measure": "7 oz",
+              "calories": 350,
+              "protein": 46,
+              "carbs": 0,
+              "fat": 17.5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Brussels Sprouts, halved",
+              "measure": "2 cups",
+              "calories": 100,
+              "protein": 8,
+              "carbs": 20,
+              "fat": 1.3,
+              "trans_fat": 0,
+              "fiber": 8,
+              "sugar": 5
+            },
+            {
+              "ingredient_name": "Sliced Mushrooms",
+              "measure": "1.5 cups",
+              "calories": 22.5,
+              "protein": 3,
+              "carbs": 4.5,
+              "fat": 0.3,
+              "trans_fat": 0,
+              "fiber": 1.5,
+              "sugar": 2.25
+            },
+            {
+              "ingredient_name": "Olive Oil",
+              "measure": "2.5 tbsp",
+              "calories": 300,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 35,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 772.5,
+            "protein": 57,
+            "carbs": 24.5,
+            "fat": 54.1,
+            "trans_fat": 0,
+            "fiber": 9.5,
+            "sugar": 7.25
+          },
+          "prep_time": 30,
+          "instructions": "Preheat oven to 400\u00b0F (200\u00b0C). Toss Brussels sprouts with 1.5 tbsp olive oil, salt, and pepper; spread on a baking sheet. Roast for 20-25 minutes, flipping halfway. Season pork chops with salt and pepper. Heat 1 tbsp olive oil in a skillet over medium-high heat. Sear pork chops for 3-5 minutes per side until cooked through. In the same skillet, saut\u00e9 mushrooms until tender. Serve pork chops with roasted Brussels sprouts and saut\u00e9ed mushrooms."
+        }
+      },
+      "daily_totals": {
+        "calories": 1747.5,
+        "protein": 137.2,
+        "carbs": 44.75,
+        "fat": 118.3,
+        "trans_fat": 0,
+        "fiber": 14.15,
+        "sugar": 17.75
+      }
+    },
+    {
+      "day_number": 4,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Keto Smoothie with Spinach, Avocado, Protein Powder",
+          "ingredients": [
+            {
+              "ingredient_name": "Whey Protein Isolate",
+              "measure": "1 scoop (30g)",
+              "calories": 120,
+              "protein": 25,
+              "carbs": 2,
+              "fat": 1.5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Medium Avocado",
+              "measure": "1/2",
+              "calories": 160,
+              "protein": 2,
+              "carbs": 8.5,
+              "fat": 14.7,
+              "trans_fat": 0,
+              "fiber": 6.7,
+              "sugar": 0.5
+            },
+            {
+              "ingredient_name": "Fresh Spinach",
+              "measure": "1 cup",
+              "calories": 7,
+              "protein": 1,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Unsweetened Almond Milk",
+              "measure": "1 cup",
+              "calories": 30,
+              "protein": 1,
+              "carbs": 1,
+              "fat": 2.5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Almond Butter",
+              "measure": "1 tbsp",
+              "calories": 95,
+              "protein": 3.5,
+              "carbs": 3,
+              "fat": 8.5,
+              "trans_fat": 0,
+              "fiber": 1.5,
+              "sugar": 0.5
+            }
+          ],
+          "meal_totals": {
+            "calories": 412,
+            "protein": 32.5,
+            "carbs": 15.5,
+            "fat": 27.2,
+            "trans_fat": 0,
+            "fiber": 9.2,
+            "sugar": 2
+          },
+          "prep_time": 5,
+          "instructions": "Combine all ingredients in a blender and blend until smooth. Add ice if desired for a colder, thicker smoothie."
+        },
+        "lunch": {
+          "recipe_name": "Turkey and Provolone Lettuce Wraps with Olives and Pickles",
+          "ingredients": [
+            {
+              "ingredient_name": "Sliced Turkey Breast",
+              "measure": "5 oz",
+              "calories": 140,
+              "protein": 30,
+              "carbs": 0,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Provolone Cheese",
+              "measure": "2 slices (2 oz)",
+              "calories": 200,
+              "protein": 14,
+              "carbs": 0,
+              "fat": 16,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Large Lettuce Leaves",
+              "measure": "4",
+              "calories": 5,
+              "protein": 0.3,
+              "carbs": 0.8,
+              "fat": 0.1,
+              "trans_fat": 0,
+              "fiber": 0.4,
+              "sugar": 0.5
+            },
+            {
+              "ingredient_name": "Black Olives, sliced",
+              "measure": "1/4 cup",
+              "calories": 60,
+              "protein": 0.5,
+              "carbs": 2,
+              "fat": 6,
+              "trans_fat": 0,
+              "fiber": 1.5,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Dill Pickle Spears",
+              "measure": "1/2 cup",
+              "calories": 10,
+              "protein": 0.5,
+              "carbs": 2,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Mayonnaise (avocado oil based)",
+              "measure": "2 tbsp",
+              "calories": 200,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 22,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 615,
+            "protein": 45.3,
+            "carbs": 4.8,
+            "fat": 46.1,
+            "trans_fat": 0,
+            "fiber": 2.9,
+            "sugar": 0.5
+          },
+          "prep_time": 10,
+          "instructions": "Lay out lettuce leaves. Layer with turkey, provolone cheese, olives, and a dollop of mayonnaise. Roll or fold into wraps. Serve with dill pickle spears."
+        },
+        "dinner": {
+          "recipe_name": "Chicken Thighs with Creamed Spinach and Roasted Green Beans",
+          "ingredients": [
+            {
+              "ingredient_name": "Boneless, Skinless Chicken Thighs",
+              "measure": "2 (approx 8 oz)",
+              "calories": 400,
+              "protein": 50,
+              "carbs": 0,
+              "fat": 20,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Fresh Spinach",
+              "measure": "1 cup",
+              "calories": 7,
+              "protein": 1,
+              "carbs": 1,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 1,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Heavy Cream",
+              "measure": "1/4 cup",
+              "calories": 200,
+              "protein": 1,
+              "carbs": 2,
+              "fat": 22,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Cream Cheese",
+              "measure": "1 oz",
+              "calories": 98,
+              "protein": 2,
+              "carbs": 1.5,
+              "fat": 10,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Green Beans",
+              "measure": "1.5 cups",
+              "calories": 50,
+              "protein": 3,
+              "carbs": 11,
+              "fat": 0.5,
+              "trans_fat": 0,
+              "fiber": 4.5,
+              "sugar": 3.5
+            },
+            {
+              "ingredient_name": "Olive Oil",
+              "measure": "1.5 tbsp",
+              "calories": 180,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 21,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 935,
+            "protein": 57,
+            "carbs": 15.5,
+            "fat": 73.5,
+            "trans_fat": 0,
+            "fiber": 5.5,
+            "sugar": 5.5
+          },
+          "prep_time": 30,
+          "instructions": "Season chicken thighs with salt and pepper. Heat 1 tbsp olive oil in a skillet over medium-high heat and sear chicken thighs until golden brown and cooked through (about 6-8 minutes per side). Remove chicken and set aside. In the same skillet, add spinach, heavy cream, and cream cheese. Cook until spinach wilts and sauce thickens. Toss green beans with 0.5 tbsp olive oil, salt, and pepper. Roast in the oven at 400\u00b0F (200\u00b0C) for 10-15 minutes until tender-crisp. Serve chicken with creamed spinach and roasted green beans."
+        }
+      },
+      "daily_totals": {
+        "calories": 1962,
+        "protein": 134.8,
+        "carbs": 35.8,
+        "fat": 146.8,
+        "trans_fat": 0,
+        "fiber": 17.6,
+        "sugar": 8
+      }
+    },
+    {
+      "day_number": 5,
+      "meals": {
+        "breakfast": {
+          "recipe_name": "Bacon and Egg Muffins (Crustless)",
+          "ingredients": [
+            {
+              "ingredient_name": "Large Eggs",
+              "measure": "3",
+              "calories": 210,
+              "protein": 18,
+              "carbs": 1,
+              "fat": 15,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Cooked Bacon, crumbled",
+              "measure": "3 slices",
+              "calories": 129,
+              "protein": 9,
+              "carbs": 0,
+              "fat": 9,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Shredded Cheddar Cheese",
+              "measure": "1/4 cup",
+              "calories": 115,
+              "protein": 7,
+              "carbs": 0.6,
+              "fat": 9.5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Fresh Spinach, chopped",
+              "measure": "1/2 cup",
+              "calories": 3.5,
+              "protein": 0.5,
+              "carbs": 0.5,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0.5,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 457.5,
+            "protein": 34.5,
+            "carbs": 2.1,
+            "fat": 33.5,
+            "trans_fat": 0,
+            "fiber": 0.5,
+            "sugar": 1
+          },
+          "prep_time": 20,
+          "instructions": "Preheat oven to 350\u00b0F (175\u00b0C). Grease a muffin tin. Whisk eggs, then stir in crumbled bacon, shredded cheese, and chopped spinach. Pour mixture into muffin cups. Bake for 15-20 minutes, or until set and lightly golden."
+        },
+        "lunch": {
+          "recipe_name": "Leftover Chicken Thighs with Creamed Spinach and Roasted Green Beans",
+          "ingredients": [
+            {
+              "ingredient_name": "Boneless, Skinless Chicken Thighs",
+              "measure": "1.5 (approx 6 oz)",
+              "calories": 300,
+              "protein": 37.5,
+              "carbs": 0,
+              "fat": 15,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Fresh Spinach",
+              "measure": "0.75 cup",
+              "calories": 5,
+              "protein": 0.75,
+              "carbs": 0.75,
+              "fat": 0,
+              "trans_fat": 0,
+              "fiber": 0.75,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Heavy Cream",
+              "measure": "3 tbsp",
+              "calories": 150,
+              "protein": 0.75,
+              "carbs": 1.5,
+              "fat": 16.5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0.75
+            },
+            {
+              "ingredient_name": "Cream Cheese",
+              "measure": "0.75 oz",
+              "calories": 73.5,
+              "protein": 1.5,
+              "carbs": 1.1,
+              "fat": 7.5,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0.75
+            },
+            {
+              "ingredient_name": "Green Beans",
+              "measure": "1 cup",
+              "calories": 33,
+              "protein": 2,
+              "carbs": 7,
+              "fat": 0.3,
+              "trans_fat": 0,
+              "fiber": 3,
+              "sugar": 2.3
+            },
+            {
+              "ingredient_name": "Olive Oil",
+              "measure": "1 tbsp",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 682.5,
+            "protein": 42.5,
+            "carbs": 11.35,
+            "fat": 53.3,
+            "trans_fat": 0,
+            "fiber": 3.75,
+            "sugar": 3.8
+          },
+          "prep_time": 5,
+          "instructions": "Reheat leftover chicken thighs, creamed spinach, and roasted green beans in the microwave or a skillet until warmed through."
+        },
+        "dinner": {
+          "recipe_name": "Ground Beef and Zucchini Boats with Marinara and Mozzarella",
+          "ingredients": [
+            {
+              "ingredient_name": "Lean Ground Beef (90/10)",
+              "measure": "6 oz",
+              "calories": 300,
+              "protein": 36,
+              "carbs": 0,
+              "fat": 16,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            },
+            {
+              "ingredient_name": "Large Zucchini",
+              "measure": "1",
+              "calories": 30,
+              "protein": 2,
+              "carbs": 6,
+              "fat": 0.5,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 4
+            },
+            {
+              "ingredient_name": "Low-Carb Marinara Sauce",
+              "measure": "1/2 cup",
+              "calories": 60,
+              "protein": 2,
+              "carbs": 8,
+              "fat": 2,
+              "trans_fat": 0,
+              "fiber": 2,
+              "sugar": 4
+            },
+            {
+              "ingredient_name": "Shredded Mozzarella Cheese",
+              "measure": "2 oz",
+              "calories": 180,
+              "protein": 14,
+              "carbs": 2,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 1
+            },
+            {
+              "ingredient_name": "Olive Oil",
+              "measure": "1 tbsp",
+              "calories": 120,
+              "protein": 0,
+              "carbs": 0,
+              "fat": 14,
+              "trans_fat": 0,
+              "fiber": 0,
+              "sugar": 0
+            }
+          ],
+          "meal_totals": {
+            "calories": 690,
+            "protein": 54,
+            "carbs": 16,
+            "fat": 46.5,
+            "trans_fat": 0,
+            "fiber": 4,
+            "sugar": 9
+          },
+          "prep_time": 35,
+          "instructions": "Preheat oven to 375\u00b0F (190\u00b0C). Halve zucchini lengthwise and scoop out the seeds to create 'boats.' Brown ground beef in a skillet with olive oil, drain any excess fat. Stir in marinara sauce. Fill zucchini boats with the beef mixture. Top with shredded mozzarella cheese. Bake for 20-25 minutes, or until zucchini is tender and cheese is melted and bubbly."
+        }
+      },
+      "daily_totals": {
+        "calories": 1830,
+        "protein": 131,
+        "carbs": 29.45,
+        "fat": 133.3,
+        "trans_fat": 0,
+        "fiber": 8.25,
+        "sugar": 13.8
+      }
+    }
+  ]
+}
