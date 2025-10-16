@@ -17,7 +17,19 @@ export default function SignUpPage() {
   const [message, setMessage] = useState('');
 
   const router = useRouter();
-  const { register } = useAuth();
+  const { register, isAuthenticated, loading: authLoading } = useAuth();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      router.replace('/mylog'); // Use replace instead of push
+    }
+  }, [isAuthenticated, authLoading, router]);
+
+  // Don't render form if already authenticated
+  if (!authLoading && isAuthenticated) {
+    return null;
+  }
 
   // Check backend health once on mount
   useEffect(() => {

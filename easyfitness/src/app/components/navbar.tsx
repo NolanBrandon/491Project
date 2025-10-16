@@ -6,17 +6,12 @@ import { useRouter } from 'next/navigation';
 
 export default function Nav() {
   const router = useRouter();
-  const { logout, isAuthenticated, user } = useAuth();
+  const { logout, isAuthenticated, user, loading } = useAuth();
 
   // Logout handler
   const handleLogout = async () => {
-    try {
-      await logout();
-      router.push('/login');
-    } catch (error) {
-      console.error('Logout failed:', error);
-      alert('Logout failed. Please try again.');
-    }
+    await logout();
+    router.push('/login');
   };
 
   return (
@@ -50,16 +45,40 @@ export default function Nav() {
             Progress
           </Link>
         </NavbarItem>
-        {/* Logout Button */}
-        <NavbarItem>
-          <Button
-            color="danger"
-            size="sm"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
-        </NavbarItem>
+        
+        {/* Show user info and logout when authenticated */}
+        {!loading && isAuthenticated && user && (
+          <>
+            <NavbarItem>
+              <span className="text-sm text-foreground">
+                Welcome, {user.username}
+              </span>
+            </NavbarItem>
+            <NavbarItem>
+              <Button
+                color="danger"
+                size="sm"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            </NavbarItem>
+          </>
+        )}
+        
+        {/* Show login link when not authenticated */}
+        {!loading && !isAuthenticated && (
+          <NavbarItem>
+            <Button
+              as={Link}
+              href="/login"
+              color="primary"
+              size="sm"
+            >
+              Login
+            </Button>
+          </NavbarItem>
+        )}
       </NavbarContent>
     </Navbar>
   );

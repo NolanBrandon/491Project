@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import Nav from '../components/navbar';
 import Footer from '../components/footer';
@@ -13,7 +13,19 @@ export default function LoginPage() {
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [message, setMessage] = useState('');
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, isAuthenticated, loading: authLoading } = useAuth();
+
+  // Redirect if already authenticated (only once on mount or when auth state changes)
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      router.replace('/mylog'); // Use replace instead of push to avoid back button issues
+    }
+  }, [isAuthenticated, authLoading, router]);
+
+  // Don't render form if already authenticated
+  if (!authLoading && isAuthenticated) {
+    return null; // Or a loading spinner
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

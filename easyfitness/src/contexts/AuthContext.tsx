@@ -66,6 +66,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [refreshUser]);
 
   /**
+   * Periodic session validation (every 5 minutes)
+   * Helps detect session expiry and keeps session alive
+   */
+  useEffect(() => {
+    if (!user) return;
+
+    const interval = setInterval(async () => {
+      try {
+        const sessionUser = await getSessionUser();
+        if (!sessionUser && user) {
+          // Session expired
+          console.log('Session expired, logging out...');
+          setUser(null);
+        } else if (sessionUser) {
+          // Update user data if changed
+          setUser(sessionUser);
+        }
+      } catch (error) {
+        console.error('Session validation error:', error);
+      }
+    }, 5 * 60 * 1000); // 5 minutes
+
+    return () => clearInterval(interval);
+  }, [user]);
+
+  /**
    * Login function
    */
   const login = async (username: string, password: string) => {
@@ -98,8 +124,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(null);
     } catch (error) {
       // Even if logout fails on server, clear local state
+      console.error('Logout API error (still clearing local state):', error);
       setUser(null);
-      throw error;
+      // Don't re-throw - we want logout to succeed locally even if API fails
     }
   };
 
