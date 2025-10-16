@@ -47,18 +47,26 @@ class UserViewSet(viewsets.ModelViewSet):
         return UserProfileSerializer
     
     def create(self, request, *args, **kwargs):
-        """Create user with password hashing"""
+        """Create user with password hashing and auto-login"""
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         
+        # Auto-login: Create session for newly registered user
+        request.session['user_id'] = str(user.id)
+        request.session['username'] = user.username
+        request.session.save()
+        
         # Return profile data (without password)
         profile_serializer = UserProfileSerializer(user)
-        return Response(profile_serializer.data, status=status.HTTP_201_CREATED)
+        return Response({
+            'message': 'User created and logged in successfully',
+            'user': profile_serializer.data
+        }, status=status.HTTP_201_CREATED)
     
     @action(detail=False, methods=['post'])
     def login(self, request):
-        """Simple login endpoint"""
+        """Login endpoint with session management"""
         serializer = LoginSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -71,6 +79,11 @@ class UserViewSet(viewsets.ModelViewSet):
             # Import the verification function
             from .serializers import verify_password
             if verify_password(password, user.password_hash):
+                # Create session
+                request.session['user_id'] = str(user.id)
+                request.session['username'] = user.username
+                request.session.save()
+                
                 user_data = UserProfileSerializer(user).data
                 return Response({
                     'message': 'Login successful',
@@ -86,6 +99,69 @@ class UserViewSet(viewsets.ModelViewSet):
                 {'error': 'Invalid credentials'}, 
                 status=status.HTTP_401_UNAUTHORIZED
             )
+    
+    @action(detail=False, methods=['post'])
+    def logout(self, request):
+        """Logout endpoint - clears session and cookie"""
+        if request.session.get('user_id'):
+            request.session.flush()  # Clear all session data
+            response = Response({'message': 'Logout successful'})
+            # Delete the session cookie
+            response.delete_cookie(
+                'easyfitness_session',
+                path='/',
+                domain=None,
+                samesite='Lax'
+            )
+            # Also delete CSRF cookie
+            response.delete_cookie(
+                'easyfitness_csrf',
+                path='/',
+                domain=None
+            )
+            return response
+        return Response(
+            {'error': 'No active session'}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    @action(detail=False, methods=['get'])
+    def session(self, request):
+        """Get current session user"""
+        user_id = request.session.get('user_id')
+        if not user_id:
+            return Response(
+                {'error': 'Not authenticated'}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        try:
+            user = User.objects.get(id=user_id)
+            user_data = UserProfileSerializer(user).data
+            return Response({
+                'authenticated': True,
+                'user': user_data
+            })
+        except User.DoesNotExist:
+            # Session has invalid user, clear it
+            request.session.flush()
+            return Response(
+                {'error': 'Invalid session'}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+    
+    @action(detail=False, methods=['get'])
+    def validate_session(self, request):
+        """Quick session validation without returning user data"""
+        user_id = request.session.get('user_id')
+        if user_id:
+            try:
+                User.objects.get(id=user_id)
+                return Response({'valid': True, 'user_id': user_id})
+            except User.DoesNotExist:
+                request.session.flush()
+                return Response({'valid': False}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'valid': False}, status=status.HTTP_401_UNAUTHORIZED)
     
     @action(detail=True, methods=['post'])
     def change_password(self, request, pk=None):
@@ -263,6 +339,10 @@ def api_info(request):
             "/health/",
             "/info/",
             "/users/",
+            "/users/login/",
+            "/users/logout/",
+            "/users/session/",
+            "/users/validate-session/",
             "/users/{id}/dashboard/",
             "/user-metrics/",
             "/goals/",
