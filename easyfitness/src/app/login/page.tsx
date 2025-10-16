@@ -18,7 +18,7 @@ export default function LoginPage() {
   // Redirect if already authenticated (only once on mount or when auth state changes)
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
-      router.replace('/mylog'); // Use replace instead of push to avoid back button issues
+      router.replace('/dashboard'); // Use replace instead of push to avoid back button issues
     }
   }, [isAuthenticated, authLoading, router]);
 
@@ -44,7 +44,7 @@ export default function LoginPage() {
       // We'll use email as username for now
       await login(email, password);
       setMessage('Login successful!');
-      router.push('/mylog');
+      router.push('/dashboard');
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Login failed';
       setMessage(errorMessage);

@@ -22,7 +22,7 @@ export default function SignUpPage() {
   // Redirect if already authenticated
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
-      router.replace('/mylog'); // Use replace instead of push
+      router.replace('/dashboard'); // Use replace instead of push
     }
   }, [isAuthenticated, authLoading, router]);
 
@@ -72,7 +72,7 @@ export default function SignUpPage() {
       });
       
       setMessage('Sign up successful! Redirecting...');
-      setTimeout(() => router.push('/mylog'), 1500);
+      setTimeout(() => router.push('/dashboard'), 1500);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Sign up failed';
       setMessage(errorMessage);
