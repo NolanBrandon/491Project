@@ -109,7 +109,17 @@ class UserMetricsSerializer(serializers.ModelSerializer):
 class GoalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Goal
-        fields = '__all__'
+        fields = ['id', 'user', 'title', 'description', 'goal_type', 'target_weight_kg', 
+                  'target_date', 'start_date', 'end_date', 'status', 'is_active', 
+                  'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+class GoalCreateSerializer(serializers.ModelSerializer):
+    """Serializer for creating goals without user field"""
+    class Meta:
+        model = Goal
+        fields = ['title', 'description', 'goal_type', 'target_weight_kg', 
+                  'target_date', 'start_date', 'end_date', 'status']
 
 # -------------------------------
 # Exercise & Workout Serializers

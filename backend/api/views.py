@@ -23,6 +23,7 @@ from .serializers import (
     ChangePasswordSerializer,
     UserMetricsSerializer,
     GoalSerializer,
+    GoalCreateSerializer,
     WorkoutPlanSerializer,
     WorkoutPlanDetailSerializer,
     WorkoutLogSerializer,
@@ -253,12 +254,35 @@ class GoalViewSet(viewsets.ModelViewSet):
     serializer_class = GoalSerializer
     permission_classes = [IsAuthenticatedWithSession]
     
+    def get_serializer_class(self):
+        """Use GoalCreateSerializer for creation to avoid requiring user field"""
+        if self.action == 'create':
+            return GoalCreateSerializer
+        return GoalSerializer
+    
     def get_queryset(self):
         """Filter goals to only show user's own data"""
         user_id = self.request.session.get('user_id')
         if user_id:
             return Goal.objects.filter(user__id=user_id)
         return Goal.objects.none()
+    
+    def perform_create(self, serializer):
+        """Auto-assign the authenticated user to the goal"""
+        user_id = self.request.session.get('user_id')
+        user = User.objects.get(id=user_id)
+        serializer.save(user=user)
+    
+    def create(self, request, *args, **kwargs):
+        """Override create to return full goal data after creation"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        # Return the full goal data using GoalSerializer
+        goal = Goal.objects.get(id=serializer.instance.id)
+        output_serializer = GoalSerializer(goal)
+        headers = self.get_success_headers(output_serializer.data)
+        return Response(output_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 # -------------------------------
 # Nutrition Views
