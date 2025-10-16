@@ -1,19 +1,21 @@
 'use client';
 
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@heroui/react";
-import { supabase } from '../../lib/supabaseClient';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function Nav() {
   const router = useRouter();
+  const { logout, isAuthenticated, user } = useAuth();
 
   // Logout handler
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      alert('Logout failed: ' + error.message);
-    } else {
-      router.push('/login'); // redirect to login after logout
+    try {
+      await logout();
+      router.push('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      alert('Logout failed. Please try again.');
     }
   };
 
@@ -51,7 +53,7 @@ export default function Nav() {
         {/* Logout Button */}
         <NavbarItem>
           <Button
-            variant="destructive"
+            color="danger"
             size="sm"
             onClick={handleLogout}
           >

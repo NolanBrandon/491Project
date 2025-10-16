@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '../../lib/supabaseClient';
+import { useAuth } from '@/contexts/AuthContext';
 import Nav from '../components/navbar';
 import Footer from '../components/footer';
 import { useRouter } from 'next/navigation';
@@ -13,6 +13,7 @@ export default function LoginPage() {
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [message, setMessage] = useState('');
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,30 +22,20 @@ export default function LoginPage() {
 
     try {
       if (isSigningUp) {
-        // Sign up
-        const { data, error } = await supabase.auth.signUp({ email, password });
-
-        if (error) {
-          setMessage('Sign up failed: ' + error.message);
-        } else {
-          setMessage('Sign up successful! Please check your email.');
-          setIsSigningUp(false);
-        }
-      } else {
-        // Log in
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-        if (error) {
-          setMessage('Login failed: ' + error.message);
-        } else if (!data.session) {
-          setMessage('Login failed: no session returned.');
-        } else {
-          setMessage('Login successful!');
-          router.push('/mylog'); // redirect after login
-        }
+        setMessage('Please use the Sign Up page for registration');
+        setIsLoading(false);
+        return;
       }
-    } catch (err) {
-      setMessage('Unexpected error: ' + (err as Error).message);
+      
+      // Login using Django backend
+      // For Django, we use username, but user enters email
+      // We'll use email as username for now
+      await login(email, password);
+      setMessage('Login successful!');
+      router.push('/mylog');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Login failed';
+      setMessage(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -66,8 +57,8 @@ export default function LoginPage() {
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <input
-                type="email"
-                placeholder="Email address"
+                type="text"
+                placeholder="Username or Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
