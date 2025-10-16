@@ -82,17 +82,24 @@ export async function register(data: RegisterData): Promise<LoginResponse> {
  * Login with username and password
  */
 export async function login(username: string, password: string): Promise<LoginResponse> {
+  console.log('Login API: Sending login request to', `${API_BASE_URL}/users/login/`);
+  
   const response = await fetchWithCredentials('/users/login/', {
     method: 'POST',
     body: JSON.stringify({ username, password }),
   });
+  
+  console.log('Login API: Response status', response.status);
+  console.log('Login API: Response headers', Object.fromEntries(response.headers.entries()));
   
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.error || 'Login failed');
   }
   
-  return response.json();
+  const data = await response.json();
+  console.log('Login API: Login successful, user:', data.user.username);
+  return data;
 }
 
 /**

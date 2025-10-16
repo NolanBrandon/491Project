@@ -50,13 +50,20 @@ export interface UpdateGoalData {
  */
 export async function getGoals(): Promise<Goal[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/goals/`, {
+    const url = `${API_BASE_URL}/goals/`;
+    console.log('Fetching goals from:', url);
+    console.log('With credentials: include');
+    
+    const response = await fetch(url, {
       method: 'GET',
       credentials: 'include', // Important for session cookies
       headers: {
         'Content-Type': 'application/json',
       },
     });
+
+    console.log('Goals API response status:', response.status);
+    console.log('Goals API response headers:', Object.fromEntries(response.headers.entries()));
 
     if (!response.ok) {
       throw new Error(`Failed to fetch goals: ${response.status}`);
