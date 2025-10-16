@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import Nav from '../components/navbar';
 import Footer from '../components/footer';
 import { useRouter } from 'next/navigation';
 
@@ -83,7 +82,6 @@ export default function SignUpPage() {
 
   return (
     <div className="page-container blur-bg min-h-screen flex flex-col">
-      <Nav />
       <div className="content-grow flex items-center justify-center px-4 py-12 flex-1">
         <div className="auth-card space-y-8">
           <div className="text-center space-y-2">
