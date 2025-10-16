@@ -19,7 +19,7 @@ export default function Nav() {
       {/* Left: Brand/Logo centered in left section */}
       <NavbarContent justify="center" className="nav-left">
         <NavbarBrand>
-          <Link href="/" className="nav-brand">Home</Link>
+          <Link href="/dashboard" className="nav-link">Home</Link>
         </NavbarBrand>
       </NavbarContent>
 
@@ -32,7 +32,7 @@ export default function Nav() {
         </NavbarItem>
         <NavbarItem isActive>
           <Link aria-current="page" href="/routines" className="nav-link">
-            Routines
+            Workout
           </Link>
         </NavbarItem>
         <NavbarItem>
@@ -42,41 +42,31 @@ export default function Nav() {
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="/Progress" className="nav-link">
-            Progress
+            Goals
           </Link>
         </NavbarItem>
-        
-        {/* Show user info and logout when authenticated */}
-        {!loading && isAuthenticated && user && (
-          <>
-            <NavbarItem>
-              <span className="text-sm text-foreground">
-                Welcome, {user.username}
-              </span>
-            </NavbarItem>
-            <NavbarItem>
-              <Button
-                color="danger"
-                size="sm"
-                onClick={handleLogout}
-              >
-                Logout
-              </Button>
-            </NavbarItem>
-          </>
+
+        {/* Show logout when authenticated */}
+        {!loading && isAuthenticated && (
+          <NavbarItem>
+            <button
+              onClick={handleLogout}
+              className="nav-link cursor-pointer bg-transparent border-none"
+            >
+              Logout
+            </button>
+          </NavbarItem>
         )}
         
         {/* Show login link when not authenticated */}
         {!loading && !isAuthenticated && (
           <NavbarItem>
-            <Button
-              as={Link}
+            <Link
               href="/login"
-              color="primary"
-              size="sm"
+              className="nav-link"
             >
               Login
-            </Button>
+            </Link>
           </NavbarItem>
         )}
       </NavbarContent>

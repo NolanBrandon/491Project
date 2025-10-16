@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { getGoals, Goal, deleteGoal } from '@/lib/goalsApi';
+import Nav from '../components/navbar';
+import Footer from '../components/footer';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -86,7 +88,7 @@ export default function DashboardPage() {
   // Show loading spinner while checking authentication or loading data
   if (authLoading || (isAuthenticated && loading)) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="page-container blur-bg min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading dashboard...</p>
@@ -101,9 +103,11 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow">
+    <div className="page-container blur-bg min-h-screen flex flex-col">
+      <Nav />
+
+      {/* Header with Welcome */}
+      <div className="bg-white/80 backdrop-blur-sm shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <h1 className="text-3xl font-bold text-gray-900">
             Welcome back, {user?.username || 'User'}!
@@ -114,7 +118,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         {error && (
           <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
             {error}
@@ -205,27 +209,27 @@ export default function DashboardPage() {
 
         {/* Placeholder Sections */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Workout Plans Placeholder */}
+          {/* Workout Plan Placeholder */}
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Workout Plans</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Workout Plan</h2>
             <div className="text-center py-8 text-gray-400">
-              <p>Coming soon...</p>
+              <p>Create and track your workout routines</p>
             </div>
           </div>
 
-          {/* Meal Plans Placeholder */}
+          {/* Meal Plan Placeholder */}
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Meal Plans</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Meal Plan</h2>
             <div className="text-center py-8 text-gray-400">
-              <p>Coming soon...</p>
+              <p>Plan your daily meals and nutrition</p>
             </div>
           </div>
 
-          {/* Recent Workouts Placeholder */}
+          {/* Workout Log Placeholder */}
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Workouts</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Workout Log</h2>
             <div className="text-center py-8 text-gray-400">
-              <p>Coming soon...</p>
+              <p>Log your completed workouts and progress</p>
             </div>
           </div>
 
@@ -233,11 +237,13 @@ export default function DashboardPage() {
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Nutrition Log</h2>
             <div className="text-center py-8 text-gray-400">
-              <p>Coming soon...</p>
+              <p>Track your daily food intake and calories</p>
             </div>
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

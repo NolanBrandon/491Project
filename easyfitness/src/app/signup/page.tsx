@@ -19,18 +19,6 @@ export default function SignUpPage() {
   const router = useRouter();
   const { register, isAuthenticated, loading: authLoading } = useAuth();
 
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (!authLoading && isAuthenticated) {
-      router.replace('/dashboard'); // Use replace instead of push
-    }
-  }, [isAuthenticated, authLoading, router]);
-
-  // Don't render form if already authenticated
-  if (!authLoading && isAuthenticated) {
-    return null;
-  }
-
   // Check backend health once on mount
   useEffect(() => {
     const checkBackend = async () => {
@@ -48,6 +36,18 @@ export default function SignUpPage() {
 
     checkBackend();
   }, []);
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      router.replace('/dashboard');
+    }
+  }, [isAuthenticated, authLoading, router]);
+
+  // Don't render form if already authenticated
+  if (!authLoading && isAuthenticated) {
+    return null;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -10,7 +10,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isSigningUp, setIsSigningUp] = useState(false);
   const [message, setMessage] = useState('');
   const router = useRouter();
   const { login, isAuthenticated, loading: authLoading } = useAuth();
@@ -46,12 +45,6 @@ export default function LoginPage() {
     setMessage('');
 
     try {
-      if (isSigningUp) {
-        setMessage('Please use the Sign Up page for registration');
-        setIsLoading(false);
-        return;
-      }
-      
       // Login using Django backend
       // For Django, we use username, but user enters email
       // We'll use email as username for now
@@ -76,8 +69,8 @@ export default function LoginPage() {
         <div className="auth-card space-y-8">
           <div className="text-center space-y-2">
             <h2 className="text-2xl font-bold tracking-wide">
-  {isSigningUp ? 'Create your account' : 'Sign in to your account'}
-</h2>
+              Sign in to your account
+            </h2>
 
             <p className="auth-muted">Welcome back to EasyFitness</p>
           </div>
@@ -107,13 +100,7 @@ export default function LoginPage() {
               disabled={isLoading}
               className="auth-btn w-full py-2.5 rounded-md text-sm text-white transition disabled:cursor-not-allowed"
             >
-              {isLoading
-                ? isSigningUp
-                  ? 'Signing up…'
-                  : 'Signing in…'
-                : isSigningUp
-                ? 'Sign Up'
-                : 'Sign In'}
+              {isLoading ? 'Signing in…' : 'Sign In'}
             </button>
 
             {message && (
@@ -121,29 +108,13 @@ export default function LoginPage() {
             )}
 
             <div className="text-center text-xs auth-muted">
-              {isSigningUp ? (
-                <>
-                  Already have an account?{' '}
-                  <button
-                    type="button"
-                    className="auth-link"
-                    onClick={() => setIsSigningUp(false)}
-                  >
-                    Sign in
-                  </button>
-                </>
-              ) : (
-                <>
-                  Don&apos;t have an account?{' '}
-                  <button
-                    type="button"
-                    className="auth-link"
-                    onClick={() => setIsSigningUp(true)}
-                  >
-                    Sign up
-                  </button>
-                </>
-              )}
+              Don&apos;t have an account?{' '}
+              <a
+                href="/signup"
+                className="auth-link"
+              >
+                Sign up
+              </a>
             </div>
           </form>
         </div>
