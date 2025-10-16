@@ -15,16 +15,29 @@ export default function LoginPage() {
   const router = useRouter();
   const { login, isAuthenticated, loading: authLoading } = useAuth();
 
-  // Redirect if already authenticated (only once on mount or when auth state changes)
+  // Redirect to dashboard if already authenticated
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
-      router.replace('/dashboard'); // Use replace instead of push to avoid back button issues
+      console.log('Already authenticated, redirecting to dashboard');
+      router.replace('/dashboard');
     }
-  }, [isAuthenticated, authLoading, router]);
+  }, [authLoading, isAuthenticated, router]);
 
-  // Don't render form if already authenticated
-  if (!authLoading && isAuthenticated) {
-    return null; // Or a loading spinner
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render form if authenticated (will redirect via useEffect)
+  if (isAuthenticated) {
+    return null;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,11 +56,14 @@ export default function LoginPage() {
       // For Django, we use username, but user enters email
       // We'll use email as username for now
       await login(email, password);
-      setMessage('Login successful!');
-      router.push('/dashboard');
+      setMessage('Login successful! Redirecting...');
+      console.log('Login successful, redirecting to dashboard');
+      // Redirect after successful login
+      router.replace('/dashboard');
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Login failed';
       setMessage(errorMessage);
+      console.error('Login error:', errorMessage);
     } finally {
       setIsLoading(false);
     }

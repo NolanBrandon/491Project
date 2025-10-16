@@ -3,7 +3,7 @@
  * Handles all API calls related to user goals
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api';
 
 // TypeScript interfaces
 export interface Goal {
@@ -50,7 +50,7 @@ export interface UpdateGoalData {
  */
 export async function getGoals(): Promise<Goal[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/goals/`, {
+    const response = await fetch(`${API_BASE_URL}/goals/`, {
       method: 'GET',
       credentials: 'include', // Important for session cookies
       headers: {
@@ -76,7 +76,7 @@ export async function getGoals(): Promise<Goal[]> {
  */
 export async function getGoal(goalId: string): Promise<Goal> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/goals/${goalId}/`, {
+    const response = await fetch(`${API_BASE_URL}/goals/${goalId}/`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -102,7 +102,7 @@ export async function getGoal(goalId: string): Promise<Goal> {
  */
 export async function createGoal(goalData: CreateGoalData): Promise<Goal> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/goals/`, {
+    const response = await fetch(`${API_BASE_URL}/goals/`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -130,7 +130,7 @@ export async function createGoal(goalData: CreateGoalData): Promise<Goal> {
  */
 export async function updateGoal(goalId: string, goalData: UpdateGoalData): Promise<Goal> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/goals/${goalId}/`, {
+    const response = await fetch(`${API_BASE_URL}/goals/${goalId}/`, {
       method: 'PATCH',
       credentials: 'include',
       headers: {
@@ -158,7 +158,7 @@ export async function updateGoal(goalId: string, goalData: UpdateGoalData): Prom
  */
 export async function deleteGoal(goalId: string): Promise<void> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/goals/${goalId}/`, {
+    const response = await fetch(`${API_BASE_URL}/goals/${goalId}/`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {

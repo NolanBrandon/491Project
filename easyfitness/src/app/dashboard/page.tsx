@@ -2,37 +2,54 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import { getGoals, Goal, deleteGoal } from '@/lib/goalsApi';
 
 export default function DashboardPage() {
   const router = useRouter();
+  const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [goals, setGoals] = useState<Goal[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [username, setUsername] = useState('User');
+  const [hasFetched, setHasFetched] = useState(false);
 
+  // Redirect to login if not authenticated after auth check completes
   useEffect(() => {
-    fetchDashboardData();
-  }, []);
+    if (!authLoading && !isAuthenticated) {
+      console.log('Not authenticated, redirecting to login');
+      router.replace('/login');
+    }
+  }, [authLoading, isAuthenticated, router]);
+
+  // Fetch dashboard data only when authenticated
+  useEffect(() => {
+    if (!authLoading && isAuthenticated && !hasFetched) {
+      console.log('Authenticated, fetching dashboard data');
+      setHasFetched(true);
+      fetchDashboardData();
+    }
+  }, [authLoading, isAuthenticated, hasFetched]);
 
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
       setError(null);
       
+      console.log('Fetching goals from API...');
       // Fetch goals
       const goalsData = await getGoals();
       setGoals(goalsData);
-      
-      // Get username from session (you can add a separate API call if needed)
-      // For now, we'll just use 'User'
+      console.log('Goals loaded successfully:', goalsData.length);
       
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
-      setError('Failed to load dashboard data');
-      // If unauthorized, redirect to login
+      
+      // Check if it's a 401 error
       if (err instanceof Error && err.message.includes('401')) {
-        router.push('/login');
+        console.error('Session not valid, user needs to log in again');
+        setError('Session expired. Please log in again.');
+      } else {
+        setError('Failed to load dashboard data');
       }
     } finally {
       setLoading(false);
@@ -66,7 +83,8 @@ export default function DashboardPage() {
     }
   };
 
-  if (loading) {
+  // Show loading spinner while checking authentication or loading data
+  if (authLoading || (isAuthenticated && loading)) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -77,13 +95,18 @@ export default function DashboardPage() {
     );
   }
 
+  // Don't render dashboard if not authenticated (will redirect in useEffect)
+  if (!isAuthenticated) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <h1 className="text-3xl font-bold text-gray-900">
-            Welcome back, {username}!
+            Welcome back, {user?.username || 'User'}!
           </h1>
           <p className="mt-2 text-gray-600">
             Here's an overview of your fitness journey
