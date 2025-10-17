@@ -40,19 +40,32 @@ class UserMetrics(models.Model):
 
 
 class Goal(models.Model):
+    STATUS_CHOICES = [
+        ('active', 'Active'),
+        ('completed', 'Completed'),
+        ('paused', 'Paused'),
+    ]
+    
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    goal_type = models.CharField(max_length=50, default='')
+    title = models.CharField(max_length=200, default='')
+    description = models.TextField(blank=True, default='')
+    goal_type = models.CharField(max_length=50, default='', blank=True)
     target_weight_kg = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    target_date = models.DateField(null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
     is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
         db_table = 'goals'
+        ordering = ['-created_at']
 
     def __str__(self):
-        return f"{self.user.username} - {self.goal_type}"
+        return f"{self.user.username} - {self.title}"
 
 
 # -------------------------------

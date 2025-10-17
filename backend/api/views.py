@@ -1,7 +1,8 @@
 from rest_framework import viewsets, status
 from rest_framework.permissions import AllowAny
-from rest_framework.decorators import api_view, action
+from rest_framework.decorators import api_view, action, permission_classes
 from rest_framework.response import Response
+from .permissions import IsAuthenticatedWithSession, IsOwnerOrReadOnly
 import logging
 
 logger = logging.getLogger(__name__)
@@ -22,6 +23,7 @@ from .serializers import (
     ChangePasswordSerializer,
     UserMetricsSerializer,
     GoalSerializer,
+    GoalCreateSerializer,
     WorkoutPlanSerializer,
     WorkoutPlanDetailSerializer,
     WorkoutLogSerializer,
@@ -36,7 +38,17 @@ from .serializers import (
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserProfileSerializer  # Default to profile serializer (no password)
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # Default, overridden by get_permissions
+    
+    def get_permissions(self):
+        """
+        Set permissions based on action.
+        - create, login, logout, session, validate_session: AllowAny
+        - all other actions: IsAuthenticatedWithSession
+        """
+        if self.action in ['create', 'login', 'logout', 'session', 'validate_session']:
+            return [AllowAny()]
+        return [IsAuthenticatedWithSession(), IsOwnerOrReadOnly()]
     
     def get_serializer_class(self):
         """Return appropriate serializer based on action"""
@@ -47,18 +59,26 @@ class UserViewSet(viewsets.ModelViewSet):
         return UserProfileSerializer
     
     def create(self, request, *args, **kwargs):
-        """Create user with password hashing"""
+        """Create user with password hashing and auto-login"""
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         
+        # Auto-login: Create session for newly registered user
+        request.session['user_id'] = str(user.id)
+        request.session['username'] = user.username
+        request.session.save()
+        
         # Return profile data (without password)
         profile_serializer = UserProfileSerializer(user)
-        return Response(profile_serializer.data, status=status.HTTP_201_CREATED)
+        return Response({
+            'message': 'User created and logged in successfully',
+            'user': profile_serializer.data
+        }, status=status.HTTP_201_CREATED)
     
     @action(detail=False, methods=['post'])
     def login(self, request):
-        """Simple login endpoint"""
+        """Login endpoint with session management"""
         serializer = LoginSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -71,6 +91,11 @@ class UserViewSet(viewsets.ModelViewSet):
             # Import the verification function
             from .serializers import verify_password
             if verify_password(password, user.password_hash):
+                # Create session
+                request.session['user_id'] = str(user.id)
+                request.session['username'] = user.username
+                request.session.save()
+                
                 user_data = UserProfileSerializer(user).data
                 return Response({
                     'message': 'Login successful',
@@ -86,6 +111,69 @@ class UserViewSet(viewsets.ModelViewSet):
                 {'error': 'Invalid credentials'}, 
                 status=status.HTTP_401_UNAUTHORIZED
             )
+    
+    @action(detail=False, methods=['post'])
+    def logout(self, request):
+        """Logout endpoint - clears session and cookie"""
+        if request.session.get('user_id'):
+            request.session.flush()  # Clear all session data
+            response = Response({'message': 'Logout successful'})
+            # Delete the session cookie
+            response.delete_cookie(
+                'easyfitness_session',
+                path='/',
+                domain=None,
+                samesite='Lax'
+            )
+            # Also delete CSRF cookie
+            response.delete_cookie(
+                'easyfitness_csrf',
+                path='/',
+                domain=None
+            )
+            return response
+        return Response(
+            {'error': 'No active session'}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    @action(detail=False, methods=['get'])
+    def session(self, request):
+        """Get current session user"""
+        user_id = request.session.get('user_id')
+        if not user_id:
+            return Response(
+                {'error': 'Not authenticated'}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        try:
+            user = User.objects.get(id=user_id)
+            user_data = UserProfileSerializer(user).data
+            return Response({
+                'authenticated': True,
+                'user': user_data
+            })
+        except User.DoesNotExist:
+            # Session has invalid user, clear it
+            request.session.flush()
+            return Response(
+                {'error': 'Invalid session'}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+    
+    @action(detail=False, methods=['get'])
+    def validate_session(self, request):
+        """Quick session validation without returning user data"""
+        user_id = request.session.get('user_id')
+        if user_id:
+            try:
+                User.objects.get(id=user_id)
+                return Response({'valid': True, 'user_id': user_id})
+            except User.DoesNotExist:
+                request.session.flush()
+                return Response({'valid': False}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'valid': False}, status=status.HTTP_401_UNAUTHORIZED)
     
     @action(detail=True, methods=['post'])
     def change_password(self, request, pk=None):
@@ -112,58 +200,104 @@ class UserViewSet(viewsets.ModelViewSet):
     
     @action(detail=True, methods=['get'])
     def dashboard(self, request, pk=None):
-        """Get user dashboard with workout plans, meal plans, and recent activity."""
-        try:
-            user = self.get_object()
-            user_data = UserSerializer(user).data
-            
-            # Get user's workout plans
-            workout_plans = WorkoutPlan.objects.filter(user=user)
-            user_data['workout_plans'] = WorkoutPlanSerializer(workout_plans, many=True).data
-            
-            # Get user's meal plans
-            meal_plans = MealPlan.objects.filter(user=user)
-            user_data['meal_plans'] = MealPlanSerializer(meal_plans, many=True).data
-            
-            # Get user's goals
-            goals = Goal.objects.filter(user=user, is_active=True)
-            user_data['active_goals'] = GoalSerializer(goals, many=True).data
-            
-            # Get recent workout logs (last 10)
-            recent_workouts = WorkoutLog.objects.filter(user=user).order_by('-date_performed')[:10]
-            user_data['recent_workouts'] = WorkoutLogSerializer(recent_workouts, many=True).data
-            
-            # Get latest metrics
-            latest_metrics = UserMetrics.objects.filter(user=user).order_by('-date_recorded').first()
-            if latest_metrics:
-                user_data['latest_metrics'] = UserMetricsSerializer(latest_metrics).data
-            
-            return Response(user_data)
-        except User.DoesNotExist:
+        """Get user dashboard with workout plans, meal plans, and recent activity.
+        Users can only access their own dashboard."""
+        user = self.get_object()
+        
+        # Verify user can only access their own dashboard
+        session_user_id = request.session.get('user_id')
+        if str(user.id) != session_user_id:
             return Response(
-                {"error": "User not found"}, 
-                status=status.HTTP_404_NOT_FOUND
+                {"error": "You can only access your own dashboard"}, 
+                status=status.HTTP_403_FORBIDDEN
             )
+        
+        user_data = UserSerializer(user).data
+        
+        # Get user's workout plans
+        workout_plans = WorkoutPlan.objects.filter(user=user)
+        user_data['workout_plans'] = WorkoutPlanSerializer(workout_plans, many=True).data
+        
+        # Get user's meal plans
+        meal_plans = MealPlan.objects.filter(user=user)
+        user_data['meal_plans'] = MealPlanSerializer(meal_plans, many=True).data
+        
+        # Get user's goals
+        goals = Goal.objects.filter(user=user, is_active=True)
+        user_data['active_goals'] = GoalSerializer(goals, many=True).data
+        
+        # Get recent workout logs (last 10)
+        recent_workouts = WorkoutLog.objects.filter(user=user).order_by('-date_performed')[:10]
+        user_data['recent_workouts'] = WorkoutLogSerializer(recent_workouts, many=True).data
+        
+        # Get latest metrics
+        latest_metrics = UserMetrics.objects.filter(user=user).order_by('-date_recorded').first()
+        if latest_metrics:
+            user_data['latest_metrics'] = UserMetricsSerializer(latest_metrics).data
+        
+        return Response(user_data)
 
 class UserMetricViewSet(viewsets.ModelViewSet):
     queryset = UserMetrics.objects.all()
     serializer_class = UserMetricsSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticatedWithSession]
+    
+    def get_queryset(self):
+        """Filter metrics to only show user's own data"""
+        user_id = self.request.session.get('user_id')
+        if user_id:
+            return UserMetrics.objects.filter(user__id=user_id)
+        return UserMetrics.objects.none()
 
 class GoalViewSet(viewsets.ModelViewSet):
     queryset = Goal.objects.all()
     serializer_class = GoalSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticatedWithSession]
+    
+    def get_serializer_class(self):
+        """Use GoalCreateSerializer for creation to avoid requiring user field"""
+        if self.action == 'create':
+            return GoalCreateSerializer
+        return GoalSerializer
+    
+    def get_queryset(self):
+        """Filter goals to only show user's own data"""
+        user_id = self.request.session.get('user_id')
+        if user_id:
+            return Goal.objects.filter(user__id=user_id)
+        return Goal.objects.none()
+    
+    def perform_create(self, serializer):
+        """Auto-assign the authenticated user to the goal"""
+        user_id = self.request.session.get('user_id')
+        user = User.objects.get(id=user_id)
+        serializer.save(user=user)
+    
+    def create(self, request, *args, **kwargs):
+        """Override create to return full goal data after creation"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        # Return the full goal data using GoalSerializer
+        goal = Goal.objects.get(id=serializer.instance.id)
+        output_serializer = GoalSerializer(goal)
+        headers = self.get_success_headers(output_serializer.data)
+        return Response(output_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-# -------------------------------
-# Nutrition Views
 # -------------------------------
 # Nutrition Views
 # -------------------------------
 class NutritionLogViewSet(viewsets.ModelViewSet):
     queryset = NutritionLog.objects.all()
     serializer_class = NutritionLogSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticatedWithSession]
+    
+    def get_queryset(self):
+        """Filter nutrition logs to only show user's own data"""
+        user_id = self.request.session.get('user_id')
+        if user_id:
+            return NutritionLog.objects.filter(user__id=user_id)
+        return NutritionLog.objects.none()
 
 # -------------------------------
 # Exercise & Workout Views
@@ -172,11 +306,27 @@ class NutritionLogViewSet(viewsets.ModelViewSet):
 class WorkoutPlanViewSet(viewsets.ModelViewSet):
     queryset = WorkoutPlan.objects.all()
     serializer_class = WorkoutPlanSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticatedWithSession]
+    
+    def get_queryset(self):
+        """Filter workout plans to only show user's own data"""
+        user_id = self.request.session.get('user_id')
+        if user_id:
+            return WorkoutPlan.objects.filter(user__id=user_id)
+        return WorkoutPlan.objects.none()
     
     @action(detail=False, methods=['get'], url_path='user/(?P<user_id>[^/.]+)')
     def user_workout_plans(self, request, user_id=None):
-        """Get all workout plans for a specific user."""
+        """Get all workout plans for a specific user. Users can only access their own plans."""
+        session_user_id = request.session.get('user_id')
+        
+        # Verify user can only access their own workout plans
+        if user_id != session_user_id:
+            return Response(
+                {"error": "You can only access your own workout plans"}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
         try:
             user = User.objects.get(id=user_id)
             workout_plans = WorkoutPlan.objects.filter(user=user)
@@ -205,7 +355,14 @@ class WorkoutPlanViewSet(viewsets.ModelViewSet):
 class WorkoutLogViewSet(viewsets.ModelViewSet):
     queryset = WorkoutLog.objects.all()
     serializer_class = WorkoutLogSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticatedWithSession]
+    
+    def get_queryset(self):
+        """Filter workout logs to only show user's own data"""
+        user_id = self.request.session.get('user_id')
+        if user_id:
+            return WorkoutLog.objects.filter(user__id=user_id)
+        return WorkoutLog.objects.none()
 
 # -------------------------------
 # Meal Plan & Recipe Views
@@ -213,11 +370,27 @@ class WorkoutLogViewSet(viewsets.ModelViewSet):
 class MealPlanViewSet(viewsets.ModelViewSet):
     queryset = MealPlan.objects.all()
     serializer_class = MealPlanSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticatedWithSession]
+    
+    def get_queryset(self):
+        """Filter meal plans to only show user's own data"""
+        user_id = self.request.session.get('user_id')
+        if user_id:
+            return MealPlan.objects.filter(user__id=user_id)
+        return MealPlan.objects.none()
     
     @action(detail=False, methods=['get'], url_path='user/(?P<user_id>[^/.]+)')
     def user_meal_plans(self, request, user_id=None):
-        """Get all meal plans for a specific user."""
+        """Get all meal plans for a specific user. Users can only access their own plans."""
+        session_user_id = request.session.get('user_id')
+        
+        # Verify user can only access their own meal plans
+        if user_id != session_user_id:
+            return Response(
+                {"error": "You can only access your own meal plans"}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
         try:
             user = User.objects.get(id=user_id)
             meal_plans = MealPlan.objects.filter(user=user)
@@ -263,6 +436,10 @@ def api_info(request):
             "/health/",
             "/info/",
             "/users/",
+            "/users/login/",
+            "/users/logout/",
+            "/users/session/",
+            "/users/validate-session/",
             "/users/{id}/dashboard/",
             "/user-metrics/",
             "/goals/",
@@ -283,9 +460,11 @@ def api_info(request):
 # ===========================
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticatedWithSession])
 def generate_enriched_workout_plan(request):
     """
     Generate an AI-powered workout plan enriched with ExerciseDB data.
+    Requires authentication. Users can only generate plans for themselves.
     
     Expected request body:
     {
@@ -305,6 +484,16 @@ def generate_enriched_workout_plan(request):
         save_plan = request.data.get('save_plan', False)
         
         if not all([user_id, user_goal, experience_level, days_per_week]):
+            return Response({
+                'error': 'Missing required fields: user_id, user_goal, experience_level, days_per_week'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Verify user can only generate plans for themselves
+        session_user_id = request.session.get('user_id')
+        if user_id != session_user_id:
+            return Response({
+                'error': 'You can only generate workout plans for yourself'
+            }, status=status.HTTP_403_FORBIDDEN)
             return Response({
                 'error': 'Missing required fields: user_id, user_goal, experience_level, days_per_week'
             }, status=status.HTTP_400_BAD_REQUEST)
@@ -459,9 +648,11 @@ def test_ai_services(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticatedWithSession])
 def generate_enriched_meal_plan(request):
     """
     Generate AI-powered meal plan with nutritional data and save to database.
+    Requires authentication. Users can only generate plans for themselves.
     """
     try:
         # Extract request data
@@ -482,6 +673,14 @@ def generate_enriched_meal_plan(request):
                 'success': False,
                 'error': 'user_id is required'
             }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Verify user can only generate plans for themselves
+        session_user_id = request.session.get('user_id')
+        if user_id != session_user_id:
+            return Response({
+                'success': False,
+                'error': 'You can only generate meal plans for yourself'
+            }, status=status.HTTP_403_FORBIDDEN)
         
         # Validate user exists
         try:
