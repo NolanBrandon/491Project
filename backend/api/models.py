@@ -92,14 +92,13 @@ class WorkoutLog(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     exercise_name = models.CharField(max_length=255, default='')
-    exercise_data = models.JSONField(default=dict, blank=True)  # Store exercise details from AI/ExerciseDB
     date_performed = models.DateTimeField(auto_now_add=True)
     sets_performed = models.IntegerField(default=1)
     reps_performed = models.IntegerField(default=1)
     duration_minutes = models.IntegerField(null=True, blank=True)
     calories_burned = models.IntegerField(null=True, blank=True)
     perceived_effort = models.IntegerField(null=True, blank=True)  # RPE scale 1-10
-    
+
     class Meta:
         db_table = 'workout_log'
 
@@ -118,15 +117,19 @@ class NutritionLog(models.Model):
         ('dinner', 'Dinner'),
         ('snack', 'Snack'),
     ]
-    
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    food_name = models.CharField(max_length=255, default='')  # Store food name as text
-    food_data = models.JSONField(default=dict, blank=True)  # Store nutritional data as JSON
+    food_name = models.CharField(max_length=255, default='')
     date_eaten = models.DateTimeField()
     quantity = models.DecimalField(max_digits=5, decimal_places=2, default=1.0)  # Multiplier of serving size
     meal_type = models.CharField(max_length=50, choices=MEAL_TYPE_CHOICES, null=True, blank=True)
-    
+
+    # Nutritional information fields
+    calories = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    protein = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)  # grams
+    carbs = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)  # grams
+
     class Meta:
         db_table = 'nutrition_log'
 
