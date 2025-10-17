@@ -14,11 +14,12 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasFetched, setHasFetched] = useState(false);
+  const [goalToDelete, setGoalToDelete] = useState<Goal | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Redirect to login if not authenticated after auth check completes
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
-      console.log('Not authenticated, redirecting to login');
       router.replace('/login');
     }
   }, [authLoading, isAuthenticated, router]);
@@ -26,7 +27,6 @@ export default function DashboardPage() {
   // Fetch dashboard data only when authenticated
   useEffect(() => {
     if (!authLoading && isAuthenticated && !hasFetched) {
-      console.log('Authenticated, fetching dashboard data');
       setHasFetched(true);
       fetchDashboardData();
     }
@@ -36,35 +36,20 @@ export default function DashboardPage() {
     try {
       setLoading(true);
       setError(null);
-      
-      console.log('Fetching goals from API...');
-      // Fetch goals
       const goalsData = await getGoals();
       setGoals(goalsData);
-      console.log('Goals loaded successfully:', goalsData.length);
-      
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
-      
-      // Check if it's a 401 error
-      if (err instanceof Error && err.message.includes('401')) {
-        console.error('Session not valid, user needs to log in again');
-        setError('Session expired. Please log in again.');
-      } else {
-        setError('Failed to load dashboard data');
-      }
+      setError('Failed to load dashboard data');
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteGoal = async (goalId: string) => {
-    if (!confirm('Are you sure you want to delete this goal?')) return;
-    
     try {
       await deleteGoal(goalId);
-      // Refresh goals
-      setGoals(goals.filter(g => g.id !== goalId));
+      setGoals(goals.filter((g) => g.id !== goalId));
     } catch (err) {
       console.error('Error deleting goal:', err);
       alert('Failed to delete goal');
@@ -78,14 +63,17 @@ export default function DashboardPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'completed': return 'bg-blue-100 text-blue-800';
-      case 'paused': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'active':
+        return 'bg-green-100 text-green-800';
+      case 'completed':
+        return 'bg-blue-100 text-blue-800';
+      case 'paused':
+        return 'bg-gray-100 text-gray-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
-  // Show loading spinner while checking authentication or loading data
   if (authLoading || (isAuthenticated && loading)) {
     return (
       <div className="page-container blur-bg min-h-screen flex items-center justify-center">
@@ -97,16 +85,13 @@ export default function DashboardPage() {
     );
   }
 
-  // Don't render dashboard if not authenticated (will redirect in useEffect)
-  if (!isAuthenticated) {
-    return null;
-  }
+  if (!isAuthenticated) return null;
 
   return (
     <div className="page-container blur-bg min-h-screen flex flex-col">
       <Nav />
 
-      {/* Header with Welcome */}
+      {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <h1 className="text-3xl font-bold text-gray-900">
@@ -139,12 +124,9 @@ export default function DashboardPage() {
 
           {goals.length === 0 ? (
             <div className="bg-white rounded-lg shadow p-8 text-center">
-              <div className="text-gray-400 mb-4">
-                <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No goals yet</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                No goals yet
+              </h3>
               <p className="text-gray-600 mb-4">
                 Start your fitness journey by creating your first goal!
               </p>
@@ -158,21 +140,28 @@ export default function DashboardPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {goals.map((goal) => (
-                <div key={goal.id} className="bg-white rounded-lg shadow hover:shadow-md transition-shadow p-6">
+                <div
+                  key={goal.id}
+                  className="bg-white rounded-lg shadow hover:shadow-md transition-shadow p-6 flex flex-col justify-between"
+                >
                   <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-lg font-semibold text-gray-900 flex-1">
+                    <h3 className="text-lg font-semibold flex-1 !text-black">
                       {goal.title}
                     </h3>
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(goal.status)}`}>
+                    <span
+                      className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(
+                        goal.status
+                      )}`}
+                    >
                       {goal.status}
                     </span>
                   </div>
-                  
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+
+                  <p className="text-gray-700 text-sm mb-4 line-clamp-2 break-words">
                     {goal.description || 'No description'}
                   </p>
-                  
-                  <div className="space-y-2 text-sm text-gray-500 mb-4">
+
+                  <div className="space-y-1 text-sm text-gray-600 mb-4">
                     {goal.goal_type && (
                       <div className="flex items-center">
                         <span className="font-medium mr-2">Type:</span>
@@ -186,8 +175,8 @@ export default function DashboardPage() {
                       </div>
                     )}
                   </div>
-                  
-                  <div className="flex space-x-2">
+
+                  <div className="flex space-x-2 mt-auto">
                     <button
                       onClick={() => router.push(`/goals/${goal.id}`)}
                       className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-2 rounded text-sm font-medium transition-colors"
@@ -195,7 +184,10 @@ export default function DashboardPage() {
                       View Details
                     </button>
                     <button
-                      onClick={() => handleDeleteGoal(goal.id)}
+                      onClick={() => {
+                        setGoalToDelete(goal);
+                        setShowDeleteModal(true);
+                      }}
                       className="bg-red-50 hover:bg-red-100 text-red-700 px-3 py-2 rounded text-sm font-medium transition-colors"
                     >
                       Delete
@@ -207,33 +199,61 @@ export default function DashboardPage() {
           )}
         </div>
 
+        {/* Modal */}
+        {showDeleteModal && goalToDelete && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 shadow-lg max-w-sm w-full">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">
+                Delete Goal
+              </h3>
+              <p className="text-gray-700 mb-6">
+                Are you sure you want to delete "<span className="font-semibold">{goalToDelete.title}</span>"? This action cannot be undone.
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                  onClick={() => setShowDeleteModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+                  onClick={async () => {
+                    try {
+                      await handleDeleteGoal(goalToDelete.id);
+                    } finally {
+                      setShowDeleteModal(false);
+                      setGoalToDelete(null);
+                    }
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Placeholder Sections */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Workout Plan Placeholder */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Workout Plan</h2>
             <div className="text-center py-8 text-gray-400">
               <p>Create and track your workout routines</p>
             </div>
           </div>
-
-          {/* Meal Plan Placeholder */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Meal Plan</h2>
             <div className="text-center py-8 text-gray-400">
               <p>Plan your daily meals and nutrition</p>
             </div>
           </div>
-
-          {/* Workout Log Placeholder */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Workout Log</h2>
             <div className="text-center py-8 text-gray-400">
               <p>Log your completed workouts and progress</p>
             </div>
           </div>
-
-          {/* Nutrition Log Placeholder */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Nutrition Log</h2>
             <div className="text-center py-8 text-gray-400">

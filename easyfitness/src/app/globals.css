@@ -346,3 +346,25 @@ h1:not(.home-title) {
 @media (max-width: 640px) {
   .side-vertical-label { display: none; }
 }
+/* --- Workout modal readability override --- */
+.workout-modal,
+.workout-modal * {
+  color: #000 !important;
+}
+
+.workout-modal input,
+.workout-modal textarea,
+.workout-modal select {
+  background-color: #fff !important;
+  border: 1px solid #cbd5e1 !important; /* Tailwind gray-300 */
+  color: #000 !important;
+}
+
+.workout-modal button {
+  color: #fff !important; /* keep buttons white text */
+}
+
+.workout-modal .text-red-700 {
+  color: #b91c1c !important;
+}
+/* --- end override --- */

@@ -1,14 +1,13 @@
 'use client';
 
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@heroui/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link } from "@heroui/react";
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function Nav() {
   const router = useRouter();
-  const { logout, isAuthenticated, user, loading } = useAuth();
+  const { logout, isAuthenticated, loading } = useAuth();
 
-  // Logout handler
   const handleLogout = async () => {
     await logout();
     router.push('/login');
@@ -26,20 +25,27 @@ export default function Nav() {
       {/* Center: Navigation Headers */}
       <NavbarContent className="nav-center" justify="center">
         <NavbarItem>
-          <Link as={Link} href="/mylog" color="foreground" className="nav-link">
+          <Link href="/mylog" color="foreground" className="nav-link">
             My Log
           </Link>
         </NavbarItem>
+
         <NavbarItem isActive>
-          <Link aria-current="page" href="/routines" className="nav-link">
+          <Link
+            aria-current="page"
+            href="/routines"
+            className="nav-link text-black font-semibold"
+          >
             Workout
           </Link>
         </NavbarItem>
+
         <NavbarItem>
           <Link color="foreground" href="/Nutrition" className="nav-link">
             Nutrition
           </Link>
         </NavbarItem>
+
         <NavbarItem>
           <Link color="foreground" href="/Progress" className="nav-link">
             Goals
@@ -51,20 +57,17 @@ export default function Nav() {
           <NavbarItem>
             <button
               onClick={handleLogout}
-              className="nav-link cursor-pointer bg-transparent border-none"
+              className="nav-link cursor-pointer bg-transparent border-none text-black"
             >
               Logout
             </button>
           </NavbarItem>
         )}
-        
+
         {/* Show login link when not authenticated */}
         {!loading && !isAuthenticated && (
           <NavbarItem>
-            <Link
-              href="/login"
-              className="nav-link"
-            >
+            <Link href="/login" className="nav-link text-black">
               Login
             </Link>
           </NavbarItem>
