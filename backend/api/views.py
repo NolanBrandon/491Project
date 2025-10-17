@@ -22,6 +22,7 @@ from .serializers import (
     LoginSerializer,
     ChangePasswordSerializer,
     UserMetricsSerializer,
+    UserMetricsCreateSerializer,
     GoalSerializer,
     GoalCreateSerializer,
     WorkoutPlanSerializer,
@@ -241,13 +242,38 @@ class UserMetricViewSet(viewsets.ModelViewSet):
     queryset = UserMetrics.objects.all()
     serializer_class = UserMetricsSerializer
     permission_classes = [IsAuthenticatedWithSession]
-    
+
+    def get_serializer_class(self):
+        """Use UserMetricsCreateSerializer for creation to avoid requiring user field"""
+        if self.action == 'create':
+            return UserMetricsCreateSerializer
+        return UserMetricsSerializer
+
     def get_queryset(self):
         """Filter metrics to only show user's own data"""
         user_id = self.request.session.get('user_id')
         if user_id:
             return UserMetrics.objects.filter(user__id=user_id)
         return UserMetrics.objects.none()
+
+    def create(self, request, *args, **kwargs):
+        """Override create to log validation errors"""
+        logger.info(f"Creating user metrics with data: {request.data}")
+        serializer = self.get_serializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception as e:
+            logger.error(f"Validation error: {e}")
+            logger.error(f"Serializer errors: {serializer.errors}")
+            raise
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def perform_create(self, serializer):
+        """Auto-assign the authenticated user to the metrics"""
+        user_id = self.request.session.get('user_id')
+        user = User.objects.get(id=user_id)
+        serializer.save(user=user)
 
 class GoalViewSet(viewsets.ModelViewSet):
     queryset = Goal.objects.all()

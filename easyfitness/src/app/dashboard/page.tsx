@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { getGoals, Goal, deleteGoal } from '@/lib/goalsApi';
+import { getLatestUserMetrics, createUserMetrics, UserMetrics } from '@/lib/userMetricsApi';
 import Nav from '../components/navbar';
 import Footer from '../components/footer';
 
@@ -16,6 +17,15 @@ export default function DashboardPage() {
   const [hasFetched, setHasFetched] = useState(false);
   const [goalToDelete, setGoalToDelete] = useState<Goal | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  // User metrics state
+  const [latestMetrics, setLatestMetrics] = useState<UserMetrics | null>(null);
+  const [showMetricsForm, setShowMetricsForm] = useState(false);
+  const [metricsForm, setMetricsForm] = useState({
+    weight_kg: '',
+    height_cm: '',
+    activity_level: '',
+  });
 
   // Redirect to login if not authenticated after auth check completes
   useEffect(() => {
@@ -36,8 +46,21 @@ export default function DashboardPage() {
     try {
       setLoading(true);
       setError(null);
-      const goalsData = await getGoals();
+      const [goalsData, metricsData] = await Promise.all([
+        getGoals(),
+        getLatestUserMetrics()
+      ]);
       setGoals(goalsData);
+      setLatestMetrics(metricsData);
+
+      // Pre-fill form with latest metrics if they exist (convert to imperial)
+      if (metricsData) {
+        setMetricsForm({
+          weight_kg: metricsData.weight_kg ? (metricsData.weight_kg * 2.20462).toFixed(1) : '',
+          height_cm: metricsData.height_cm ? (metricsData.height_cm / 2.54).toFixed(1) : '',
+          activity_level: metricsData.activity_level || '',
+        });
+      }
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
       setError('Failed to load dashboard data');
@@ -53,6 +76,30 @@ export default function DashboardPage() {
     } catch (err) {
       console.error('Error deleting goal:', err);
       alert('Failed to delete goal');
+    }
+  };
+
+  const handleMetricsSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      // Convert from imperial to metric for storage
+      const weightLbs = metricsForm.weight_kg ? parseFloat(metricsForm.weight_kg) : undefined;
+      const heightInches = metricsForm.height_cm ? parseFloat(metricsForm.height_cm) : undefined;
+
+      const metricsData = {
+        date_recorded: new Date().toISOString().split('T')[0],
+        weight_kg: weightLbs ? parseFloat((weightLbs / 2.20462).toFixed(2)) : undefined, // lbs to kg, rounded to 2 decimals
+        height_cm: heightInches ? parseFloat((heightInches * 2.54).toFixed(2)) : undefined, // inches to cm, rounded to 2 decimals
+        activity_level: metricsForm.activity_level || undefined,
+      };
+
+      const newMetrics = await createUserMetrics(metricsData);
+      setLatestMetrics(newMetrics);
+      setShowMetricsForm(false);
+      setError(null);
+    } catch (err) {
+      console.error('Error saving metrics:', err);
+      setError('Failed to save metrics');
     }
   };
 
@@ -109,6 +156,132 @@ export default function DashboardPage() {
             {error}
           </div>
         )}
+
+        {/* User Metrics Section */}
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold text-gray-900">Your Metrics</h2>
+            <button
+              onClick={() => setShowMetricsForm(!showMetricsForm)}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
+            >
+              {showMetricsForm ? 'Cancel' : '+ Update Metrics'}
+            </button>
+          </div>
+
+          {showMetricsForm ? (
+            <div className="bg-white rounded-lg shadow p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Add Your Current Metrics</h3>
+              <form onSubmit={handleMetricsSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="weight" className="block text-sm font-medium text-gray-700 mb-1">
+                    Weight (lbs)
+                  </label>
+                  <input
+                    id="weight"
+                    type="number"
+                    step="0.1"
+                    placeholder="e.g., 155"
+                    value={metricsForm.weight_kg}
+                    onChange={(e) => setMetricsForm({ ...metricsForm, weight_kg: e.target.value })}
+                    className="w-full border border-gray-300 p-3 rounded text-gray-900 placeholder-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-green-600"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="height" className="block text-sm font-medium text-gray-700 mb-1">
+                    Height (inches)
+                  </label>
+                  <input
+                    id="height"
+                    type="number"
+                    step="0.1"
+                    placeholder="e.g., 69"
+                    value={metricsForm.height_cm}
+                    onChange={(e) => setMetricsForm({ ...metricsForm, height_cm: e.target.value })}
+                    className="w-full border border-gray-300 p-3 rounded text-gray-900 placeholder-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-green-600"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="activity" className="block text-sm font-medium text-gray-700 mb-1">
+                    Activity Level
+                  </label>
+                  <select
+                    id="activity"
+                    value={metricsForm.activity_level}
+                    onChange={(e) => setMetricsForm({ ...metricsForm, activity_level: e.target.value })}
+                    className="w-full border border-gray-300 p-3 rounded text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-green-600"
+                  >
+                    <option value="">Select activity level</option>
+                    <option value="sedentary">Sedentary (little or no exercise)</option>
+                    <option value="light">Lightly Active (1-3 days/week)</option>
+                    <option value="moderate">Moderately Active (3-5 days/week)</option>
+                    <option value="active">Very Active (6-7 days/week)</option>
+                    <option value="extra">Extra Active (intense exercise daily)</option>
+                  </select>
+                </div>
+
+                <div className="flex space-x-3">
+                  <button
+                    type="submit"
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-md font-medium transition-colors"
+                  >
+                    Save Metrics
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowMetricsForm(false)}
+                    className="px-6 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-md font-medium transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          ) : latestMetrics ? (
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <p className="text-sm text-gray-500 mb-1">Weight</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {latestMetrics.weight_kg ? `${(latestMetrics.weight_kg * 2.20462).toFixed(1)} lbs` : 'Not set'}
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-gray-500 mb-1">Height</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {latestMetrics.height_cm ? `${(latestMetrics.height_cm / 2.54).toFixed(1)} in` : 'Not set'}
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-gray-500 mb-1">Activity Level</p>
+                  <p className="text-2xl font-bold text-gray-900 capitalize">
+                    {latestMetrics.activity_level || 'Not set'}
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-500 mt-4 text-center">
+                Last updated: {formatDate(latestMetrics.date_recorded)}
+              </p>
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg shadow p-8 text-center">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                No metrics recorded yet
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Track your weight, height, and activity level to help us personalize your fitness journey!
+              </p>
+              <button
+                onClick={() => setShowMetricsForm(true)}
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-medium transition-colors"
+              >
+                Add Your First Metrics
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* Goals Section */}
         <div className="mb-8">
