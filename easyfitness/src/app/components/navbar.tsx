@@ -46,11 +46,7 @@ export default function Nav() {
           </Link>
         </NavbarItem>
 
-        <NavbarItem>
-          <Link color="foreground" href="/Progress" className="nav-link">
-            Goals
-          </Link>
-        </NavbarItem>
+        
 
         {/* Show logout when authenticated */}
         {!loading && isAuthenticated && (
