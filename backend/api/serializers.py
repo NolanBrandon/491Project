@@ -120,6 +120,12 @@ class UserMetricsSerializer(serializers.ModelSerializer):
         model = UserMetrics
         fields = '__all__'
 
+class UserMetricsCreateSerializer(serializers.ModelSerializer):
+    """Serializer for creating user metrics without user field"""
+    class Meta:
+        model = UserMetrics
+        fields = ['date_recorded', 'weight_kg', 'height_cm', 'activity_level']
+
 class GoalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Goal
