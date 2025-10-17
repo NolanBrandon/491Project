@@ -33,7 +33,7 @@ export default function Nav() {
         <NavbarItem isActive>
           <Link
             aria-current="page"
-            href="/routines"
+            href="/Workout"
             className="nav-link text-black font-semibold"
           >
             Workout
