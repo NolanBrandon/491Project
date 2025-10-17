@@ -1,6 +1,6 @@
 from rest_framework import serializers
 import hashlib
-import secrets
+from django.contrib.auth.hashers import make_password, check_password
 from .models import (
     User,
     UserMetrics,
@@ -12,13 +12,27 @@ from .models import (
 )
 
 def hash_password(password):
-    """Simple password hashing using SHA-256 with salt"""
-    salt = secrets.token_hex(16)
-    hashed = hashlib.sha256((password + salt).encode()).hexdigest()
-    return f"{salt}${hashed}"
+    """
+    Hash password using Django's built-in password hashing (PBKDF2 by default).
+    This is much more secure than SHA-256 as it:
+    - Uses PBKDF2 algorithm with 600,000 iterations (slow by design)
+    - Automatically generates and stores salt
+    - Is resistant to rainbow table and GPU attacks
+    """
+    return make_password(password)
 
 def verify_password(password, hashed_password):
-    """Verify password against hash"""
+    """
+    Verify password against hash.
+    Supports both:
+    - New Django hashes (pbkdf2_sha256$...)
+    - Legacy SHA-256 hashes (salt$hash) for backward compatibility
+    """
+    # Check if it's a Django hash (starts with algorithm identifier)
+    if hashed_password.startswith('pbkdf2_') or hashed_password.startswith('argon2') or hashed_password.startswith('bcrypt'):
+        return check_password(password, hashed_password)
+
+    # Legacy SHA-256 support (for existing users)
     try:
         salt, hashed = hashed_password.split('$')
         return hashlib.sha256((password + salt).encode()).hexdigest() == hashed
@@ -109,7 +123,17 @@ class UserMetricsSerializer(serializers.ModelSerializer):
 class GoalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Goal
-        fields = '__all__'
+        fields = ['id', 'user', 'title', 'description', 'goal_type', 'target_weight_kg', 
+                  'target_date', 'start_date', 'end_date', 'status', 'is_active', 
+                  'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+class GoalCreateSerializer(serializers.ModelSerializer):
+    """Serializer for creating goals without user field"""
+    class Meta:
+        model = Goal
+        fields = ['title', 'description', 'goal_type', 'target_weight_kg', 
+                  'target_date', 'start_date', 'end_date', 'status']
 
 # -------------------------------
 # Exercise & Workout Serializers
