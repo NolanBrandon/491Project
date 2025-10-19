@@ -167,7 +167,7 @@ class WorkoutLogSerializer(serializers.ModelSerializer):
 class NutritionLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = NutritionLog
-        fields = ['id', 'user', 'food_name', 'date_eaten', 'quantity', 'meal_type', 'calories', 'protein', 'carbs']
+        fields = ['id', 'user', 'food_name', 'date_eaten', 'quantity', 'meal_type', 'calories', 'protein', 'carbs', 'sugar']
 
 # -------------------------------
 # Meal Plan Serializers
