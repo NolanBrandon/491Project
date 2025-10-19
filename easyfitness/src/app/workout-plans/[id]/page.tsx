@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { getWorkoutPlanDetail, WorkoutPlan, WorkoutDay, Exercise } from '@/lib/aiWorkoutPlanApi';
+import Navbar from '@/app/components/navbar';
 
 export default function WorkoutPlanDetailPage() {
   const router = useRouter();
@@ -118,17 +119,19 @@ export default function WorkoutPlanDetailPage() {
   };
 
   return (
-    <div className="page-container blur-bg min-h-screen p-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
-          <Link
-            href="/workout-plan-generator"
-            className="text-blue-600 hover:text-blue-800 font-medium mb-2 inline-block"
-          >
-            ← Back to Generator
-          </Link>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{workoutPlan.name}</h1>
+    <>
+      <Navbar />
+      <div className="page-container blur-bg min-h-screen p-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="mb-6">
+            <Link
+              href="/workout-plan-generator"
+              className="text-blue-600 hover:text-blue-800 font-medium mb-2 inline-block"
+            >
+              ← Back to Generator
+            </Link>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{workoutPlan.name}</h1>
           {workoutPlan.description && (
             <p className="text-gray-600">{workoutPlan.description}</p>
           )}
@@ -197,6 +200,7 @@ export default function WorkoutPlanDetailPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
