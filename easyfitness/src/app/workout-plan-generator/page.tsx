@@ -6,10 +6,11 @@ import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { getGoals, Goal } from '@/lib/goalsApi';
 import { generateWorkoutPlan, getSavedWorkoutPlans, WorkoutPlan } from '@/lib/aiWorkoutPlanApi';
+import Navbar from '@/app/components/navbar';
 
 export default function WorkoutPlanGeneratorPage() {
   const router = useRouter();
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, loading: authLoading } = useAuth();
 
   const [activeGoal, setActiveGoal] = useState<Goal | null>(null);
   const [savedPlans, setSavedPlans] = useState<WorkoutPlan[]>([]);
@@ -23,10 +24,10 @@ export default function WorkoutPlanGeneratorPage() {
 
   // Redirect if not authenticated
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!authLoading && !isAuthenticated) {
       router.replace('/login');
     }
-  }, [isAuthenticated, router]);
+  }, [authLoading, isAuthenticated, router]);
 
   // Fetch active goal on mount
   useEffect(() => {
@@ -103,14 +104,29 @@ export default function WorkoutPlanGeneratorPage() {
     }
   };
 
+  // Show loading state while checking authentication
+  if (authLoading) {
+    return (
+      <div className="page-container blur-bg min-h-screen p-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
     return null;
   }
 
   return (
-    <div className="page-container blur-bg min-h-screen p-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-gray-900">AI Workout Plan Generator</h1>
+    <>
+      <Navbar />
+      <div className="page-container blur-bg min-h-screen p-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-3xl font-bold mb-6 text-gray-900">AI Workout Plan Generator</h1>
 
         {/* Loading state for goals */}
         {loadingGoals ? (
@@ -139,7 +155,7 @@ export default function WorkoutPlanGeneratorPage() {
 
             {/* Display current goal */}
             <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Your Active Goal</h3>
+              <h3 className="text-lg font-semibold !text-gray-900 mb-2">Your Active Goal</h3>
               <p className="text-gray-800 font-medium">{activeGoal.title}</p>
               {activeGoal.description && (
                 <p className="text-gray-600 mt-1">{activeGoal.description}</p>
@@ -243,5 +259,6 @@ export default function WorkoutPlanGeneratorPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -139,15 +139,13 @@ export default function DashboardPage() {
       <Nav />
 
       {/* Header */}
-      <div className="bg-white/80 backdrop-blur-sm shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Welcome back, {user?.username || 'User'}!
-          </h1>
-          <p className="mt-2 text-gray-600">
-            Here's an overview of your fitness journey
-          </p>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h1 className="text-3xl font-bold !text-white">
+          Welcome back, {user?.username || 'User'}!
+        </h1>
+        <p className="mt-2 !text-white">
+          Here's an overview of your fitness journey
+        </p>
       </div>
 
       <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">

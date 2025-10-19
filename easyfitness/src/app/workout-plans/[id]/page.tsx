@@ -80,8 +80,29 @@ export default function WorkoutPlanDetailPage() {
   }
 
   // Extract plan data from the nested structure
-  const planData = workoutPlan.workout_plan_data.data;
-  const days = planData.days || [];
+  // Handle different possible structures from the backend
+  const planData = workoutPlan.workout_plan_data?.data || workoutPlan.workout_plan_data;
+  const days = planData?.days || [];
+
+  if (!days || days.length === 0) {
+    return (
+      <div className="page-container blur-bg min-h-screen p-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">No Days Found</h2>
+            <p className="text-gray-700 mb-4">This workout plan doesn't have any days defined.</p>
+            <Link
+              href="/workout-plan-generator"
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+            >
+              Back to Generator
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const currentDay = days[currentDayIndex];
 
   const handlePreviousDay = () => {
@@ -190,12 +211,9 @@ function ExerciseCard({ exercise }: { exercise: Exercise }) {
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
           <div className="flex-1">
-            <h3 className="text-xl font-bold text-gray-900">{exercise.exercise_name}</h3>
-            {exercise.matched_exercise_name && exercise.matched_exercise_name !== exercise.exercise_name && (
-              <p className="text-sm text-gray-500 italic">
-                Matched: {exercise.matched_exercise_name}
-              </p>
-            )}
+            <h3 className="text-xl font-bold !text-blue-600">
+              {exercise.matched_exercise_name || exercise.exercise_name}
+            </h3>
           </div>
           <div className="text-right">
             <p className="text-lg font-semibold text-blue-600">
@@ -215,15 +233,6 @@ function ExerciseCard({ exercise }: { exercise: Exercise }) {
             {exercise.exercise_details.equipments && exercise.exercise_details.equipments.length > 0 && (
               <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">
                 {exercise.exercise_details.equipments.join(', ')}
-              </span>
-            )}
-            {exercise.match_confidence && (
-              <span className={`px-2 py-1 text-xs font-medium rounded ${
-                exercise.match_confidence === 'high' ? 'bg-blue-100 text-blue-800' :
-                exercise.match_confidence === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-gray-100 text-gray-800'
-              }`}>
-                {exercise.match_confidence} confidence
               </span>
             )}
           </div>
