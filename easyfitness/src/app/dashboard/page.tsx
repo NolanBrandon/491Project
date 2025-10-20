@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { getGoals, Goal, deleteGoal } from '@/lib/goalsApi';
 import { getLatestUserMetrics, createUserMetrics, UserMetrics } from '@/lib/userMetricsApi';
+import { getSavedWorkoutPlans, WorkoutPlan } from '@/lib/aiWorkoutPlanApi';
 import Nav from '../components/navbar';
 import Footer from '../components/footer';
 
@@ -27,6 +28,9 @@ export default function DashboardPage() {
     activity_level: '',
   });
 
+  // Workout plans state
+  const [workoutPlans, setWorkoutPlans] = useState<WorkoutPlan[]>([]);
+
   // Redirect to login if not authenticated after auth check completes
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -46,12 +50,14 @@ export default function DashboardPage() {
     try {
       setLoading(true);
       setError(null);
-      const [goalsData, metricsData] = await Promise.all([
+      const [goalsData, metricsData, workoutPlansData] = await Promise.all([
         getGoals(),
-        getLatestUserMetrics()
+        getLatestUserMetrics(),
+        getSavedWorkoutPlans()
       ]);
       setGoals(goalsData);
       setLatestMetrics(metricsData);
+      setWorkoutPlans(workoutPlansData);
 
       // Pre-fill form with latest metrics if they exist (convert to imperial)
       if (metricsData) {
@@ -139,15 +145,13 @@ export default function DashboardPage() {
       <Nav />
 
       {/* Header */}
-      <div className="bg-white/80 backdrop-blur-sm shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Welcome back, {user?.username || 'User'}!
-          </h1>
-          <p className="mt-2 text-gray-600">
-            Here's an overview of your fitness journey
-          </p>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h1 className="text-3xl font-bold !text-white">
+          Welcome back, {user?.username || 'User'}!
+        </h1>
+        <p className="mt-2 !text-white">
+          Here's an overview of your fitness journey
+        </p>
       </div>
 
       <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
@@ -410,10 +414,44 @@ export default function DashboardPage() {
         {/* Placeholder Sections */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Workout Plan</h2>
-            <div className="text-center py-8 text-gray-400">
-              <p>Create and track your workout routines</p>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold !text-black">Workout Plans</h2>
+              <button
+                onClick={() => router.push('/workout-plan-generator')}
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+              >
+                + Create Plan
+              </button>
             </div>
+            {workoutPlans.length === 0 ? (
+              <div className="text-center py-8 text-gray-400">
+                <p className="mb-3">Create and track your workout routines</p>
+                <button
+                  onClick={() => router.push('/workout-plan-generator')}
+                  className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                >
+                  Generate Your First Plan
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-3 max-h-64 overflow-y-auto">
+                {workoutPlans.map((plan) => (
+                  <button
+                    key={plan.id}
+                    onClick={() => router.push(`/workout-plans/${plan.id}`)}
+                    className="w-full text-left p-3 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all cursor-pointer"
+                  >
+                    <h3 className="font-semibold !text-black text-sm mb-1">{plan.name}</h3>
+                    {plan.description && (
+                      <p className="!text-gray-600 text-xs line-clamp-1">{plan.description}</p>
+                    )}
+                    <p className="!text-gray-400 text-xs mt-1">
+                      {new Date(plan.created_at).toLocaleDateString()}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Meal Plan</h2>

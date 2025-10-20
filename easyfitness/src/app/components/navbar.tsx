@@ -33,7 +33,7 @@ export default function Nav() {
         <NavbarItem isActive>
           <Link
             aria-current="page"
-            href="/routines"
+            href="/workout-plan-generator"
             className="nav-link text-black font-semibold"
           >
             Workout
@@ -43,12 +43,6 @@ export default function Nav() {
         <NavbarItem>
           <Link color="foreground" href="/Nutrition" className="nav-link">
             Nutrition
-          </Link>
-        </NavbarItem>
-
-        <NavbarItem>
-          <Link color="foreground" href="/Progress" className="nav-link">
-            Goals
           </Link>
         </NavbarItem>
 

@@ -69,12 +69,35 @@ export async function register(data: RegisterData): Promise<LoginResponse> {
     method: 'POST',
     body: JSON.stringify(data),
   });
-  
+
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Registration failed');
+    const errorData = await response.json();
+
+    // Parse Django REST Framework validation errors
+    if (typeof errorData === 'object' && !errorData.error) {
+      const errorMessages: string[] = [];
+
+      // Handle field-specific errors
+      for (const [field, messages] of Object.entries(errorData)) {
+        if (Array.isArray(messages)) {
+          // Format field name nicely
+          const fieldName = field === 'non_field_errors' ? '' :
+                           field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) + ': ';
+          messages.forEach(msg => errorMessages.push(fieldName + msg));
+        } else if (typeof messages === 'string') {
+          const fieldName = field === 'non_field_errors' ? '' :
+                           field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) + ': ';
+          errorMessages.push(fieldName + messages);
+        }
+      }
+
+      throw new Error(errorMessages.join('; ') || 'Registration failed');
+    }
+
+    // Fallback to simple error message
+    throw new Error(errorData.error || 'Registration failed');
   }
-  
+
   return response.json();
 }
 
