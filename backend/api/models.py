@@ -129,6 +129,7 @@ class NutritionLog(models.Model):
     calories = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     protein = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)  # grams
     carbs = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)  # grams
+    sugar = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)  # grams
 
     class Meta:
         db_table = 'nutrition_log'
