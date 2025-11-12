@@ -21,6 +21,9 @@ from .serializers import (
     UserProfileSerializer,
     LoginSerializer,
     ChangePasswordSerializer,
+    ChangeUsernameSerializer,
+    ChangeEmailSerializer,
+    DeleteAccountSerializer,
     UserMetricsSerializer,
     UserMetricsCreateSerializer,
     GoalSerializer,
@@ -181,13 +184,13 @@ class UserViewSet(viewsets.ModelViewSet):
         """Change user password"""
         user = self.get_object()
         serializer = ChangePasswordSerializer(data=request.data)
-        
+
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
         old_password = serializer.validated_data['old_password']
         new_password = serializer.validated_data['new_password']
-        
+
         from .serializers import verify_password, hash_password
         if verify_password(old_password, user.password_hash):
             user.password_hash = hash_password(new_password)
@@ -195,10 +198,98 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Password changed successfully'})
         else:
             return Response(
-                {'error': 'Invalid old password'}, 
+                {'error': 'Invalid old password'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-    
+
+    @action(detail=True, methods=['post'])
+    def change_username(self, request, pk=None):
+        """Change user username with password confirmation"""
+        user = self.get_object()
+        serializer = ChangeUsernameSerializer(
+            data=request.data,
+            context={'user': user}
+        )
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        new_username = serializer.validated_data['new_username']
+
+        # Update username
+        user.username = new_username
+        user.save()
+
+        # Update session username
+        request.session['username'] = new_username
+        request.session.save()
+
+        return Response({
+            'message': 'Username changed successfully',
+            'username': new_username
+        })
+
+    @action(detail=True, methods=['post'])
+    def change_email(self, request, pk=None):
+        """Change user email with password confirmation"""
+        user = self.get_object()
+        serializer = ChangeEmailSerializer(
+            data=request.data,
+            context={'user': user}
+        )
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        new_email = serializer.validated_data['new_email']
+
+        # Update email
+        user.email = new_email
+        user.save()
+
+        return Response({
+            'message': 'Email changed successfully',
+            'email': new_email
+        })
+
+    def destroy(self, request, *args, **kwargs):
+        """Delete user account with password confirmation"""
+        user = self.get_object()
+
+        # Validate deletion request with password
+        serializer = DeleteAccountSerializer(
+            data=request.data,
+            context={'user': user}
+        )
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Clear session before deletion
+        request.session.flush()
+
+        # Delete user (cascades to all related records)
+        user.delete()
+
+        # Clear cookies
+        response = Response({
+            'message': 'Account deleted successfully'
+        }, status=status.HTTP_204_NO_CONTENT)
+
+        response.delete_cookie(
+            'easyfitness_session',
+            path='/',
+            domain=None,
+            samesite='Lax'
+        )
+        response.delete_cookie(
+            'easyfitness_csrf',
+            path='/',
+            domain=None
+        )
+
+        return response
+
     @action(detail=True, methods=['get'])
     def dashboard(self, request, pk=None):
         """Get user dashboard with workout plans, meal plans, and recent activity.
