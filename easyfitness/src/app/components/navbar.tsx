@@ -46,6 +46,15 @@ export default function Nav() {
           </Link>
         </NavbarItem>
 
+        {/* Show Settings link when authenticated */}
+        {!loading && isAuthenticated && (
+          <NavbarItem>
+            <Link color="foreground" href="/settings" className="nav-link">
+              Settings
+            </Link>
+          </NavbarItem>
+        )}
+
         {/* Show logout when authenticated */}
         {!loading && isAuthenticated && (
           <NavbarItem>
