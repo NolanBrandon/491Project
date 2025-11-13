@@ -95,15 +95,22 @@ export default function SignUpPage() {
 
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-                className="auth-input w-full px-3 py-2 rounded-md text-sm"
-              />
-              
+              <div>
+                <input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  minLength={3}
+                  maxLength={50}
+                  pattern="[a-zA-Z0-9_]+"
+                  title="Username can only contain letters, numbers, and underscores"
+                  className="auth-input w-full px-3 py-2 rounded-md text-sm"
+                />
+                <p className="mt-1 text-xs text-gray-500">3-50 characters, letters, numbers, and underscores only</p>
+              </div>
+
               <input
                 type="email"
                 placeholder="Email address"

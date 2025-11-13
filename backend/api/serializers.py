@@ -115,6 +115,88 @@ class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField()
     new_password = serializers.CharField(min_length=8)
 
+class ChangeUsernameSerializer(serializers.Serializer):
+    """Serializer for username change with password confirmation"""
+    new_username = serializers.CharField(min_length=3, max_length=50)
+    current_password = serializers.CharField()
+
+    def validate_new_username(self, value):
+        """Validate username format (alphanumeric + underscore only)"""
+        import re
+        if not re.match(r'^[a-zA-Z0-9_]+$', value):
+            raise serializers.ValidationError(
+                "Username can only contain letters, numbers, and underscores"
+            )
+        return value
+
+    def validate(self, data):
+        """Check if username is already taken"""
+        user = self.context.get('user')
+        new_username = data['new_username']
+
+        # Check if username is already taken by another user
+        if User.objects.filter(username=new_username).exclude(id=user.id).exists():
+            raise serializers.ValidationError({
+                'new_username': 'This username is already taken'
+            })
+
+        # Verify current password
+        if not verify_password(data['current_password'], user.password_hash):
+            raise serializers.ValidationError({
+                'current_password': 'Current password is incorrect'
+            })
+
+        return data
+
+class ChangeEmailSerializer(serializers.Serializer):
+    """Serializer for email change with password confirmation"""
+    new_email = serializers.EmailField()
+    current_password = serializers.CharField()
+
+    def validate(self, data):
+        """Check if email is already taken and verify password"""
+        user = self.context.get('user')
+        new_email = data['new_email']
+
+        # Check if email is already taken by another user
+        if User.objects.filter(email=new_email).exclude(id=user.id).exists():
+            raise serializers.ValidationError({
+                'new_email': 'This email is already registered'
+            })
+
+        # Verify current password
+        if not verify_password(data['current_password'], user.password_hash):
+            raise serializers.ValidationError({
+                'current_password': 'Current password is incorrect'
+            })
+
+        return data
+
+class DeleteAccountSerializer(serializers.Serializer):
+    """Serializer for account deletion with password confirmation"""
+    current_password = serializers.CharField()
+    confirm_deletion = serializers.BooleanField()
+
+    def validate_confirm_deletion(self, value):
+        """Ensure user explicitly confirms deletion"""
+        if not value:
+            raise serializers.ValidationError(
+                "You must confirm account deletion"
+            )
+        return value
+
+    def validate(self, data):
+        """Verify current password before allowing deletion"""
+        user = self.context.get('user')
+
+        # Verify current password
+        if not verify_password(data['current_password'], user.password_hash):
+            raise serializers.ValidationError({
+                'current_password': 'Current password is incorrect'
+            })
+
+        return data
+
 class UserMetricsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserMetrics
