@@ -132,9 +132,13 @@ export async function logout(): Promise<void> {
   const response = await fetchWithCredentials('/users/logout/', {
     method: 'POST',
   });
-  
+
   if (!response.ok) {
     const error = await response.json();
+    // "No active session" is not an error - it means we're already logged out
+    if (error.error === 'No active session') {
+      return;
+    }
     throw new Error(error.error || 'Logout failed');
   }
 }

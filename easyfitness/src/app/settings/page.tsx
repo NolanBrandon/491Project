@@ -32,6 +32,9 @@ export default function SettingsPage() {
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordMessage, setPasswordMessage] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Delete account state
   const [deletePassword, setDeletePassword] = useState('');
@@ -150,7 +153,7 @@ export default function SettingsPage() {
 
     try {
       await deleteAccount(user.id, deletePassword);
-      // Logout and redirect to login
+      // Logout and redirect to login (logout handles "no active session" gracefully)
       await logout();
       router.replace('/login');
     } catch (error) {
@@ -164,38 +167,39 @@ export default function SettingsPage() {
     <div className="page-container blur-bg min-h-screen flex flex-col">
       <Nav />
 
-      <div className="flex-1 px-4 py-8 max-w-4xl mx-auto w-full">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Account Settings</h1>
-          <p className="text-gray-600">Manage your account information and preferences</p>
-        </div>
+      <div className="flex-1 py-8 px-4 flex justify-center">
+        <div className="w-full max-w-2xl flex flex-col items-center">
+          <div className="mb-10 text-center">
+            <h1 className="text-4xl font-bold mb-3">Account Settings</h1>
+            <p className="text-lg text-gray-600">Manage your account information and preferences</p>
+          </div>
 
-        <div className="space-y-6">
+          <div className="space-y-8 w-full max-w-3xl flex flex-col items-center">
           {/* Change Username Section */}
-          <div className="auth-card">
-            <h2 className="text-xl font-semibold mb-4">Change Username</h2>
-            <p className="text-sm text-gray-600 mb-4">Current username: <span className="font-medium">{user.username}</span></p>
+          <div className="auth-card w-full">
+            <h2 className="text-2xl font-semibold mb-4 text-white">Change Username</h2>
+            <p className="text-base text-white mb-6">Current username: <span className="font-medium">{user.username}</span></p>
 
             {usernameMessage && (
-              <div className="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg">
+              <div className="mb-4 p-4 bg-transparent border border-green-200 text-white rounded-lg text-base">
                 {usernameMessage}
               </div>
             )}
             {usernameError && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+              <div className="mb-4 p-4 bg-red-50 border border-red-200 text-white rounded-lg text-base">
                 {usernameError}
               </div>
             )}
 
-            <form onSubmit={handleUsernameChange} className="space-y-4">
+            <form onSubmit={handleUsernameChange} className="space-y-5">
               <div>
-                <label htmlFor="newUsername" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="newUsername" className="block text-base font-medium text-white mb-2">
                   New Username
                 </label>
                 <input
                   type="text"
                   id="newUsername"
-                  className="auth-input"
+                  className="auth-input text-base"
                   value={newUsername}
                   onChange={(e) => setNewUsername(e.target.value)}
                   required
@@ -205,17 +209,17 @@ export default function SettingsPage() {
                   title="Username can only contain letters, numbers, and underscores"
                   disabled={usernameLoading}
                 />
-                <p className="mt-1 text-xs text-gray-500">3-50 characters, letters, numbers, and underscores only</p>
+                <p className="mt-2 text-sm text-white">3-50 characters, letters, numbers, and underscores only</p>
               </div>
 
               <div>
-                <label htmlFor="usernamePassword" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="usernamePassword" className="block text-base font-medium text-white mb-2">
                   Current Password
                 </label>
                 <input
                   type="password"
                   id="usernamePassword"
-                  className="auth-input"
+                  className="auth-input text-base"
                   value={usernamePassword}
                   onChange={(e) => setUsernamePassword(e.target.value)}
                   required
@@ -225,7 +229,7 @@ export default function SettingsPage() {
 
               <button
                 type="submit"
-                className="auth-btn"
+                className="auth-btn text-base px-6 py-3 rounded-lg"
                 disabled={usernameLoading}
               >
                 {usernameLoading ? 'Updating...' : 'Update Username'}
@@ -234,30 +238,30 @@ export default function SettingsPage() {
           </div>
 
           {/* Change Email Section */}
-          <div className="auth-card">
-            <h2 className="text-xl font-semibold mb-4">Change Email</h2>
-            <p className="text-sm text-gray-600 mb-4">Current email: <span className="font-medium">{user.email}</span></p>
+          <div className="auth-card w-full">
+            <h2 className="text-2xl font-semibold mb-4 text-white">Change Email</h2>
+            <p className="text-base text-white mb-6">Current email: <span className="font-medium">{user.email}</span></p>
 
             {emailMessage && (
-              <div className="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg">
+              <div className="mb-4 p-4 bg-transparent border border-green-200 text-white rounded-lg text-base">
                 {emailMessage}
               </div>
             )}
             {emailError && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+              <div className="mb-4 p-4 bg-red-50 border border-red-200 text-white rounded-lg text-base">
                 {emailError}
               </div>
             )}
 
-            <form onSubmit={handleEmailChange} className="space-y-4">
+            <form onSubmit={handleEmailChange} className="space-y-5">
               <div>
-                <label htmlFor="newEmail" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="newEmail" className="block text-base font-medium text-white mb-2">
                   New Email
                 </label>
                 <input
                   type="email"
                   id="newEmail"
-                  className="auth-input"
+                  className="auth-input text-base"
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value)}
                   required
@@ -266,13 +270,13 @@ export default function SettingsPage() {
               </div>
 
               <div>
-                <label htmlFor="emailPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="emailPassword" className="block text-base font-medium text-white mb-2">
                   Current Password
                 </label>
                 <input
                   type="password"
                   id="emailPassword"
-                  className="auth-input"
+                  className="auth-input text-base"
                   value={emailPassword}
                   onChange={(e) => setEmailPassword(e.target.value)}
                   required
@@ -282,7 +286,7 @@ export default function SettingsPage() {
 
               <button
                 type="submit"
-                className="auth-btn"
+                className="auth-btn text-base px-6 py-3 rounded-lg"
                 disabled={emailLoading}
               >
                 {emailLoading ? 'Updating...' : 'Update Email'}
@@ -291,72 +295,129 @@ export default function SettingsPage() {
           </div>
 
           {/* Change Password Section */}
-          <div className="auth-card">
-            <h2 className="text-xl font-semibold mb-4">Change Password</h2>
+          <div className="auth-card w-full">
+            <h2 className="text-2xl font-semibold mb-4 text-white">Change Password</h2>
 
             {passwordMessage && (
-              <div className="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg">
+              <div className="mb-4 p-3 bg-transparent border border-green-200 text-white rounded-lg text-base">
                 {passwordMessage}
               </div>
             )}
             {passwordError && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-white rounded-lg text-base">
                 {passwordError}
               </div>
             )}
 
-            <form onSubmit={handlePasswordChange} className="space-y-4">
+            <form onSubmit={handlePasswordChange} className="space-y-5">
               <div>
-                <label htmlFor="oldPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="oldPassword" className="block text-base font-medium text-white mb-2">
                   Current Password
                 </label>
-                <input
-                  type="password"
-                  id="oldPassword"
-                  className="auth-input"
-                  value={oldPassword}
-                  onChange={(e) => setOldPassword(e.target.value)}
-                  required
-                  disabled={passwordLoading}
-                />
+                <div className="relative">
+                  <input
+                    type={showOldPassword ? "text" : "password"}
+                    id="oldPassword"
+                    className="auth-input text-base w-full pr-12"
+                    value={oldPassword}
+                    onChange={(e) => setOldPassword(e.target.value)}
+                    required
+                    disabled={passwordLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowOldPassword(!showOldPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                    disabled={passwordLoading}
+                  >
+                    {showOldPassword ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                      </svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
               </div>
 
               <div>
-                <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="newPassword" className="block text-base font-medium text-white mb-2">
                   New Password
                 </label>
-                <input
-                  type="password"
-                  id="newPassword"
-                  className="auth-input"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  required
-                  minLength={8}
-                  disabled={passwordLoading}
-                />
-                <p className="mt-1 text-xs text-gray-500">Minimum 8 characters</p>
+                <div className="relative">
+                  <input
+                    type={showNewPassword ? "text" : "password"}
+                    id="newPassword"
+                    className="auth-input text-base w-full pr-12"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                    minLength={8}
+                    disabled={passwordLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPassword(!showNewPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                    disabled={passwordLoading}
+                  >
+                    {showNewPassword ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                      </svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+                <p className="mt-2 text-sm text-white">Minimum 8 characters</p>
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="confirmPassword" className="block text-base font-medium text-white mb-2">
                   Confirm New Password
                 </label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  className="auth-input"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  minLength={8}
-                  disabled={passwordLoading}
-                />
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    className="auth-input text-base w-full pr-12"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    minLength={8}
+                    disabled={passwordLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                    disabled={passwordLoading}
+                  >
+                    {showConfirmPassword ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                      </svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
               </div>
 
               <button
                 type="submit"
-                className="auth-btn"
+                className="auth-btn text-base px-6 py-3 rounded-lg"
                 disabled={passwordLoading}
               >
                 {passwordLoading ? 'Updating...' : 'Update Password'}
@@ -365,18 +426,19 @@ export default function SettingsPage() {
           </div>
 
           {/* Danger Zone - Delete Account */}
-          <div className="auth-card border-2 border-red-200">
-            <h2 className="text-xl font-semibold mb-2 text-red-600">Danger Zone</h2>
-            <p className="text-sm text-gray-600 mb-4">
+          <div className="auth-card border-2 border-red-200 w-full">
+            <h2 className="text-2xl font-semibold mb-3 text-white">Danger Zone</h2>
+            <p className="text-base text-white mb-6">
               Once you delete your account, there is no going back. This will permanently delete all your data including workouts, meal plans, and goals.
             </p>
 
             <button
               onClick={() => setShowDeleteModal(true)}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+              className="px-6 py-3 bg-red-600 text-white text-base rounded-lg hover:bg-red-700 transition-colors font-medium"
             >
               Delete Account
             </button>
+          </div>
           </div>
         </div>
       </div>
@@ -384,10 +446,10 @@ export default function SettingsPage() {
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-            <h3 className="text-xl font-bold mb-4 text-red-600">Delete Account</h3>
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-8">
+            <h3 className="text-2xl font-bold mb-4 text-red-600">Delete Account</h3>
 
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+            <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-base">
               <p className="font-semibold mb-2">⚠️ This action cannot be undone!</p>
               <p>All your data will be permanently deleted, including:</p>
               <ul className="list-disc list-inside mt-2 space-y-1">
@@ -399,20 +461,20 @@ export default function SettingsPage() {
             </div>
 
             {deleteError && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+              <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-base">
                 {deleteError}
               </div>
             )}
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               <div>
-                <label htmlFor="deletePassword" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="deletePassword" className="block text-base font-medium text-gray-700 mb-2">
                   Enter your password to confirm
                 </label>
                 <input
                   type="password"
                   id="deletePassword"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full px-4 py-3 text-base text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                   value={deletePassword}
                   onChange={(e) => setDeletePassword(e.target.value)}
                   required
@@ -421,13 +483,13 @@ export default function SettingsPage() {
               </div>
 
               <div>
-                <label htmlFor="deleteConfirm" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="deleteConfirm" className="block text-base font-medium text-gray-700 mb-2">
                   Type <span className="font-bold">DELETE</span> to confirm
                 </label>
                 <input
                   type="text"
                   id="deleteConfirm"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full px-4 py-3 text-base text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                   value={deleteConfirm}
                   onChange={(e) => setDeleteConfirm(e.target.value)}
                   required
@@ -444,14 +506,14 @@ export default function SettingsPage() {
                     setDeleteConfirm('');
                     setDeleteError('');
                   }}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                  className="flex-1 px-5 py-3 text-base border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
                   disabled={deleteLoading}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleDeleteAccount}
-                  className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-5 py-3 text-base bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={deleteLoading || deleteConfirm !== 'DELETE' || !deletePassword}
                 >
                   {deleteLoading ? 'Deleting...' : 'Delete Forever'}
