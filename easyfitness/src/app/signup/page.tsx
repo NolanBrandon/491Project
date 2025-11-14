@@ -120,25 +120,49 @@ export default function SignUpPage() {
                 className="auth-input w-full px-3 py-2 rounded-md text-sm"
               />
 
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={8}
-                className="auth-input w-full px-3 py-2 rounded-md text-sm"
-              />
-              
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                value={passwordConfirm}
-                onChange={(e) => setPasswordConfirm(e.target.value)}
-                required
-                minLength={8}
-                className="auth-input w-full px-3 py-2 rounded-md text-sm"
-              />
+              <div className="relative">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={8}
+                  className="auth-input w-full px-3 py-2 pr-10 rounded-md text-sm"
+                />
+                {password.length > 0 && (
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-lg flex items-center justify-center">
+                    {password.length >= 8 ? (
+                      <span className="text-green-600">✓</span>
+                    ) : (
+                      <span className="text-red-600">✗</span>
+                    )}
+                  </span>
+                )}
+                <p className="mt-1 text-xs text-gray-500">Minimum 8 characters</p>
+              </div>
+
+              <div className="relative">
+                <input
+                  type="password"
+                  placeholder="Confirm Password"
+                  value={passwordConfirm}
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
+                  required
+                  minLength={8}
+                  className="auth-input w-full px-3 py-2 pr-10 rounded-md text-sm"
+                />
+                {passwordConfirm.length > 0 && (
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-lg flex items-center justify-center">
+                    {password === passwordConfirm && password.length >= 8 ? (
+                      <span className="text-green-600">✓</span>
+                    ) : (
+                      <span className="text-red-600">✗</span>
+                    )}
+                  </span>
+                )}
+                <p className="mt-1 text-xs text-gray-500">Passwords must match</p>
+              </div>
               
               <select
                 value={gender}
@@ -151,13 +175,20 @@ export default function SignUpPage() {
                 <option value="other">Other</option>
               </select>
               
-              <input
-                type="date"
-                placeholder="Date of Birth"
-                value={dateOfBirth}
-                onChange={(e) => setDateOfBirth(e.target.value)}
-                className="auth-input w-full px-3 py-2 rounded-md text-sm"
-              />
+              <div>
+                <label htmlFor="dateOfBirth" className="block text-sm font-medium mb-1">
+                  Date of Birth (Optional)
+                </label>
+                <input
+                  id="dateOfBirth"
+                  type="date"
+                  placeholder="Date of Birth"
+                  value={dateOfBirth}
+                  onChange={(e) => setDateOfBirth(e.target.value)}
+                  className="auth-input w-full px-3 py-2 rounded-md text-sm"
+                />
+                <p className="mt-1 text-xs text-gray-500">Enter your birthdate</p>
+              </div>
             </div>
 
             {message && (
