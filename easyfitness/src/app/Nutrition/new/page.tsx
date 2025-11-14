@@ -3,17 +3,18 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { createNutritionLog, CreateNutritionLogData } from "@/lib/nutritionApi";
-
+import { createNutritionLog, CreateNutritionLogData } from '@/lib/nutritionApi';
 
 export default function NewNutritionLogPage() {
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   const [foodName, setFoodName] = useState('');
   const [mealType, setMealType] = useState('');
   const [calories, setCalories] = useState('');
+  const [protein, setProtein] = useState('');
   const [dateEaten, setDateEaten] = useState('');
+  const [timeEaten, setTimeEaten] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -29,16 +30,39 @@ export default function NewNutritionLogPage() {
     setLoading(true);
 
     try {
+      // Combine date + time and convert to ISO string in local time
+      let dateTimeEaten: string;
+      if (dateEaten) {
+        const [year, month, day] = dateEaten.split('-').map(Number);
+        const [hour = 12, minute = 0] = timeEaten.split(':').map(Number);
+        const localDate = new Date(year, month - 1, day, hour, minute);
+        dateTimeEaten = localDate.toISOString(); // send exact local time
+      } else {
+        dateTimeEaten = new Date().toISOString();
+      }
+
       const newLog: CreateNutritionLogData = {
         food_name: foodName,
         meal_type: mealType,
         calories: calories ? parseFloat(calories) : undefined,
-        date_eaten: dateEaten || new Date().toISOString(),
-        quantity: 0
+        protein: protein ? parseFloat(protein) : undefined,
+        date_eaten: dateTimeEaten,
+        quantity: 0,
+        user: user?.id, // Include the user ID
       };
 
       await createNutritionLog(newLog);
-      router.push('/dashboard'); // redirect back to dashboard
+
+      // Reset form
+      setFoodName('');
+      setMealType('');
+      setCalories('');
+      setProtein('');
+      setDateEaten('');
+      setTimeEaten('');
+
+      // Redirect to dashboard
+      router.push('/dashboard');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create nutrition log');
       console.error('Create nutrition log error:', err);
@@ -101,16 +125,45 @@ export default function NewNutritionLogPage() {
           </div>
 
           <div>
-            <label htmlFor="dateEaten" className="block text-sm font-medium text-gray-700 mb-1">
-              Date Eaten
+            <label htmlFor="protein" className="block text-sm font-medium text-gray-700 mb-1">
+              Protein (g)
             </label>
             <input
-              id="dateEaten"
-              type="date"
-              value={dateEaten}
-              onChange={e => setDateEaten(e.target.value)}
+              id="protein"
+              type="number"
+              step="1"
+              placeholder="e.g., 25"
+              value={protein}
+              onChange={e => setProtein(e.target.value)}
               className="w-full border border-gray-300 p-3 rounded text-gray-900 placeholder-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-green-600"
             />
+          </div>
+
+          <div className="flex space-x-4">
+            <div className="flex-1">
+              <label htmlFor="dateEaten" className="block text-sm font-medium text-gray-700 mb-1">
+                Date Eaten
+              </label>
+              <input
+                id="dateEaten"
+                type="date"
+                value={dateEaten}
+                onChange={e => setDateEaten(e.target.value)}
+                className="w-full border border-gray-300 p-3 rounded text-gray-900 placeholder-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-green-600"
+              />
+            </div>
+            <div className="flex-1">
+              <label htmlFor="timeEaten" className="block text-sm font-medium text-gray-700 mb-1">
+                Time Eaten
+              </label>
+              <input
+                id="timeEaten"
+                type="time"
+                value={timeEaten}
+                onChange={e => setTimeEaten(e.target.value)}
+                className="w-full border border-gray-300 p-3 rounded text-gray-900 placeholder-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-green-600"
+              />
+            </div>
           </div>
 
           {error && <p className="text-red-600 font-medium">{error}</p>}
