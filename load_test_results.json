@@ -1,0 +1,1819 @@
+{
+  "summary": {
+    "total_duration": 0.10434818267822266,
+    "total_requests": 180,
+    "successful_requests": 40,
+    "failed_requests": 140,
+    "requests_per_second": 1724.9941051207766,
+    "concurrent_users": 20,
+    "timestamp": "2025-11-14T15:55:12.713945"
+  },
+  "statistics": {
+    "average_response_time_ms": 16.27872586250305,
+    "median_response_time_ms": 12.277603149414062,
+    "min_response_time_ms": 2.4111270904541016,
+    "max_response_time_ms": 54.89301681518555
+  },
+  "detailed_results": [
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 13.270139694213867,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.623783",
+      "user_id": 14
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 4.251241683959961,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.628046",
+      "user_id": 14
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 8.013010025024414,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.636070",
+      "user_id": 14
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 4.375934600830078,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.640457",
+      "user_id": 14
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 12.466907501220703,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.652930",
+      "user_id": 14
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 7.699012756347656,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.660634",
+      "user_id": 14
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 11.214017868041992,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.671854",
+      "user_id": 14
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 12.96091079711914,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.684822",
+      "user_id": 14
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 7.836818695068359,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.692664",
+      "user_id": 14
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 18.613100051879883,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.628535",
+      "user_id": 10
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 2.98309326171875,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.631525",
+      "user_id": 10
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 7.72404670715332,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.639254",
+      "user_id": 10
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 8.49604606628418,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.647758",
+      "user_id": 10
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 7.16090202331543,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.654927",
+      "user_id": 10
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 10.221004486083984,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.665155",
+      "user_id": 10
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 7.934093475341797,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.673095",
+      "user_id": 10
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 9.227991104125977,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.682328",
+      "user_id": 10
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 10.779142379760742,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.693112",
+      "user_id": 10
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 19.945859909057617,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.628960",
+      "user_id": 0
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 8.711814880371094,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.637677",
+      "user_id": 0
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 4.203081130981445,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.641886",
+      "user_id": 0
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 8.463859558105469,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.650358",
+      "user_id": 0
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 8.10694694519043,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.658473",
+      "user_id": 0
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 12.460708618164062,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.670940",
+      "user_id": 0
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 8.135795593261719,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.679083",
+      "user_id": 0
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 6.655216217041016,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.685744",
+      "user_id": 0
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 9.325027465820312,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.695075",
+      "user_id": 0
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 15.556812286376953,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.626251",
+      "user_id": 15
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 2.4111270904541016,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.628670",
+      "user_id": 15
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 14.162778854370117,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.642840",
+      "user_id": 15
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 9.824991226196289,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.652671",
+      "user_id": 15
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 7.50279426574707,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.660180",
+      "user_id": 15
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 9.975194931030273,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.670162",
+      "user_id": 15
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 9.635686874389648,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.679804",
+      "user_id": 15
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 6.541013717651367,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.686351",
+      "user_id": 15
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 9.669780731201172,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.696027",
+      "user_id": 15
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 22.34792709350586,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.632575",
+      "user_id": 13
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 2.568960189819336,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.635150",
+      "user_id": 13
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 7.1868896484375,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.642343",
+      "user_id": 13
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 9.244918823242188,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.651596",
+      "user_id": 13
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 3.8199424743652344,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.655423",
+      "user_id": 13
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 12.460708618164062,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.667889",
+      "user_id": 13
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 7.168054580688477,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.675064",
+      "user_id": 13
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 11.693954467773438,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.686764",
+      "user_id": 13
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 9.58704948425293,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.696356",
+      "user_id": 13
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 18.661022186279297,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.628366",
+      "user_id": 7
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 9.081125259399414,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.637455",
+      "user_id": 7
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 6.924152374267578,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.644386",
+      "user_id": 7
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 6.281137466430664,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.650672",
+      "user_id": 7
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 6.18290901184082,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.656864",
+      "user_id": 7
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 11.658191680908203,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.668526",
+      "user_id": 7
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 8.22305679321289,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.676754",
+      "user_id": 7
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 7.009029388427734,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.683769",
+      "user_id": 7
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 12.803077697753906,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.696578",
+      "user_id": 7
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 18.56207847595215,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.629561",
+      "user_id": 17
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 7.598161697387695,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.637165",
+      "user_id": 17
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 15.994071960449219,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.653167",
+      "user_id": 17
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 4.8980712890625,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.658070",
+      "user_id": 17
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 8.00013542175293,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.666077",
+      "user_id": 17
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 7.38215446472168,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.673467",
+      "user_id": 17
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 5.885839462280273,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.679360",
+      "user_id": 17
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 10.228872299194336,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.689595",
+      "user_id": 17
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 8.028030395507812,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.697629",
+      "user_id": 17
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 19.044160842895508,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.628492",
+      "user_id": 4
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 9.331941604614258,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.637832",
+      "user_id": 4
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 5.931854248046875,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.643771",
+      "user_id": 4
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 11.393070220947266,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.655169",
+      "user_id": 4
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 11.271953582763672,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.666449",
+      "user_id": 4
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 9.362936019897461,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.675819",
+      "user_id": 4
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 7.070064544677734,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.682896",
+      "user_id": 4
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 12.90583610534668,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.695809",
+      "user_id": 4
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 6.134748458862305,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.701949",
+      "user_id": 4
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 21.95882797241211,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.631282",
+      "user_id": 3
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 11.285066604614258,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.642574",
+      "user_id": 3
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 11.778116226196289,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.654356",
+      "user_id": 3
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 11.439800262451172,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.665803",
+      "user_id": 3
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 8.46409797668457,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.674272",
+      "user_id": 3
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 7.50422477722168,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.681783",
+      "user_id": 3
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 6.774187088012695,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.688561",
+      "user_id": 3
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 9.573936462402344,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.698140",
+      "user_id": 3
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 4.5070648193359375,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.702653",
+      "user_id": 3
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 19.207000732421875,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.630342",
+      "user_id": 18
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 10.430097579956055,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.640778",
+      "user_id": 18
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 12.722253799438477,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.653507",
+      "user_id": 18
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 10.128974914550781,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.663643",
+      "user_id": 18
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 9.038209915161133,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.672688",
+      "user_id": 18
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 6.040096282958984,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.678735",
+      "user_id": 18
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 11.537790298461914,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.690279",
+      "user_id": 18
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 8.732080459594727,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.699017",
+      "user_id": 18
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 3.9849281311035156,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.703008",
+      "user_id": 18
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 24.119138717651367,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.634121",
+      "user_id": 12
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 5.904674530029297,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.640031",
+      "user_id": 12
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 6.907939910888672,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.646945",
+      "user_id": 12
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 10.32400131225586,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.657276",
+      "user_id": 12
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 11.840105056762695,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.669123",
+      "user_id": 12
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 8.517026901245117,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.677646",
+      "user_id": 12
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 10.202169418334961,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.687853",
+      "user_id": 12
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 9.914159774780273,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.697775",
+      "user_id": 12
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 5.55109977722168,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.703331",
+      "user_id": 12
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 20.339012145996094,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.629899",
+      "user_id": 6
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 9.866952896118164,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.639772",
+      "user_id": 6
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 14.344930648803711,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.654123",
+      "user_id": 6
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 6.76417350769043,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.660894",
+      "user_id": 6
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 10.318756103515625,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.671220",
+      "user_id": 6
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 9.192943572998047,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.680420",
+      "user_id": 6
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 15.017986297607422,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.695444",
+      "user_id": 6
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 4.931926727294922,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.700381",
+      "user_id": 6
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 4.038810729980469,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.704424",
+      "user_id": 6
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 21.47388458251953,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.630581",
+      "user_id": 1
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 7.55000114440918,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.638136",
+      "user_id": 1
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 4.920005798339844,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.643064",
+      "user_id": 1
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 12.60995864868164,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.655680",
+      "user_id": 1
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 13.219833374023438,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.668905",
+      "user_id": 1
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 12.349843978881836,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.681261",
+      "user_id": 1
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 10.45083999633789,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.691718",
+      "user_id": 1
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 8.302927017211914,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.700028",
+      "user_id": 1
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 6.143093109130859,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.706176",
+      "user_id": 1
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 18.358945846557617,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.629206",
+      "user_id": 16
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 9.458303451538086,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.638671",
+      "user_id": 16
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 17.961978912353516,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.656641",
+      "user_id": 16
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 14.005899429321289,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.670651",
+      "user_id": 16
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 7.5531005859375,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.678211",
+      "user_id": 16
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 8.350849151611328,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.686567",
+      "user_id": 16
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 10.788917541503906,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.697362",
+      "user_id": 16
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 7.163047790527344,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.704531",
+      "user_id": 16
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 1.981973648071289,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.706518",
+      "user_id": 16
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 29.1750431060791,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.639045",
+      "user_id": 9
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 7.050037384033203,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.646102",
+      "user_id": 9
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 8.565902709960938,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.654674",
+      "user_id": 9
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 16.817808151245117,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.671497",
+      "user_id": 9
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 5.760908126831055,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.677263",
+      "user_id": 9
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 11.748075485229492,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.689016",
+      "user_id": 9
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 8.109092712402344,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.697130",
+      "user_id": 9
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 5.636930465698242,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.702774",
+      "user_id": 9
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 3.898143768310547,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.706678",
+      "user_id": 9
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 26.916027069091797,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.636879",
+      "user_id": 11
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 6.619691848754883,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.643507",
+      "user_id": 11
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 10.34998893737793,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.653863",
+      "user_id": 11
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 13.460874557495117,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.667331",
+      "user_id": 11
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 9.26518440246582,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.676603",
+      "user_id": 11
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 13.230085372924805,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.689839",
+      "user_id": 11
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 8.953094482421875,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.698797",
+      "user_id": 11
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 7.085084915161133,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.705888",
+      "user_id": 11
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 2.8150081634521484,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.708709",
+      "user_id": 11
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 54.89301681518555,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.664383",
+      "user_id": 5
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 2.5572776794433594,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.666947",
+      "user_id": 5
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 8.6669921875,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.675621",
+      "user_id": 5
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 8.733034133911133,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.684362",
+      "user_id": 5
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 8.556127548217773,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.692926",
+      "user_id": 5
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 7.83085823059082,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.700762",
+      "user_id": 5
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 3.3049583435058594,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.704073",
+      "user_id": 5
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 2.892017364501953,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.706970",
+      "user_id": 5
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 2.9609203338623047,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.709937",
+      "user_id": 5
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 51.60117149353027,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.661400",
+      "user_id": 8
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 3.2262802124023438,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.664631",
+      "user_id": 8
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 7.460117340087891,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.672098",
+      "user_id": 8
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 9.956121444702148,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.682059",
+      "user_id": 8
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 9.115219116210938,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.691179",
+      "user_id": 8
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 7.994890213012695,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.699180",
+      "user_id": 8
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 6.373167037963867,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.705558",
+      "user_id": 8
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 4.211902618408203,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.709778",
+      "user_id": 8
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 1.8448829650878906,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.711627",
+      "user_id": 8
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 30.310869216918945,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.639530",
+      "user_id": 2
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 7.516384124755859,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.647055",
+      "user_id": 2
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 12.69984245300293,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.659762",
+      "user_id": 2
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 13.984918594360352,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.673754",
+      "user_id": 2
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 10.221004486083984,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.683982",
+      "user_id": 2
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 15.410900115966797,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.699401",
+      "user_id": 2
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 7.854700088500977,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.707261",
+      "user_id": 2
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 2.834796905517578,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.710102",
+      "user_id": 2
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 1.6639232635498047,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.711771",
+      "user_id": 2
+    },
+    {
+      "endpoint": "/health/",
+      "method": "GET",
+      "description": "Health check",
+      "status_code": 200,
+      "response_time_ms": 53.99274826049805,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.665453",
+      "user_id": 19
+    },
+    {
+      "endpoint": "/info/",
+      "method": "GET",
+      "description": "API info",
+      "status_code": 200,
+      "response_time_ms": 4.400014877319336,
+      "success": true,
+      "timestamp": "2025-11-14T15:55:12.669859",
+      "user_id": 19
+    },
+    {
+      "endpoint": "/users/",
+      "method": "GET",
+      "description": "List users",
+      "status_code": 401,
+      "response_time_ms": 10.822772979736328,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.680689",
+      "user_id": 19
+    },
+    {
+      "endpoint": "/user-metrics/",
+      "method": "GET",
+      "description": "List user metrics",
+      "status_code": 401,
+      "response_time_ms": 8.090972900390625,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.688786",
+      "user_id": 19
+    },
+    {
+      "endpoint": "/goals/",
+      "method": "GET",
+      "description": "List goals",
+      "status_code": 401,
+      "response_time_ms": 7.899045944213867,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.696691",
+      "user_id": 19
+    },
+    {
+      "endpoint": "/nutrition-logs/",
+      "method": "GET",
+      "description": "List nutrition logs",
+      "status_code": 401,
+      "response_time_ms": 8.675813674926758,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.705373",
+      "user_id": 19
+    },
+    {
+      "endpoint": "/workout-plans/",
+      "method": "GET",
+      "description": "List workout plans",
+      "status_code": 401,
+      "response_time_ms": 4.165887832641602,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.709546",
+      "user_id": 19
+    },
+    {
+      "endpoint": "/workout-logs/",
+      "method": "GET",
+      "description": "List workout logs",
+      "status_code": 401,
+      "response_time_ms": 2.3288726806640625,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.711880",
+      "user_id": 19
+    },
+    {
+      "endpoint": "/meal-plans/",
+      "method": "GET",
+      "description": "List meal plans",
+      "status_code": 401,
+      "response_time_ms": 0.9410381317138672,
+      "success": false,
+      "timestamp": "2025-11-14T15:55:12.712826",
+      "user_id": 19
+    }
+  ]
+}
