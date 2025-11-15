@@ -1,21 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { createNutritionLog, CreateNutritionLogData } from "@/lib/nutritionApi";
+import {
+  getNutritionLogs,
+  deleteNutritionLog,
+  NutritionLog,
+} from '@/lib/nutritionApi';
 
-
-export default function NewNutritionLogPage() {
+export default function NutritionPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
 
-  const [foodName, setFoodName] = useState('');
-  const [mealType, setMealType] = useState('');
-  const [calories, setCalories] = useState('');
-  const [dateEaten, setDateEaten] = useState('');
+  const [logs, setLogs] = useState<NutritionLog[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
   // Redirect if not authenticated
   if (!isAuthenticated) {
@@ -23,108 +23,72 @@ export default function NewNutritionLogPage() {
     return null;
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
+  // Fetch logs
+  const fetchLogs = async () => {
     setLoading(true);
-
+    setError(null);
     try {
-      const newLog: CreateNutritionLogData = {
-        food_name: foodName,
-        meal_type: mealType,
-        calories: calories ? parseFloat(calories) : undefined,
-        date_eaten: dateEaten || new Date().toISOString(),
-        quantity: 0
-      };
-
-      await createNutritionLog(newLog);
-      router.push('/dashboard'); // redirect back to dashboard
+      const data = await getNutritionLogs();
+      setLogs(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create nutrition log');
-      console.error('Create nutrition log error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to fetch nutrition logs');
+      console.error('Fetch logs error:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLogs();
+  }, []);
+
+  // Delete log
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteNutritionLog(id);
+      // Refresh list after deletion
+      setLogs(prev => prev.filter(log => log.id !== id));
+    } catch (err) {
+      console.error('Delete log error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to delete log');
     }
   };
 
   return (
     <div className="page-container blur-bg min-h-screen flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-4 text-gray-900">Add Nutrition Log</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="foodName" className="block text-sm font-medium text-gray-700 mb-1">
-              Food Name *
-            </label>
-            <input
-              id="foodName"
-              type="text"
-              placeholder="e.g., Chicken Salad"
-              value={foodName}
-              onChange={e => setFoodName(e.target.value)}
-              required
-              className="w-full border border-gray-300 p-3 rounded text-gray-900 placeholder-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-green-600"
-            />
-          </div>
+        <h2 className="text-2xl font-bold mb-4 text-gray-900">Nutrition Logs</h2>
 
-          <div>
-            <label htmlFor="mealType" className="block text-sm font-medium text-gray-700 mb-1">
-              Meal Type
-            </label>
-            <select
-              id="mealType"
-              value={mealType}
-              onChange={e => setMealType(e.target.value)}
-              className="w-full border border-gray-300 p-3 rounded text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-green-600"
-            >
-              <option value="">Select meal type</option>
-              <option value="breakfast">Breakfast</option>
-              <option value="lunch">Lunch</option>
-              <option value="dinner">Dinner</option>
-              <option value="snack">Snack</option>
-            </select>
-          </div>
+        {error && <p className="text-red-600 font-medium mb-4">{error}</p>}
 
-          <div>
-            <label htmlFor="calories" className="block text-sm font-medium text-gray-700 mb-1">
-              Calories
-            </label>
-            <input
-              id="calories"
-              type="number"
-              step="1"
-              placeholder="e.g., 350"
-              value={calories}
-              onChange={e => setCalories(e.target.value)}
-              className="w-full border border-gray-300 p-3 rounded text-gray-900 placeholder-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-green-600"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="dateEaten" className="block text-sm font-medium text-gray-700 mb-1">
-              Date Eaten
-            </label>
-            <input
-              id="dateEaten"
-              type="date"
-              value={dateEaten}
-              onChange={e => setDateEaten(e.target.value)}
-              className="w-full border border-gray-300 p-3 rounded text-gray-900 placeholder-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-green-600"
-            />
-          </div>
-
-          {error && <p className="text-red-600 font-medium">{error}</p>}
-
-          <button
-            type="submit"
-            className={`w-full py-3 rounded text-white font-semibold text-base ${
-              loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'
-            }`}
-            disabled={loading}
-          >
-            {loading ? 'Adding…' : 'Add Log'}
-          </button>
-        </form>
+        {loading ? (
+          <p>Loading...</p>
+        ) : logs.length === 0 ? (
+          <p>No nutrition logs found.</p>
+        ) : (
+          <ul className="space-y-4">
+            {logs.map(log => (
+              <li
+                key={log.id}
+                className="border border-gray-300 p-3 rounded flex justify-between items-center"
+              >
+                <div>
+                  <p className="font-semibold">{log.food_name}</p>
+                  <p className="text-sm text-gray-600">{log.meal_type}</p>
+                  <p className="text-sm text-gray-600">
+                    {log.calories ?? 0} calories | {log.protein ?? 0} g protein
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleDelete(log.id)}
+                  className="text-red-600 font-medium hover:underline"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
