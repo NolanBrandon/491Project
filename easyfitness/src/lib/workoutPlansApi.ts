@@ -149,3 +149,66 @@ export async function deleteWorkout(workoutId: string): Promise<void> {
     throw error;
   }
 }
+
+/**
+ * Recent Workout History interfaces
+ */
+export interface RecentWorkoutExercise {
+  exercise_name: string;
+  sets_performed: number;
+  reps_performed: number;
+  duration_minutes?: number;
+  calories_burned?: number;
+  perceived_effort?: number;
+}
+
+export interface RecentWorkout {
+  date: string;
+  timestamp: string;
+  exercise_count: number;
+  total_exercises: number;
+  exercises: RecentWorkoutExercise[];
+}
+
+export interface RecentWorkoutsResponse {
+  success: boolean;
+  recent_workouts: RecentWorkout[];
+  count: number;
+}
+
+/**
+ * Get recent workout sessions grouped by date
+ */
+export async function getRecentWorkouts(limit: number = 10, days: number = 30): Promise<RecentWorkoutsResponse> {
+  try {
+    const url = `${API_BASE_URL}/workout-logs/recent-workouts/?limit=${limit}&days=${days}`;
+    
+    const response = await fetch(url, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('API Error Response:', errorText);
+      throw new Error(`Failed to fetch recent workouts: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    // Handle paginated response if needed
+    if (data.results) {
+      return {
+        success: true,
+        recent_workouts: data.results.recent_workouts || data.results,
+        count: data.results.count || data.count || 0,
+      };
+    }
+    
+    return data;
+  } catch (error) {
+    console.error('Error fetching recent workouts:', error);
+    throw error;
+  }
+}
