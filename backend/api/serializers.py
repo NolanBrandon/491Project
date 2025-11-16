@@ -6,6 +6,7 @@ from .models import (
     UserMetrics,
     Goal,
     WorkoutPlan,
+    WorkoutPlanCompletionLog,
     WorkoutLog,
     NutritionLog,
     MealPlan,
@@ -240,6 +241,14 @@ class WorkoutPlanSerializer(serializers.ModelSerializer):
 class WorkoutLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkoutLog
+        fields = '__all__'
+
+class WorkoutPlanCompletionLogSerializer(serializers.ModelSerializer):
+    user_username = serializers.CharField(source='user.username', read_only=True)
+    workout_plan_name = serializers.CharField(source='workout_plan.name', read_only=True)
+    
+    class Meta:
+        model = WorkoutPlanCompletionLog
         fields = '__all__'
 
 

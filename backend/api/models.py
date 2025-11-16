@@ -79,6 +79,8 @@ class WorkoutPlan(models.Model):
     name = models.CharField(max_length=255, default='')
     description = models.TextField(null=True, blank=True)
     workout_plan_data = models.JSONField(default=dict, blank=True)
+    is_completed = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
     class Meta:
@@ -86,6 +88,23 @@ class WorkoutPlan(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class WorkoutPlanCompletionLog(models.Model):
+    """Logs completion events for workout plans to track history"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    workout_plan = models.ForeignKey(WorkoutPlan, on_delete=models.CASCADE, related_name='completion_logs')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    action = models.CharField(max_length=20, choices=[('completed', 'Completed'), ('incomplete', 'Marked Incomplete')])
+    logged_at = models.DateTimeField(auto_now_add=True)
+    notes = models.TextField(null=True, blank=True, help_text="Optional notes about the completion")
+    
+    class Meta:
+        db_table = 'workout_plan_completion_logs'
+        ordering = ['-logged_at']
+    
+    def __str__(self):
+        return f"{self.workout_plan.name} - {self.action} on {self.logged_at.date()}"
 
 
 class WorkoutLog(models.Model):
