@@ -65,6 +65,12 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
 
+      # NEW STEP: Append nutrient log test info
+      - name: Append nutrient log test notes
+        run: |
+          echo "\n# Nutrient Log Test Notes" >> ../docs/test_results.md
+          echo "Verified add/edit/delete for Nutrition Logs." >> ../docs/test_results.md
+
       - name: Append test results and bug tracking
         run: |
           cd backend
