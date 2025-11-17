@@ -9,8 +9,7 @@ NC='\033[0m' # No Color
 echo -e "${BLUE}Starting EasyFitness servers...${NC}"
 
 # Navigate to backend directory
-cd /Users/ivanflores/capstone/backend
-
+cd /Users/brennenmeregillano/Documents/GitHub/491Project/backend
 # Start Django backend
 echo -e "${GREEN}Starting Django backend...${NC}"
 source easyfitness_env/bin/activate
@@ -19,7 +18,7 @@ BACKEND_PID=$!
 echo "Backend running on http://localhost:8000 (PID: $BACKEND_PID)"
 
 # Navigate to frontend directory
-cd /Users/ivanflores/capstone/easyfitness
+cd /Users/brennenmeregillano/Documents/GitHub/491Project/easyfitness
 
 # Start Next.js frontend
 echo -e "${GREEN}Starting Next.js frontend...${NC}"
