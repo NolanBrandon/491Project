@@ -592,6 +592,92 @@ class WorkoutPlanViewSet(viewsets.ModelViewSet):
                 {"error": "Failed to fetch completion logs", "details": str(e)}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+    
+    @action(detail=True, methods=['post'])
+    def set_active(self, request, pk=None):
+        """Set a workout plan as active. Deactivates all other plans for the user."""
+        try:
+            workout_plan = self.get_object()
+            user_id = request.session.get('user_id')
+            user = User.objects.get(id=user_id)
+            
+            # Deactivate all other plans for this user
+            WorkoutPlan.objects.filter(user=user, is_active=True).update(is_active=False)
+            
+            # Activate this plan
+            workout_plan.is_active = True
+            workout_plan.save()
+            
+            logger.info(f"Workout plan '{workout_plan.name}' (ID: {workout_plan.id}) set as active by user {user.username} (ID: {user_id})")
+            
+            serializer = self.get_serializer(workout_plan)
+            return Response({
+                'success': True,
+                'message': 'Workout plan set as active',
+                'workout_plan': serializer.data
+            }, status=status.HTTP_200_OK)
+        except WorkoutPlan.DoesNotExist:
+            return Response(
+                {"error": "Workout plan not found"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            logger.error(f"Error setting workout plan as active: {e}")
+            return Response(
+                {"error": "Failed to set workout plan as active", "details": str(e)}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
+    @action(detail=True, methods=['post'])
+    def mark_exercise_complete(self, request, pk=None):
+        """Mark a specific exercise in a workout plan as complete."""
+        try:
+            workout_plan = self.get_object()
+            day_number = request.data.get('day_number')
+            exercise_index = request.data.get('exercise_index')
+            completed = request.data.get('completed', True)
+            
+            if day_number is None or exercise_index is None:
+                return Response(
+                    {"error": "day_number and exercise_index are required"}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            from django.utils import timezone
+            
+            # Initialize completion tracking if it doesn't exist
+            if 'exercise_completions' not in workout_plan.workout_plan_data:
+                workout_plan.workout_plan_data['exercise_completions'] = {}
+            
+            day_key = f"day_{day_number}"
+            if day_key not in workout_plan.workout_plan_data['exercise_completions']:
+                workout_plan.workout_plan_data['exercise_completions'][day_key] = {}
+            
+            exercise_key = f"exercise_{exercise_index}"
+            workout_plan.workout_plan_data['exercise_completions'][day_key][exercise_key] = {
+                'completed': completed,
+                'completed_at': timezone.now().isoformat() if completed else None
+            }
+            
+            workout_plan.save()
+            
+            serializer = self.get_serializer(workout_plan)
+            return Response({
+                'success': True,
+                'message': f'Exercise marked as {"complete" if completed else "incomplete"}',
+                'workout_plan': serializer.data
+            }, status=status.HTTP_200_OK)
+        except WorkoutPlan.DoesNotExist:
+            return Response(
+                {"error": "Workout plan not found"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            logger.error(f"Error marking exercise as complete: {e}")
+            return Response(
+                {"error": "Failed to mark exercise as complete", "details": str(e)}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class WorkoutLogViewSet(viewsets.ModelViewSet):
