@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { getGoals, Goal } from '@/lib/goalsApi';
-import { generateWorkoutPlan, getSavedWorkoutPlans, WorkoutPlan, getWorkoutPlanCompletionLogs, CompletionLog, setWorkoutPlanActive, markExerciseComplete, getWorkoutPlanDetail } from '@/lib/aiWorkoutPlanApi';
+import { generateWorkoutPlan, getSavedWorkoutPlans, WorkoutPlan } from '@/lib/aiWorkoutPlanApi';
+import { getRecentWorkouts, RecentWorkoutExercise } from '@/lib/workoutPlansApi';
+import RecentWorkoutsModal from '@/components/workouts/RecentWorkoutsModal';
 import Navbar from '@/app/components/navbar';
 
 export default function WorkoutPlanGeneratorPage() {
@@ -21,11 +23,10 @@ export default function WorkoutPlanGeneratorPage() {
   const [loading, setLoading] = useState(false);
   const [loadingGoals, setLoadingGoals] = useState(true);
   const [loadingPlans, setLoadingPlans] = useState(true);
-  const [completionLogs, setCompletionLogs] = useState<CompletionLog[]>([]);
-  const [loadingProgress, setLoadingProgress] = useState(true);
-  const [activePlanDetail, setActivePlanDetail] = useState<WorkoutPlan | null>(null);
-  const [loadingActivePlan, setLoadingActivePlan] = useState(false);
-  const [currentDayIndex, setCurrentDayIndex] = useState(0);
+  
+  // Recent workouts state
+  const [selectedExercises, setSelectedExercises] = useState<RecentWorkoutExercise[]>([]);
+  const [showRecentWorkoutsModal, setShowRecentWorkoutsModal] = useState(false);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -75,69 +76,22 @@ export default function WorkoutPlanGeneratorPage() {
     fetchSavedPlans();
   }, [isAuthenticated]);
 
-  // Fetch completion logs for progress tracking
-  useEffect(() => {
-    if (!isAuthenticated || savedPlans.length === 0) {
-      if (savedPlans.length === 0 && !loadingPlans) {
-        setLoadingProgress(false);
-      }
-      return;
-    }
+  const handleAddExercisesFromRecent = (exercises: RecentWorkoutExercise[]) => {
+    // Add exercises to selected exercises, avoiding duplicates
+    setSelectedExercises(prev => {
+      const existingNames = prev.map(ex => ex.exercise_name.toLowerCase());
+      const newExercises = exercises.filter(
+        ex => !existingNames.includes(ex.exercise_name.toLowerCase())
+      );
+      return [...prev, ...newExercises];
+    });
+  };
 
-    const fetchAllCompletionLogs = async () => {
-      try {
-        setLoadingProgress(true);
-        const allLogs: CompletionLog[] = [];
-        
-        // Fetch completion logs for each plan
-        for (const plan of savedPlans) {
-          try {
-            const logs = await getWorkoutPlanCompletionLogs(plan.id);
-            allLogs.push(...logs);
-          } catch (err) {
-            console.error(`Error fetching logs for plan ${plan.id}:`, err);
-            // Continue with other plans even if one fails
-          }
-        }
-        
-        // Sort by date (most recent first)
-        allLogs.sort((a, b) => new Date(b.logged_at).getTime() - new Date(a.logged_at).getTime());
-        setCompletionLogs(allLogs);
-      } catch (err) {
-        console.error('Error fetching completion logs:', err);
-      } finally {
-        setLoadingProgress(false);
-      }
-    };
-
-    fetchAllCompletionLogs();
-  }, [isAuthenticated, savedPlans, loadingPlans]);
-
-  // Fetch active plan detail when active plan changes
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    
-    const activePlan = savedPlans.find(plan => plan.is_active);
-    if (activePlan) {
-      const fetchActivePlanDetail = async () => {
-        try {
-          setLoadingActivePlan(true);
-          const detail = await getWorkoutPlanDetail(activePlan.id);
-          setActivePlanDetail(detail);
-          // Reset to first day when plan changes
-          setCurrentDayIndex(0);
-        } catch (err) {
-          console.error('Error fetching active plan detail:', err);
-        } finally {
-          setLoadingActivePlan(false);
-        }
-      };
-      fetchActivePlanDetail();
-    } else {
-      setActivePlanDetail(null);
-      setCurrentDayIndex(0);
-    }
-  }, [isAuthenticated, savedPlans]);
+  const handleRemoveExercise = (exerciseName: string) => {
+    setSelectedExercises(prev =>
+      prev.filter(ex => ex.exercise_name !== exerciseName)
+    );
+  };
 
   const handleGeneratePlan = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,6 +101,7 @@ export default function WorkoutPlanGeneratorPage() {
     setLoading(true);
 
     try {
+      // Generate AI workout plan
       const response = await generateWorkoutPlan(
         user.id,
         activeGoal.description || activeGoal.title,
@@ -157,7 +112,67 @@ export default function WorkoutPlanGeneratorPage() {
 
       console.log('Workout plan generated:', response);
 
-      // If plan was saved, refresh plans and navigate to the detail page
+      // If we have selected exercises from recent workouts, merge them into the plan
+      if (selectedExercises.length > 0 && savePlan && response.saved_plan_id) {
+        try {
+          // Get the saved plan to merge exercises
+          const planResponse = await fetch(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api'}/workout-plans/${response.saved_plan_id}/`,
+            {
+              method: 'GET',
+              credentials: 'include',
+              headers: { 'Content-Type': 'application/json' },
+            }
+          );
+
+          if (planResponse.ok) {
+            const planData = await planResponse.json();
+            const workoutPlanData = planData.workout_plan_data?.data || planData.workout_plan_data;
+            
+            // Convert selected exercises to plan format
+            const exercisesToAdd = selectedExercises.map(ex => ({
+              exercise_name: ex.exercise_name,
+              sets: ex.sets_performed,
+              reps: ex.reps_performed.toString(),
+              rest_seconds: 60,
+            }));
+
+            // Add exercises to the first day (or create a day if none exist)
+            if (workoutPlanData.days && workoutPlanData.days.length > 0) {
+              workoutPlanData.days[0].exercises = [
+                ...exercisesToAdd,
+                ...workoutPlanData.days[0].exercises,
+              ];
+            } else {
+              workoutPlanData.days = [
+                {
+                  day_number: 1,
+                  day_name: 'Day 1',
+                  exercises: exercisesToAdd,
+                },
+              ];
+            }
+
+            // Update the plan with merged exercises
+            await fetch(
+              `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api'}/workout-plans/${response.saved_plan_id}/`,
+              {
+                method: 'PATCH',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  workout_plan_data: workoutPlanData,
+                }),
+              }
+            );
+          }
+        } catch (mergeError) {
+          console.error('Error merging exercises:', mergeError);
+          // Continue anyway - the plan was already created
+        }
+      }
+
+      // If plan was saved, navigate to the detail page
       if (savePlan && response.saved_plan_id) {
         // Refresh saved plans to include the new one
         const plans = await getSavedWorkoutPlans();
@@ -174,6 +189,10 @@ export default function WorkoutPlanGeneratorPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const getExistingExerciseNames = (): string[] => {
+    return selectedExercises.map(ex => ex.exercise_name);
   };
 
   // Show loading state while checking authentication
@@ -368,7 +387,58 @@ export default function WorkoutPlanGeneratorPage() {
               )}
             </div>
 
+            {/* Selected Exercises from Recent Workouts */}
+            {selectedExercises.length > 0 && (
+              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Exercises from Recent Workouts ({selectedExercises.length})
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedExercises([])}
+                    className="text-sm text-gray-600 hover:text-gray-900 font-medium"
+                  >
+                    Clear All
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {selectedExercises.map((exercise, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between bg-white p-2 rounded border border-gray-200"
+                    >
+                      <div className="flex-1">
+                        <span className="font-medium text-gray-900">{exercise.exercise_name}</span>
+                        <span className="ml-3 text-sm text-gray-600">
+                          {exercise.sets_performed} sets × {exercise.reps_performed} reps
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveExercise(exercise.exercise_name)}
+                        className="text-red-600 hover:text-red-800 text-sm font-medium ml-3"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <form onSubmit={handleGeneratePlan} className="space-y-4">
+              {/* Add from Recent Workouts Button */}
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setShowRecentWorkoutsModal(true)}
+                  className="w-full px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-md font-medium border border-blue-300 transition-colors"
+                >
+                  + Add Exercises from Recent Workouts
+                </button>
+              </div>
+
               {/* Experience Level */}
               <div>
                 <label htmlFor="experienceLevel" className="block text-sm font-medium text-gray-700 mb-1">
@@ -907,7 +977,15 @@ export default function WorkoutPlanGeneratorPage() {
           )}
         </div>
       </div>
-    </div>
+      </div>
+
+      {/* Recent Workouts Modal */}
+      <RecentWorkoutsModal
+        isOpen={showRecentWorkoutsModal}
+        onClose={() => setShowRecentWorkoutsModal(false)}
+        onAddExercises={handleAddExercisesFromRecent}
+        existingExerciseNames={getExistingExerciseNames()}
+      />
     </>
   );
 }

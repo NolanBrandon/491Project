@@ -691,6 +691,98 @@ class WorkoutLogViewSet(viewsets.ModelViewSet):
         if user_id:
             return WorkoutLog.objects.filter(user__id=user_id)
         return WorkoutLog.objects.none()
+    
+    @action(detail=False, methods=['get'], url_path='recent-workouts')
+    def recent_workouts(self, request):
+        """
+        Get recent workout sessions grouped by date.
+        Returns the last N workout sessions with their exercises.
+        
+        Query params:
+        - limit: Number of recent sessions to return (default: 10)
+        - days: Number of days to look back (default: 30)
+        """
+        user_id = request.session.get('user_id')
+        if not user_id:
+            return Response(
+                {'error': 'Not authenticated'}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        try:
+            user = User.objects.get(id=user_id)
+            
+            # Get query parameters
+            limit = int(request.query_params.get('limit', 10))
+            days_back = int(request.query_params.get('days', 30))
+            
+            # Calculate date range
+            from datetime import timedelta
+            from django.utils import timezone
+            cutoff_date = timezone.now() - timedelta(days=days_back)
+            
+            # Get workout logs grouped by date
+            workout_logs = WorkoutLog.objects.filter(
+                user=user,
+                date_performed__gte=cutoff_date
+            ).order_by('-date_performed')
+            
+            # Group by date (date only, not datetime)
+            from collections import defaultdict
+            workouts_by_date = defaultdict(list)
+            
+            for log in workout_logs:
+                date_key = log.date_performed.date()
+                workouts_by_date[date_key].append(log)
+            
+            # Convert to list of workout sessions
+            recent_workouts = []
+            for date_key in sorted(workouts_by_date.keys(), reverse=True)[:limit]:
+                logs_for_date = workouts_by_date[date_key]
+                
+                # Extract unique exercises from this session
+                exercises = []
+                seen_exercises = set()
+                
+                for log in logs_for_date:
+                    exercise_name = log.exercise_name
+                    if exercise_name and exercise_name.lower() not in seen_exercises:
+                        seen_exercises.add(exercise_name.lower())
+                        exercises.append({
+                            'exercise_name': exercise_name,
+                            'sets_performed': log.sets_performed,
+                            'reps_performed': log.reps_performed,
+                            'duration_minutes': log.duration_minutes,
+                            'calories_burned': log.calories_burned,
+                            'perceived_effort': log.perceived_effort,
+                        })
+                
+                if exercises:
+                    recent_workouts.append({
+                        'date': date_key.isoformat(),
+                        'timestamp': logs_for_date[0].date_performed.isoformat(),
+                        'exercise_count': len(exercises),
+                        'exercises': exercises,
+                        'total_exercises': len(exercises),
+                    })
+            
+            return Response({
+                'success': True,
+                'recent_workouts': recent_workouts,
+                'count': len(recent_workouts),
+            }, status=status.HTTP_200_OK)
+            
+        except User.DoesNotExist:
+            return Response(
+                {'error': 'User not found'}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            logger.error(f"Error fetching recent workouts: {e}")
+            return Response(
+                {'error': 'Failed to fetch recent workouts', 'details': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 # -------------------------------
 # Meal Plan & Recipe Views
