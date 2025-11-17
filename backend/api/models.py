@@ -81,6 +81,7 @@ class WorkoutPlan(models.Model):
     workout_plan_data = models.JSONField(default=dict, blank=True)
     is_completed = models.BooleanField(default=False)
     completed_at = models.DateTimeField(null=True, blank=True)
+    is_active = models.BooleanField(default=False, help_text="Whether this is the user's currently active workout plan")
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
     class Meta:
