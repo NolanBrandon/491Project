@@ -74,8 +74,28 @@ export interface WorkoutPlan {
     data: WorkoutPlanData;
     message: string;
     enrichment_stats: EnrichmentStats;
+    exercise_completions?: {
+      [dayKey: string]: {
+        [exerciseKey: string]: {
+          completed: boolean;
+          completed_at: string | null;
+        };
+      };
+    };
   };
+  is_completed?: boolean;
+  completed_at?: string;
+  is_active?: boolean;
   created_at: string;
+}
+
+export interface CompletionLog {
+  id: string;
+  action: 'completed' | 'incomplete';
+  logged_at: string;
+  notes?: string;
+  user_id: string;
+  user_username: string;
 }
 
 export interface GenerateWorkoutPlanRequest {
@@ -200,6 +220,148 @@ export async function getWorkoutPlanDetail(planId: string): Promise<WorkoutPlan>
     return data;
   } catch (error) {
     console.error('Error fetching workout plan detail:', error);
+    throw error;
+  }
+}
+
+/**
+ * Mark a workout plan as completed
+ */
+export async function markWorkoutPlanCompleted(planId: string, notes?: string): Promise<WorkoutPlan> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/workout-plans/${planId}/mark_completed/`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ notes: notes || '' }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Failed to mark workout plan as completed: ${JSON.stringify(errorData)}`);
+    }
+
+    const data = await response.json();
+    return data.workout_plan;
+  } catch (error) {
+    console.error('Error marking workout plan as completed:', error);
+    throw error;
+  }
+}
+
+/**
+ * Mark a workout plan as incomplete
+ */
+export async function markWorkoutPlanIncomplete(planId: string, notes?: string): Promise<WorkoutPlan> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/workout-plans/${planId}/mark_incomplete/`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ notes: notes || '' }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Failed to mark workout plan as incomplete: ${JSON.stringify(errorData)}`);
+    }
+
+    const data = await response.json();
+    return data.workout_plan;
+  } catch (error) {
+    console.error('Error marking workout plan as incomplete:', error);
+    throw error;
+  }
+}
+
+/**
+ * Get completion logs for a workout plan
+ */
+export async function getWorkoutPlanCompletionLogs(planId: string): Promise<CompletionLog[]> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/workout-plans/${planId}/completion_logs/`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Failed to fetch completion logs: ${JSON.stringify(errorData)}`);
+    }
+
+    const data = await response.json();
+    return data.completion_logs || [];
+  } catch (error) {
+    console.error('Error fetching completion logs:', error);
+    throw error;
+  }
+}
+
+/**
+ * Set a workout plan as active (deactivates all other plans for the user)
+ */
+export async function setWorkoutPlanActive(planId: string): Promise<WorkoutPlan> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/workout-plans/${planId}/set_active/`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Failed to set workout plan as active: ${JSON.stringify(errorData)}`);
+    }
+
+    const data = await response.json();
+    return data.workout_plan;
+  } catch (error) {
+    console.error('Error setting workout plan as active:', error);
+    throw error;
+  }
+}
+
+/**
+ * Mark an exercise in a workout plan as complete or incomplete
+ */
+export async function markExerciseComplete(
+  planId: string,
+  dayNumber: number,
+  exerciseIndex: number,
+  completed: boolean = true
+): Promise<WorkoutPlan> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/workout-plans/${planId}/mark_exercise_complete/`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        day_number: dayNumber,
+        exercise_index: exerciseIndex,
+        completed: completed,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Failed to mark exercise as complete: ${JSON.stringify(errorData)}`);
+    }
+
+    const data = await response.json();
+    return data.workout_plan;
+  } catch (error) {
+    console.error('Error marking exercise as complete:', error);
     throw error;
   }
 }

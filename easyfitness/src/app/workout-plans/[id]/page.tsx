@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
-import { getWorkoutPlanDetail, WorkoutPlan, WorkoutDay, Exercise } from '@/lib/aiWorkoutPlanApi';
+import { getWorkoutPlanDetail, markWorkoutPlanCompleted, markWorkoutPlanIncomplete, getWorkoutPlanCompletionLogs, WorkoutPlan, WorkoutDay, Exercise, CompletionLog } from '@/lib/aiWorkoutPlanApi';
 import Navbar from '@/app/components/navbar';
 
 export default function WorkoutPlanDetailPage() {
@@ -17,6 +17,10 @@ export default function WorkoutPlanDetailPage() {
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [completing, setCompleting] = useState(false);
+  const [completionLogs, setCompletionLogs] = useState<CompletionLog[]>([]);
+  const [loadingLogs, setLoadingLogs] = useState(false);
+  const [showLogs, setShowLogs] = useState(false);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -44,6 +48,20 @@ export default function WorkoutPlanDetailPage() {
 
     fetchPlan();
   }, [isAuthenticated, planId]);
+
+  // Fetch completion logs
+  const fetchCompletionLogs = async () => {
+    if (!planId) return;
+    try {
+      setLoadingLogs(true);
+      const logs = await getWorkoutPlanCompletionLogs(planId);
+      setCompletionLogs(logs);
+    } catch (err) {
+      console.error('Error fetching completion logs:', err);
+    } finally {
+      setLoadingLogs(false);
+    }
+  };
 
   if (!isAuthenticated) {
     return null;
@@ -118,6 +136,51 @@ export default function WorkoutPlanDetailPage() {
     }
   };
 
+  const handleMarkCompleted = async () => {
+    if (!workoutPlan || completing) return;
+    
+    try {
+      setCompleting(true);
+      const updatedPlan = await markWorkoutPlanCompleted(planId);
+      setWorkoutPlan(updatedPlan);
+      // Refresh completion logs
+      await fetchCompletionLogs();
+    } catch (err) {
+      console.error('Error marking plan as completed:', err);
+      setError('Failed to mark plan as completed. Please try again.');
+    } finally {
+      setCompleting(false);
+    }
+  };
+
+  const handleMarkIncomplete = async () => {
+    if (!workoutPlan || completing) return;
+    
+    try {
+      setCompleting(true);
+      const updatedPlan = await markWorkoutPlanIncomplete(planId);
+      setWorkoutPlan(updatedPlan);
+      // Refresh completion logs
+      await fetchCompletionLogs();
+    } catch (err) {
+      console.error('Error marking plan as incomplete:', err);
+      setError('Failed to mark plan as incomplete. Please try again.');
+    } finally {
+      setCompleting(false);
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   return (
     <>
       <Navbar />
@@ -131,11 +194,105 @@ export default function WorkoutPlanDetailPage() {
             >
               ← Back to Generator
             </Link>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{workoutPlan.name}</h1>
-          {workoutPlan.description && (
-            <p className="text-gray-600">{workoutPlan.description}</p>
-          )}
-        </div>
+            <div className="flex items-start justify-between mb-2">
+              <div className="flex-1">
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">{workoutPlan.name}</h1>
+                {workoutPlan.description && (
+                  <p className="text-gray-600">{workoutPlan.description}</p>
+                )}
+              </div>
+              <div className="ml-4">
+                {workoutPlan.is_completed ? (
+                  <div className="flex flex-col items-end gap-2">
+                    <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-semibold rounded-full">
+                      ✓ Completed
+                    </span>
+                    {workoutPlan.completed_at && (
+                      <p className="text-xs text-gray-500">
+                        {formatDate(workoutPlan.completed_at)}
+                      </p>
+                    )}
+                    <button
+                      onClick={handleMarkIncomplete}
+                      disabled={completing}
+                      className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {completing ? 'Updating...' : 'Mark as Incomplete'}
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleMarkCompleted}
+                    disabled={completing}
+                    className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {completing ? 'Marking...' : '✓ Mark as Completed'}
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Completion History Section */}
+          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-900">Completion History</h2>
+              <button
+                onClick={() => {
+                  setShowLogs(!showLogs);
+                  if (!showLogs && completionLogs.length === 0) {
+                    fetchCompletionLogs();
+                  }
+                }}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-medium text-sm"
+              >
+                {showLogs ? 'Hide History' : 'Show History'}
+              </button>
+            </div>
+
+            {showLogs && (
+              <div className="mt-4">
+                {loadingLogs ? (
+                  <p className="text-gray-600 text-sm">Loading completion history...</p>
+                ) : completionLogs.length === 0 ? (
+                  <p className="text-gray-600 text-sm">No completion history yet.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {completionLogs.map((log) => (
+                      <div
+                        key={log.id}
+                        className={`p-3 rounded-lg border-l-4 ${
+                          log.action === 'completed'
+                            ? 'bg-green-50 border-green-500'
+                            : 'bg-gray-50 border-gray-400'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className={`px-2 py-1 text-xs font-semibold rounded ${
+                                log.action === 'completed'
+                                  ? 'bg-green-200 text-green-800'
+                                  : 'bg-gray-200 text-gray-800'
+                              }`}>
+                                {log.action === 'completed' ? '✓ Completed' : '↻ Marked Incomplete'}
+                              </span>
+                              <span className="text-xs text-gray-500">
+                                {formatDate(log.logged_at)}
+                              </span>
+                            </div>
+                            {log.notes && (
+                              <p className="text-sm text-gray-700 mt-1 italic">"{log.notes}"</p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
 
         {/* Day Navigation */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
