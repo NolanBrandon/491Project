@@ -241,6 +241,92 @@ export default function WorkoutPlanGeneratorPage() {
     return completions[dayKey]?.[exerciseKey]?.completed === true;
   };
 
+  // Check if a day is fully completed (all exercises done)
+  const isDayCompleted = (plan: WorkoutPlan, day: any, dayNumber: number): boolean => {
+    if (!day.exercises || day.exercises.length === 0) return false;
+    return day.exercises.every((_: any, exIdx: number) => 
+      isExerciseCompleted(plan, dayNumber, exIdx)
+    );
+  };
+
+  // Get weekly progress data for the graph
+  const getWeeklyProgressData = (plan: WorkoutPlan): Array<{ week: string; completedDays: number; totalDays: number }> => {
+    if (!plan || !plan.workout_plan_data) return [];
+    
+    const completions = plan.workout_plan_data.exercise_completions || {};
+    const planData = plan.workout_plan_data?.data || plan.workout_plan_data;
+    const days = planData?.days || [];
+    
+    // Group completions by week
+    const weeklyData: { [key: string]: { completedDays: Set<number>; totalDays: number } } = {};
+    
+    // Initialize weeks (last 8 weeks)
+    const today = new Date();
+    for (let i = 7; i >= 0; i--) {
+      const weekDate = new Date(today);
+      weekDate.setDate(weekDate.getDate() - (i * 7));
+      const weekStart = new Date(weekDate);
+      weekStart.setDate(weekStart.getDate() - weekStart.getDay()); // Start of week (Sunday)
+      weekStart.setHours(0, 0, 0, 0);
+      const weekKey = weekStart.toISOString().split('T')[0];
+      weeklyData[weekKey] = { completedDays: new Set(), totalDays: days.length };
+    }
+    
+    // Process each day to find when it was completed
+    days.forEach((day: any, dayIdx: number) => {
+      const dayNumber = day.day_number || dayIdx + 1;
+      const dayKey = `day_${dayNumber}`;
+      const dayCompletions = completions[dayKey] || {};
+      
+      // Check if all exercises in this day are completed
+      const allExercisesCompleted = day.exercises?.every((_: any, exIdx: number) => {
+        const exKey = `exercise_${exIdx}`;
+        return dayCompletions[exKey]?.completed === true;
+      });
+      
+      if (allExercisesCompleted) {
+        // Find the latest completion date for this day
+        let latestCompletionDate: Date | null = null;
+        day.exercises?.forEach((_: any, exIdx: number) => {
+          const exKey = `exercise_${exIdx}`;
+          const exCompletion = dayCompletions[exKey];
+          if (exCompletion?.completed_at) {
+            const completionDate = new Date(exCompletion.completed_at);
+            if (!latestCompletionDate || completionDate > latestCompletionDate) {
+              latestCompletionDate = completionDate;
+            }
+          }
+        });
+        
+        // If we have a completion date, assign it to the appropriate week
+        if (latestCompletionDate) {
+          const weekStart = new Date(latestCompletionDate);
+          weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+          weekStart.setHours(0, 0, 0, 0);
+          const weekKey = weekStart.toISOString().split('T')[0];
+          
+          if (weeklyData[weekKey]) {
+            weeklyData[weekKey].completedDays.add(dayNumber);
+          }
+        }
+      }
+    });
+    
+    // Convert to array format
+    return Object.entries(weeklyData)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([weekKey, data]) => {
+        const weekStart = new Date(weekKey);
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekEnd.getDate() + 6);
+        return {
+          week: `${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`,
+          completedDays: data.completedDays.size,
+          totalDays: data.totalDays
+        };
+      });
+  };
+
   return (
     <>
       <Navbar />
@@ -366,17 +452,24 @@ export default function WorkoutPlanGeneratorPage() {
 
             {loadingActivePlan ? (
               <p className="text-gray-600">Loading plan details...</p>
-            ) : (
-              (() => {
-                const planData = activePlanDetail.workout_plan_data?.data || activePlanDetail.workout_plan_data;
-                const days = planData?.days || [];
-                
-                if (days.length === 0) {
-                  return <p className="text-gray-600">No workout days found in this plan.</p>;
-                }
+            ) : (() => {
+              const planData = activePlanDetail.workout_plan_data?.data || activePlanDetail.workout_plan_data;
+              const days = planData?.days || [];
+              
+              if (days.length === 0) {
+                return <p className="text-gray-600">No workout days found in this plan.</p>;
+              }
 
-                // Ensure currentDayIndex is within bounds
-                const safeDayIndex = Math.min(currentDayIndex, days.length - 1);
+              // Calculate overall plan progress
+              const completedDays = days.filter((day: any, idx: number) => {
+                const dayNumber = day.day_number || idx + 1;
+                return isDayCompleted(activePlanDetail, day, dayNumber);
+              }).length;
+              const totalDays = days.length;
+              const planProgress = Math.round((completedDays / totalDays) * 100);
+
+              // Ensure currentDayIndex is within bounds
+              const safeDayIndex = Math.min(currentDayIndex, days.length - 1);
                 const currentDay = days[safeDayIndex];
                 const dayNumber = currentDay.day_number || safeDayIndex + 1;
                 const completedExercises = currentDay.exercises?.filter((_: any, exIdx: number) => 
@@ -399,6 +492,225 @@ export default function WorkoutPlanGeneratorPage() {
 
                 return (
                   <div>
+                    {/* Progress Tracker */}
+                    <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-4 mb-6 border-2 border-blue-200">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-lg font-bold text-gray-900">Plan Progress</h3>
+                        <span className="text-sm font-semibold text-gray-700">
+                          {completedDays} of {totalDays} days completed ({planProgress}%)
+                        </span>
+                      </div>
+                      
+                      {/* Overall Progress Bar */}
+                      <div className="w-full bg-gray-200 rounded-full h-3 mb-4 shadow-inner">
+                        <div
+                          className="bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full transition-all duration-500 shadow-sm"
+                          style={{ width: `${planProgress}%` }}
+                        />
+                      </div>
+
+                      {/* Day Progress Indicators */}
+                      <div className="flex items-center justify-between gap-2">
+                        {days.map((day: any, idx: number) => {
+                          const dayNumber = day.day_number || idx + 1;
+                          const isCompleted = isDayCompleted(activePlanDetail, day, dayNumber);
+                          const isCurrent = idx === safeDayIndex;
+
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => setCurrentDayIndex(idx)}
+                              className={`flex-1 p-3 rounded-lg border-2 transition-all ${
+                                isCompleted
+                                  ? 'bg-green-100 border-green-500 hover:bg-green-200 shadow-md'
+                                  : isCurrent
+                                  ? 'bg-blue-100 border-blue-500 hover:bg-blue-200 shadow-md'
+                                  : 'bg-gray-50 border-gray-300 hover:bg-gray-100'
+                              }`}
+                            >
+                              <div className="flex flex-col items-center gap-1">
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
+                                  isCompleted
+                                    ? 'bg-green-500 text-white'
+                                    : isCurrent
+                                    ? 'bg-blue-500 text-white'
+                                    : 'bg-gray-300 text-gray-600'
+                                }`}>
+                                  {isCompleted ? (
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                  ) : (
+                                    dayNumber
+                                  )}
+                                </div>
+                                <span className={`text-xs font-semibold ${
+                                  isCompleted
+                                    ? 'text-green-700'
+                                    : isCurrent
+                                    ? 'text-blue-700'
+                                    : 'text-gray-600'
+                                }`}>
+                                  Day {dayNumber}
+                                </span>
+                                {day.day_name && (
+                                  <span className={`text-xs truncate w-full text-center ${
+                                    isCompleted || isCurrent
+                                      ? 'text-gray-700'
+                                      : 'text-gray-500'
+                                  }`}>
+                                    {day.day_name.length > 8 ? day.day_name.substring(0, 8) + '...' : day.day_name}
+                                  </span>
+                                )}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Weekly Progress Graph */}
+                    {(() => {
+                      const weeklyData = getWeeklyProgressData(activePlanDetail);
+                      const maxCompleted = Math.max(...weeklyData.map(d => d.completedDays), 0);
+                      const maxValue = Math.max(maxCompleted, weeklyData[0]?.totalDays || 1, 1);
+                      const graphHeight = 200;
+                      const graphWidth = Math.max(600, weeklyData.length * 80);
+                      const padding = 50;
+                      const barWidth = weeklyData.length > 0 ? (graphWidth - (padding * 2)) / weeklyData.length - 10 : 60;
+                      
+                      // Generate Y-axis labels dynamically
+                      const yAxisSteps = maxValue <= 5 ? maxValue + 1 : 6;
+                      const yAxisLabels = Array.from({ length: yAxisSteps }, (_, i) => 
+                        Math.round((i / (yAxisSteps - 1)) * maxValue)
+                      );
+                      
+                      if (weeklyData.length === 0) {
+                        return (
+                          <div className="bg-white rounded-lg p-6 mb-6 border-2 border-gray-200">
+                            <h3 className="text-lg font-bold text-gray-900 mb-4">Weekly Progress (Last 8 Weeks)</h3>
+                            <p className="text-gray-500 text-center py-8">No completion data yet. Complete some exercises to see your progress!</p>
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <div className="bg-white rounded-lg p-6 mb-6 border-2 border-gray-200">
+                          <h3 className="text-lg font-bold text-gray-900 mb-4">Weekly Progress (Last 8 Weeks)</h3>
+                          <div className="overflow-x-auto">
+                            <svg width={graphWidth} height={graphHeight + 80} className="w-full min-w-full">
+                              {/* Y-axis labels */}
+                              {yAxisLabels.map((val) => {
+                                const y = graphHeight - (val / maxValue) * (graphHeight - padding) + padding;
+                                return (
+                                  <g key={val}>
+                                    <line
+                                      x1={padding}
+                                      y1={y}
+                                      x2={graphWidth - padding}
+                                      y2={y}
+                                      stroke="#e5e7eb"
+                                      strokeWidth="1"
+                                      strokeDasharray="4,4"
+                                    />
+                                    <text
+                                      x={padding - 10}
+                                      y={y + 4}
+                                      textAnchor="end"
+                                      className="text-xs fill-gray-600"
+                                    >
+                                      {val}
+                                    </text>
+                                  </g>
+                                );
+                              })}
+                              
+                              {/* Bars for completed days */}
+                              {weeklyData.map((data, idx) => {
+                                const x = padding + idx * (barWidth + 10) + 5;
+                                const barHeight = (data.completedDays / maxValue) * (graphHeight - padding);
+                                const y = graphHeight - barHeight;
+                                
+                                return (
+                                  <g key={idx}>
+                                    {/* Background bar (total days) */}
+                                    <rect
+                                      x={x}
+                                      y={padding}
+                                      width={barWidth}
+                                      height={graphHeight - padding}
+                                      fill="#e5e7eb"
+                                      rx="4"
+                                    />
+                                    {/* Completed days bar */}
+                                    <rect
+                                      x={x}
+                                      y={y}
+                                      width={barWidth}
+                                      height={barHeight}
+                                      fill={data.completedDays > 0 ? "#10b981" : "#9ca3af"}
+                                      rx="4"
+                                      className="transition-all duration-300"
+                                    />
+                                    {/* Value label on bar */}
+                                    {data.completedDays > 0 && (
+                                      <text
+                                        x={x + barWidth / 2}
+                                        y={y - 5}
+                                        textAnchor="middle"
+                                        className="text-xs font-semibold fill-gray-800"
+                                      >
+                                        {data.completedDays}
+                                      </text>
+                                    )}
+                                    {/* Week label */}
+                                    <text
+                                      x={x + barWidth / 2}
+                                      y={graphHeight + 25}
+                                      textAnchor="middle"
+                                      className="text-xs fill-gray-600"
+                                    >
+                                      {data.week.split(' - ')[0]}
+                                    </text>
+                                  </g>
+                                );
+                              })}
+                              
+                              {/* X-axis line */}
+                              <line
+                                x1={padding}
+                                y1={graphHeight}
+                                x2={graphWidth - padding}
+                                y2={graphHeight}
+                                stroke="#374151"
+                                strokeWidth="2"
+                              />
+                              
+                              {/* Y-axis line */}
+                              <line
+                                x1={padding}
+                                y1={padding}
+                                x2={padding}
+                                y2={graphHeight}
+                                stroke="#374151"
+                                strokeWidth="2"
+                              />
+                            </svg>
+                          </div>
+                          <div className="flex items-center justify-center gap-4 mt-4">
+                            <div className="flex items-center gap-2">
+                              <div className="w-4 h-4 bg-green-500 rounded"></div>
+                              <span className="text-sm text-gray-600">Completed Days</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className="w-4 h-4 bg-gray-200 rounded"></div>
+                              <span className="text-sm text-gray-600">Total Days</span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })()}
+
                     {/* Navigation Header */}
                     <div className="flex items-center justify-between mb-4">
                       <button
@@ -531,8 +843,7 @@ export default function WorkoutPlanGeneratorPage() {
                     </div>
                   </div>
                 );
-              })()
-            )}
+            })()}
           </div>
         )}
 
