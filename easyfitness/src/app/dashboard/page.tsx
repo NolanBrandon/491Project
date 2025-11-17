@@ -6,8 +6,13 @@ import { useAuth } from '@/contexts/AuthContext';
 import { getGoals, Goal, deleteGoal } from '@/lib/goalsApi';
 import { getLatestUserMetrics, createUserMetrics, UserMetrics } from '@/lib/userMetricsApi';
 import { getSavedWorkoutPlans, getWorkoutPlanCompletionLogs, WorkoutPlan, CompletionLog } from '@/lib/aiWorkoutPlanApi';
+import { getNutritionLogs, NutritionLog, deleteNutritionLog } from '@/lib/nutritionApi';
+import { format } from 'date-fns';
 import Nav from '../components/navbar';
 import Footer from '../components/footer';
+
+
+
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -18,6 +23,8 @@ export default function DashboardPage() {
   const [hasFetched, setHasFetched] = useState(false);
   const [goalToDelete, setGoalToDelete] = useState<Goal | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [nutritionLogs, setNutritionLogs] = useState<NutritionLog[]>([]);
+
 
   // User metrics state
   const [latestMetrics, setLatestMetrics] = useState<UserMetrics | null>(null);
@@ -58,14 +65,16 @@ export default function DashboardPage() {
     try {
       setLoading(true);
       setError(null);
-      const [goalsData, metricsData, workoutPlansData] = await Promise.all([
+      const [goalsData, metricsData, workoutPlansData, nutritionLogsData] = await Promise.all([
         getGoals(),
         getLatestUserMetrics(),
-        getSavedWorkoutPlans()
+        getSavedWorkoutPlans(),
+        getNutritionLogs()
       ]);
       setGoals(goalsData);
       setLatestMetrics(metricsData);
       setWorkoutPlans(workoutPlansData);
+      setNutritionLogs(nutritionLogsData);
 
       // Load recent workout completion history (latest event per plan)
       if (workoutPlansData && workoutPlansData.length > 0) {
@@ -546,12 +555,77 @@ export default function DashboardPage() {
               </div>
             )}
           </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Nutrition Log</h2>
-            <div className="text-center py-8 text-gray-400">
-              <p>Track your daily food intake and calories</p>
+       {/* Nutrition Logs Section (simple) */}
+<div className="bg-white rounded-lg shadow p-6 text-black">
+  <div className="flex justify-between items-center mb-4">
+    <h2 className="!text-black text-2xl md:text-3xl font-bold">
+      Nutrition Logs
+    </h2>
+    <button
+      onClick={() => router.push('/Nutrition/new')}
+      className="text-green-600 hover:text-green-800 text-sm md:text-base font-medium"
+    >
+      + Add Log
+    </button>
+  </div>
+
+  {nutritionLogs.length === 0 ? (
+    <div className="text-center py-8 text-gray-400 text-base">
+      <p>No nutrition logs yet</p>
+    </div>
+  ) : (
+    <div className="space-y-3 max-h-64 overflow-y-auto">
+      {nutritionLogs.map((log) => {
+        const localDate = new Date(log.date_eaten);
+        const formattedDate = localDate.toLocaleDateString(undefined, {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        });
+        const formattedTime = localDate.toLocaleTimeString(undefined, {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true,
+        });
+
+        const displayMealType =
+          log.meal_type?.charAt(0).toUpperCase() + log.meal_type?.slice(1);
+
+        return (
+          <div
+            key={log.id}
+            className="p-4 md:p-5 border border-gray-200 rounded-lg flex justify-between items-center"
+          >
+            <div>
+              <h3 className="!text-black font-semibold text-base md:text-lg">
+                {log.food_name} ({displayMealType || 'Unknown'})
+              </h3>
+              <p className="text-gray-700 text-sm mt-1">
+                {formattedDate} • {formattedTime}
+              </p>
+              {log.calories != null && (
+                <p className="text-gray-700 text-sm">{log.calories} calories</p>
+              )}
+              {log.protein != null && (
+                <p className="text-gray-700 text-sm">{log.protein} g protein</p>
+              )}
             </div>
+
+            <button
+              onClick={() =>
+                deleteNutritionLog(log.id).then(() => fetchDashboardData())
+              }
+              className="text-red-600 hover:text-red-800 text-xs md:text-sm font-medium"
+            >
+              Delete
+            </button>
           </div>
+        );
+      })}
+    </div>
+  )}
+</div>
+          
         </div>
       </div>
 

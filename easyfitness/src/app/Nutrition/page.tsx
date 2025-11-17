@@ -1,111 +1,109 @@
-// src/app/nutrition/page.tsx
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { supabase } from '../../lib/supabaseClient';
-import ClientWrapper from '../ClientWrapper';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-export default function NutritionPageContent() {
-  const [dateEaten, setDateEaten] = useState('');
-  const [mealType, setMealType] = useState('Breakfast');
-  const [foodName, setFoodName] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setMessage('');
+export default function NutritionPage() {
+  const supabase = createClientComponentClient();
+  const router = useRouter();
 
-    // Correct v2 syntax to get current user
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      setMessage('You must be logged in to add meals.');
-      setIsLoading(false);
-      return;
+  const [entries, setEntries] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadEntries() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("nutrition_log")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (!error) {
+        setEntries(data || []);
+      }
+
+      setLoading(false);
     }
 
-    const { error } = await supabase.from('nutrition_log').insert({
-      date_eaten: dateEaten,
-      meal_type: mealType,
-      food_name: foodName,
-      quantity: parseFloat(quantity),
-      user_id: user.id, // use current authenticated user
-      food_id: null, // allow manual entry
-    });
+    loadEntries();
+  }, []);
 
-    if (error) {
-      setMessage('Error adding meal: ' + error.message);
-    } else {
-      setMessage('Meal added successfully!');
-      setDateEaten('');
-      setMealType('Breakfast');
-      setFoodName('');
-      setQuantity('');
-    }
-    setIsLoading(false);
-  };
+  async function handleDelete(id: string) {
+    await supabase.from("nutrition_log").delete().eq("id", id);
+    router.refresh();
+  }
+
+  if (loading) return <p>Loading...</p>;
+
+  const totalCalories = entries.reduce(
+    (acc, item) => acc + Number(item.calories || 0),
+    0
+  );
 
   return (
-    <ClientWrapper>
-      <h1 className="h1">Add Nutrition</h1>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Nutrition Log</h1>
 
-      <form className="auth-card space-y-4" onSubmit={handleSubmit}>
-        <label>
-          Date & Time:
-          <input
-            type="datetime-local"
-            value={dateEaten}
-            onChange={(e) => setDateEaten(e.target.value)}
-            required
-            className="auth-input w-full"
-          />
-        </label>
+      <button
+        onClick={() => router.push("/Nutrition/new")}
+        className="mb-4 px-4 py-2 bg-green-600 text-white rounded"
+      >
+        Add New Entry
+      </button>
 
-        <label>
-          Meal Type:
-          <select
-            value={mealType}
-            onChange={(e) => setMealType(e.target.value)}
-            className="auth-input w-full"
-          >
-            <option>Breakfast</option>
-            <option>Lunch</option>
-            <option>Dinner</option>
-            <option>Snack</option>
-          </select>
-        </label>
+      {entries.length === 0 ? (
+        <p>No entries yet.</p>
+      ) : (
+        <div className="space-y-4">
+          {entries.map((entry) => (
+            <div
+              key={entry.id}
+              className="border p-4 rounded flex justify-between items-center"
+            >
+              <div>
+                <h2 className="font-semibold">{entry.food_name}</h2>
+                <p>Calories: {entry.calories}</p>
+                <p>
+                  Serving Size: {entry.serving_size} •{" "}
+                  {new Date(entry.created_at).toLocaleString()}
+                </p>
+              </div>
 
-        <label>
-          Food Name:
-          <input
-            type="text"
-            value={foodName}
-            onChange={(e) => setFoodName(e.target.value)}
-            required
-            className="auth-input w-full"
-          />
-        </label>
+              <div className="space-x-2">
+                <button
+                  onClick={() =>
+                    router.push(`/Nutrition/new?edit=${entry.id}`)
+                  }
+                  className="px-3 py-1 bg-yellow-500 text-white rounded"
+                >
+                  Edit
+                </button>
 
-        <label>
-          Quantity:
-          <input
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-            required
-            className="auth-input w-full"
-            step="any"
-          />
-        </label>
+                <button
+                  onClick={() => handleDelete(entry.id)}
+                  className="px-3 py-1 bg-red-600 text-white rounded"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
 
-        <button type="submit" className="auth-btn w-full" disabled={isLoading}>
-          {isLoading ? 'Adding…' : 'Add Meal'}
-        </button>
-
-        {message && <p className="auth-muted text-center">{message}</p>}
-      </form>
-    </ClientWrapper>
+          <div className="mt-4 p-4 bg-gray-100 rounded font-bold">
+            Total Calories Today: {totalCalories}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
