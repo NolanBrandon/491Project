@@ -1,46 +1,59 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { NutritionLog } from '@/lib/nutritionApi';
 
 export default function NutritionPage() {
   const supabase = createClientComponentClient();
   const router = useRouter();
 
-  const [entries, setEntries] = useState<any[]>([]);
+  const [entries, setEntries] = useState<NutritionLog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+  // Fetch nutrition logs on mount
   useEffect(() => {
     async function loadEntries() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) {
-        router.push("/login");
-        return;
-      }
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!user) {
+          router.push("/login");
+          return;
+        }
 
-      const { data, error } = await supabase
-        .from("nutrition_log")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
+        const { data, error } = await supabase
+          .from("nutrition_log")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false });
 
-      if (!error) {
+        if (error) throw error;
+
         setEntries(data || []);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to fetch nutrition logs");
+        console.error('Fetch logs error:', err);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     }
 
     loadEntries();
-  }, []);
+  }, [router, supabase]);
 
+  // Delete log
   async function handleDelete(id: string) {
-    await supabase.from("nutrition_log").delete().eq("id", id);
-    router.refresh();
+    try {
+      await supabase.from("nutrition_log").delete().eq("id", id);
+      setEntries(prev => prev.filter(entry => entry.id !== id));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to delete log");
+      console.error('Delete log error:', err);
+    }
   }
 
   if (loading) return <p>Loading...</p>;
@@ -60,6 +73,8 @@ export default function NutritionPage() {
       >
         Add New Entry
       </button>
+
+      {error && <p className="text-red-600 font-medium mb-4">{error}</p>}
 
       {entries.length === 0 ? (
         <p>No entries yet.</p>
