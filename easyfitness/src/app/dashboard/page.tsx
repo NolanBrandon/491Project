@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { getGoals, Goal, deleteGoal } from '@/lib/goalsApi';
 import { getLatestUserMetrics, createUserMetrics, UserMetrics } from '@/lib/userMetricsApi';
-import { getSavedWorkoutPlans, WorkoutPlan } from '@/lib/aiWorkoutPlanApi';
+import { getSavedWorkoutPlans, getWorkoutPlanCompletionLogs, WorkoutPlan, CompletionLog } from '@/lib/aiWorkoutPlanApi';
 import Nav from '../components/navbar';
 import Footer from '../components/footer';
 
@@ -30,6 +30,14 @@ export default function DashboardPage() {
 
   // Workout plans state
   const [workoutPlans, setWorkoutPlans] = useState<WorkoutPlan[]>([]);
+  const [recentCompletions, setRecentCompletions] = useState<Array<{
+    id: string;
+    planId: string;
+    planName: string;
+    action: 'completed' | 'incomplete';
+    logged_at: string;
+    notes?: string;
+  }>>([]);
 
   // Redirect to login if not authenticated after auth check completes
   useEffect(() => {
@@ -58,6 +66,39 @@ export default function DashboardPage() {
       setGoals(goalsData);
       setLatestMetrics(metricsData);
       setWorkoutPlans(workoutPlansData);
+
+      // Load recent workout completion history (latest event per plan)
+      if (workoutPlansData && workoutPlansData.length > 0) {
+        try {
+          // Limit concurrent requests to avoid overloading
+          const plansToCheck = workoutPlansData.slice(0, 10);
+          const logsPerPlan = await Promise.all(
+            plansToCheck.map(async (plan) => {
+              try {
+                const logs: CompletionLog[] = await getWorkoutPlanCompletionLogs(plan.id);
+                const latest = logs[0];
+                if (!latest) return null;
+                return {
+                  id: latest.id,
+                  planId: plan.id,
+                  planName: plan.name,
+                  action: latest.action,
+                  logged_at: latest.logged_at,
+                  notes: latest.notes,
+                };
+              } catch {
+                return null;
+              }
+            })
+          );
+          const flattened = logsPerPlan.filter((l): l is NonNullable<typeof l> => Boolean(l));
+          flattened.sort((a, b) => new Date(b.logged_at).getTime() - new Date(a.logged_at).getTime());
+          setRecentCompletions(flattened.slice(0, 10));
+        } catch (e) {
+          // Non-fatal: keep dashboard loading
+          console.warn('Could not load completion history', e);
+        }
+      }
 
       // Pre-fill form with latest metrics if they exist (convert to imperial)
       if (metricsData) {
@@ -460,10 +501,50 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Workout Log</h2>
-            <div className="text-center py-8 text-gray-400">
-              <p>Log your completed workouts and progress</p>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold !text-black">Workout Log</h2>
             </div>
+            {recentCompletions.length === 0 ? (
+              <div className="text-center py-8 text-gray-400">
+                <p>No workout completions yet.</p>
+              </div>
+            ) : (
+              <div className="space-y-3 max-h-64 overflow-y-auto">
+                {recentCompletions.map((log) => (
+                  <div
+                    key={log.id}
+                    className={`p-3 rounded-lg border-l-4 ${
+                      log.action === 'completed'
+                        ? 'bg-green-50 border-green-500'
+                        : 'bg-gray-50 border-gray-400'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={`px-2 py-1 text-xs font-semibold rounded ${
+                            log.action === 'completed'
+                              ? 'bg-green-200 text-green-800'
+                              : 'bg-gray-200 text-gray-800'
+                          }`}>
+                            {log.action === 'completed' ? '✓ Completed' : '↻ Marked Incomplete'}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            {new Date(log.logged_at).toLocaleString()}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-800">
+                          Plan: <span className="font-semibold">{log.planName}</span>
+                        </p>
+                        {log.notes && (
+                          <p className="text-sm text-gray-700 mt-1 italic">"{log.notes}"</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Nutrition Log</h2>
